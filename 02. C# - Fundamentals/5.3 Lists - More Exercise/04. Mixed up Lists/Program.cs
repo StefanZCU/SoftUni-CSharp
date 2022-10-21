@@ -1,38 +1,90 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _04._Mixed_up_Lists
+namespace ConsoleApp4
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            List<int> listOne = Console.ReadLine().Split().Select(int.Parse).ToList();
-            List<int> listTwo = Console.ReadLine().Split().Select(int.Parse).ToList();
+            List<int> list1 = Console.ReadLine().Split().Select(int.Parse).ToList();
+            List<int> list2 = Console.ReadLine().Split().Select(int.Parse).ToList();
 
+            List<int> finalResult = new List<int>();
 
-            List<int> result = new List<int>();
+            int highestNum = int.MinValue, lowestNum = int.MaxValue;
+            int originalCount1 = list1.Count;
+            int originalCount2 = list2.Count;
 
-            if (listOne.Count > listTwo.Count)
+            if (list1.Count > list2.Count)
             {
-                for (int i = 0; i < listOne.Count; i++)
+                for (int i = 0; i < originalCount2; i++)
                 {
-                    if (listOne.Count == 2)
-                    {
-                        break;
-                    }
+                    finalResult.Insert(i, list1[0]);
+                    finalResult.Insert(i, list2[0]);
+                    list1.RemoveAt(0);
+                    list2.RemoveAt(0);
+                }
 
-                    result.Insert(i, listOne[i]);
-                    result.Insert(i, listTwo[listTwo.Count - 1]);
-                    listOne.RemoveAt(i);
-                    listTwo.RemoveAt(listTwo.Count - 1);
+                finalResult.Sort();
+
+                foreach (int item in list1)
+                {
+                    if (item < lowestNum)
+                    {
+                        lowestNum = item;
+                    }
+                    
+                    if (item > highestNum)
+                    {
+                        highestNum = item;
+                    }
+                }
+
+                foreach (int item in finalResult)
+                {
+                    if (item < highestNum && item > lowestNum)
+                    {
+                        Console.Write($"{item} ");
+                    }
+                }
+
+            }
+            else if (list1.Count < list2.Count)
+            {
+                for (int i = 0; i < originalCount1; i++)
+                {
+                    finalResult.Insert(i, list1[list1.Count - 1]);
+                    finalResult.Insert(i, list2[list2.Count - 1]);
+                    list1.RemoveAt(list1.Count - 1);
+                    list2.RemoveAt(list2.Count - 1);
+                }
+
+                finalResult.Sort();
+
+                foreach (int item in list2)
+                {
+                    if (item < lowestNum)
+                    {
+                        lowestNum = item;
+                    }
+                    
+                    if (item > highestNum)
+                    {
+                        highestNum = item;
+                    }
+                }
+
+                foreach (int item in finalResult)
+                {
+                    if (item < highestNum && item > lowestNum)
+                    {
+                        Console.Write($"{item} ");
+                    }
                 }
             }
-            else
-            {
 
-            }
         }
     }
 }
