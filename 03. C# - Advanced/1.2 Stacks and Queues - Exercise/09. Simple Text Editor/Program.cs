@@ -6,7 +6,7 @@ namespace _09._Simple_Text_Editor
     {
         static void Main(string[] args)
         {
-            
+            Console.WriteLine("Hi");
         }
     }
 }
