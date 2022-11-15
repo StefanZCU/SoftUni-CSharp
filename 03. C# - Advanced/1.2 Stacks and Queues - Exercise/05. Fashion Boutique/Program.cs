@@ -38,6 +38,11 @@ namespace _05._Fashion_Boutique
                 }
             }
 
+            if (currentValue == 0)
+            {
+                rackCount--;
+            }
+
             Console.WriteLine(rackCount);
         }
     }
