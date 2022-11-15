@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace _07._Truck_Tour
 {
@@ -6,7 +8,8 @@ namespace _07._Truck_Tour
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //TODO - Figure out answer
+            
         }
     }
 }
