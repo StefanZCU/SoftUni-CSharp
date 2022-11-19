@@ -21,7 +21,10 @@ namespace _03._Maximum_and_Minimum_Element
                 }
                 else if (cmdArgs[0] == "2")
                 {
-                    numberStack.Pop();
+                    if (numberStack.Count != 0)
+                    {
+                        numberStack.Pop();
+                    }
                 }
                 else if (cmdArgs[0] == "3")
                 {
