@@ -6,7 +6,7 @@ namespace _11._Key_Revolver
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
