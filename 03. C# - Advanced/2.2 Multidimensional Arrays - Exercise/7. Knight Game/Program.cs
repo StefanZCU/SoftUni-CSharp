@@ -36,9 +36,7 @@ namespace _7._Knight_Game
                     {
                         if (matrix[row, col] == 'K')
                         {
-                            int currentAttacks = 0;
-
-                            currentAttacks = GetAttacks(matrix, row, col);
+                            int currentAttacks = GetAttacks(matrix, row, col);
 
                             if (currentAttacks > mostAttacks)
                             {
