@@ -142,14 +142,32 @@ namespace _10._Radioactive_Mutant_Vampire_Bunnies
 
                 if ((matrix[currentPosRow, currentPosCol] == 'B' && !flagWin) || flagLose)
                 {
-                    PrintMatrix(matrix);
+                    for (int j = 0; j < matrix.GetLength(0); j++)
+                    {
+                        for (int k = 0; k < matrix.GetLength(1); k++)
+                        {
+                            Console.Write($"{matrix[j, k]}");
+                        }
+
+                        Console.WriteLine();
+                    }
+
                     Console.WriteLine($"dead: {currentPosRow} {currentPosCol}");
                     break;
                 }
 
                 if (flagWin)
                 {
-                    PrintMatrix(matrix);
+                    for (int j = 0; j < matrix.GetLength(0); j++)
+                    {
+                        for (int k = 0; k < matrix.GetLength(1); k++)
+                        {
+                            Console.Write($"{matrix[j, k]}");
+                        }
+
+                        Console.WriteLine();
+                    }
+
                     Console.WriteLine($"won: {winningRow} {winningCol}");
                     break;
                 }
@@ -164,19 +182,6 @@ namespace _10._Radioactive_Mutant_Vampire_Bunnies
             }
 
             return true;
-        }
-
-        static void PrintMatrix(char[,] matrix)
-        {
-            for (int j = 0; j < matrix.GetLength(0); j++)
-            {
-                for (int k = 0; k < matrix.GetLength(1); k++)
-                {
-                    Console.Write($"{matrix[j, k]}");
-                }
-
-                Console.WriteLine();
-            }
         }
     }
 }
