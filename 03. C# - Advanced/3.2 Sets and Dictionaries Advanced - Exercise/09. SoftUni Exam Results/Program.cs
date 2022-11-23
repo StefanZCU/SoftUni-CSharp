@@ -46,8 +46,8 @@ namespace _09._SoftUni_Exam_Results
                 }
 
 
-                if (language != "banned" && contestants[username].ContainsKey(language) 
-                                         && input.Length > 2 
+                if (language != "banned" && contestants[username].ContainsKey(language)
+                                         && input.Length > 2
                                          && contestants[username][language] < int.Parse(input[2]))
                 {
                     int points = int.Parse(input[2]);
@@ -65,30 +65,23 @@ namespace _09._SoftUni_Exam_Results
                 contestants.Remove(contestant);
             }
 
-            if (contestants.Count > 0)
-            {
-                Console.WriteLine("Results:");
+            Console.WriteLine("Results:");
 
-                foreach (var studentName in contestants
-                             .OrderByDescending(x => x.Value.Values.Max())
-                             .ThenBy(y => y.Key))
-                {
-                    Console.WriteLine($"{studentName.Key} | {studentName.Value.Values.Max()}");
-                }
+            foreach (var studentName in contestants
+                         .OrderByDescending(x => x.Value.Values.Max())
+                         .ThenBy(y => y.Key))
+            {
+                Console.WriteLine($"{studentName.Key} | {studentName.Value.Values.Max()}");
             }
 
-            if (participants.Count > 0)
-            {
-                Console.WriteLine("Submissions:");
+            Console.WriteLine("Submissions:");
 
-                foreach (var language in participants
-                             .OrderByDescending(x => x.Value)
-                             .ThenBy(y => y.Key))
-                {
-                    Console.WriteLine($"{language.Key} - {language.Value}");
-                }
+            foreach (var language in participants
+                         .OrderByDescending(x => x.Value)
+                         .ThenBy(y => y.Key))
+            {
+                Console.WriteLine($"{language.Key} - {language.Value}");
             }
-            
         }
     }
 }
