@@ -8,30 +8,38 @@ namespace _02._Sets_of_Elements
     {
         static void Main(string[] args)
         {
-            Dictionary<int, int> numbers = new Dictionary<int, int>();
-
             int[] numCycles = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            for (int i = 0; i < numCycles[0] + numCycles[1]; i++)
+            HashSet<int> firstSet = new HashSet<int>();
+
+            for (int i = 0; i < numCycles[0]; i++)
             {
                 int num = int.Parse(Console.ReadLine());
-
-                if (!numbers.ContainsKey(num))
-                {
-                    numbers.Add(num, 0);
-                }
-
-                numbers[num]++;
+                firstSet.Add(num);
             }
 
-            foreach (var num in numbers)
+            HashSet<int> secondSet = new HashSet<int>();
+
+            for (int i = 0; i < numCycles[1]; i++)
             {
-                if (num.Value > 1)
+                int num = int.Parse(Console.ReadLine());
+                secondSet.Add(num);
+            }
+
+            HashSet<int> uniqueNums = new HashSet<int>();
+
+            foreach (int num1 in firstSet)
+            {
+                foreach (var num2 in secondSet)
                 {
-                    Console.Write($"{num.Key} ");
+                    if (num1 == num2)
+                    {
+                        uniqueNums.Add(num1);
+                    }
                 }
             }
 
+            Console.WriteLine(string.Join(" ", uniqueNums));
         }
     }
 }
