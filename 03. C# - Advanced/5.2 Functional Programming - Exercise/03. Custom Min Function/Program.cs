@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace _03._Custom_Min_Function
 {
@@ -6,7 +7,11 @@ namespace _03._Custom_Min_Function
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Func<int, string> func = x => x.ToString();
+            int[] nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+            Console.WriteLine(func(nums.Min()));
+
         }
     }
 }
