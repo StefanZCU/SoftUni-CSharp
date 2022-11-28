@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Channels;
 
 namespace _01._Action_Print
 {
@@ -6,7 +7,14 @@ namespace _01._Action_Print
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Action<string> printer = s => Console.WriteLine(s);
+
+            string[] collection = Console.ReadLine().Split();
+
+            foreach (var s in collection)
+            {
+                printer(s);
+            }
         }
     }
 }
