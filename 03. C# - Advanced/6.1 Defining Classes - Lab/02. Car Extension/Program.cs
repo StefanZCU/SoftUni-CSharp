@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace _02._Car_Extension
+namespace CarManufacturer
 {
-    internal class Program
+    public class StartUp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
