@@ -22,7 +22,7 @@
 | **Course**                                                            | **Link**                                                   |
 | --------------------------------------------------------------------- | ---------------------------------------------------------- |
 | <a href="https://softuni.bg/trainings/3749/programming-basics-with-csharp-june-2022" > Programming Basics with C# </a>         | <a href="https://softuni.bg/certificates/details/137337/87df2da0"> Link</a> |
-| <a href="https://softuni.bg/trainings/3836/programming-fundamentals-with-csharp-september-2022"> Fundamentals with C# </a> | <a href=""> TBA</a> |
+| <a href="https://softuni.bg/trainings/3836/programming-fundamentals-with-csharp-september-2022"> Fundamentals with C# </a> | <a href="https://softuni.bg/certificates/details/148853/d73ad2dd"> Link</a> |
 
 </td>
 </tr>
