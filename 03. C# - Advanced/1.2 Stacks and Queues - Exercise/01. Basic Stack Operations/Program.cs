@@ -1,2 +1,33 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿int[] commands = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+int N = commands[0]; //Number of elements to Push
+int S = commands[1]; //Number of elements to Pop
+int X = commands[2]; //Number to look for in Stack
+
+Stack<int> numbers = new Stack<int>();
+
+int[] numbersToAdd = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+for (int i = 0; i < N; i++)
+{
+    numbers.Push(numbersToAdd[i]);
+}
+
+for (int i = 0; i < S; i++)
+{
+    numbers.Pop();
+}
+
+if (numbers.Contains(X))
+{
+    Console.WriteLine("true");
+}
+else if (numbers.Count == 0)
+{
+    Console.WriteLine(0);
+}
+else
+{
+    Console.WriteLine(numbers.Min());
+}
+
