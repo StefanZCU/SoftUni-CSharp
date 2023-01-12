@@ -10,14 +10,8 @@ Stack<int> bullets = new Stack<int>(bulletsArray);
 int usedBullets = 0;
 
 
-while (bullets.Count != 0)
+while (true)
 {
-    if (locks.Count == 0)
-    {
-        Console.WriteLine($"{bullets.Count} bullets left. Earned ${intelligenceValue - (bulletPrice * usedBullets)}");
-        return;
-    }
-
     for (int i = 0; i < gunBarrelSize; i++)
     {
         int currentBullet = bullets.Peek();
@@ -35,25 +29,28 @@ while (bullets.Count != 0)
             usedBullets++;
             bullets.Pop();
             locks.Dequeue();
+        }
 
-            if (locks.Count == 0)
+        if (bullets.Count == 0 && locks.Count != 0)
+        {
+            Console.WriteLine($"Couldn't get through. Locks left: {locks.Count}");
+            return;
+        }
+
+        if (locks.Count == 0)
+        {
+            if (usedBullets % gunBarrelSize == 0 && bullets.Count != 0)
             {
-                Console.WriteLine($"{bullets.Count} bullets left. Earned ${intelligenceValue - (bulletPrice * usedBullets)}");
-                return;
+                Console.WriteLine("Reloading!");
             }
-            
-            if (bullets.Count == 0)
-            {
-                Console.WriteLine($"Couldn't get through. Locks left: {locks.Count}");
-                return;
-            }
+
+            Console.WriteLine($"{bullets.Count} bullets left. Earned ${intelligenceValue - (bulletPrice * usedBullets)}");
+            return;
         }
     }
 
-    if (usedBullets % gunBarrelSize == 0)
+    if (bullets.Count != 0 && usedBullets % gunBarrelSize == 0)
     {
         Console.WriteLine("Reloading!");
     }
 }
-
-Console.WriteLine($"Couldn't get through. Locks left: {locks.Count}");
