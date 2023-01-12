@@ -4,36 +4,34 @@ int freeWindowDuration = int.Parse(Console.ReadLine());
 Queue<string> carsInLine = new Queue<string>();
 
 int carsPassed = 0;
-string passingCar = String.Empty;
+bool flag = true;
 
 string command;
-
 while ((command = Console.ReadLine()) != "END")
 {
-    if (command != "green")
+    if (command == "green" && carsInLine.Count != 0)
     {
-        carsInLine.Enqueue(command);
-    }
-    else if (command == "green" && carsInLine.Count != 0)
-    {
-        passingCar = carsInLine.Peek();
+        string passingCar = carsInLine.Peek();
         string currentCar = carsInLine.Dequeue();
 
         for (int i = 0; i < greenLightDuration; i++) // green light duration
         {
             if (currentCar.Length != 0)
             {
+                flag = true;
                 currentCar = currentCar.Remove(0, 1);
             }
             else
             {
                 carsPassed++;
+                flag = false;
 
                 if (carsInLine.Count != 0)
                 {
                     passingCar = carsInLine.Peek();
                     currentCar = carsInLine.Dequeue();
                     currentCar = currentCar.Remove(0, 1);
+                    flag = true;
                 }
                 else
                 {
@@ -65,6 +63,15 @@ while ((command = Console.ReadLine()) != "END")
                 return;
             }
         }
+        
+        if (flag)
+        {
+            carsPassed++;
+        }
+    }
+    else
+    {
+        carsInLine.Enqueue(command);
     }
 }
 
