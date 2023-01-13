@@ -6,40 +6,37 @@ Queue<int> cups = new Queue<int>(cupCapacityArray);
 
 int wastedLiters = 0;
 
-while (true)
+while (bottles.Count != 0 && cups.Count != 0)
 {
-    if (bottles.Count != 0 && cups.Count != 0)
+    if (bottles.Peek() >= cups.Peek())
     {
-        if (bottles.Peek() - cups.Peek() > 0)
-        {
-            wastedLiters += bottles.Pop() - cups.Dequeue();
-        }
-        else if (bottles.Peek() - cups.Peek() == 0)
-        {
-            bottles.Pop();
-            cups.Dequeue();
-        }
-        else if (bottles.Peek() - cups.Peek() < 0)
-        {
-            cups.Enqueue(cups.Dequeue() - bottles.Pop());
-
-            for (int i = 1; i < cups.Count; i++)
-            {
-                cups.Enqueue(cups.Dequeue());
-            }
-        }
-
-    }
-    else if (bottles.Count == 0)
-    {
-        Console.WriteLine($"Cups: {string.Join(" ", cups)}");
-        Console.WriteLine($"Wasted litters of water: {wastedLiters}");
-        break;
+        wastedLiters += bottles.Pop() - cups.Dequeue();
     }
     else
     {
-        Console.WriteLine($"Bottles: {string.Join(" ", bottles)}");
-        Console.WriteLine($"Wasted litters of water: {wastedLiters}");
-        break;
+        int remainingVolume = cups.Dequeue() - bottles.Pop();
+        while (remainingVolume > 0 && bottles.Count > 0)
+        {
+            if (bottles.Peek() >= remainingVolume)
+            {
+                wastedLiters += bottles.Pop() - remainingVolume;
+                remainingVolume = 0;
+            }
+            else
+            {
+                remainingVolume -= bottles.Pop();
+            }
+        }
     }
+}
+
+if (bottles.Count == 0)
+{
+    Console.WriteLine($"Cups: {string.Join(" ", cups)}");
+    Console.WriteLine($"Wasted litters of water: {wastedLiters}");
+}
+else
+{
+    Console.WriteLine($"Bottles: {string.Join(" ", bottles)}");
+    Console.WriteLine($"Wasted litters of water: {wastedLiters}");
 }
