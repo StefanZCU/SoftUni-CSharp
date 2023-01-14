@@ -1,12 +1,12 @@
 ﻿int numRows = int.Parse(Console.ReadLine());
 
-int[][] jaggedArray = new int[numRows][];
+long[][] jaggedArray = new long[numRows][];
 
-jaggedArray[0] = new int[] { 1 };
+jaggedArray[0] = new long[] { 1 };
 
 for (int i = 1; i < jaggedArray.GetLength(0); i++)
 {
-    jaggedArray[i] = new int[i + 1];
+    jaggedArray[i] = new long[i + 1];
 
     for (int j = 0; j < jaggedArray[i].Length; j++)
     {
@@ -22,7 +22,6 @@ for (int i = 1; i < jaggedArray.GetLength(0); i++)
 
     }
 }
-
 
 for (int i = 0; i < jaggedArray.GetLength(0); i++)
 {
