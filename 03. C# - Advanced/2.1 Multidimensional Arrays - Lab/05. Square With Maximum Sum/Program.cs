@@ -1,36 +1,37 @@
-﻿int[] rowAndColsSize = Console.ReadLine().Split(", ").Select(int.Parse).ToArray();
+﻿int[] matrixSize = Console.ReadLine().Split(", ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
 
-int[,] matrix = new int[rowAndColsSize[0], rowAndColsSize[1]];
+int[,] matrix = new int[matrixSize[0], matrixSize[1]];
 
-for (int i = 0; i < rowAndColsSize[0]; i++)
+for (int i = 0; i < matrix.GetLength(0); i++)
 {
-    int[] cols = Console.ReadLine().Split(", ").Select(int.Parse).ToArray();
+    int[] cols = Console.ReadLine().Split(", ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
 
-    for (int j = 0; j < rowAndColsSize[1]; j++)
+    for (int j = 0; j < matrix.GetLength(1); j++)
     {
         matrix[i, j] = cols[j];
     }
 }
 
-int highestValue = int.MinValue;
-int[] firstPair = new int[2];
-int[] secondPair = new int[2];
+int topLeftCoordRow = 0;
+int topLeftCoordCol = 0;
+int sum = int.MinValue;
 
-for (int i = 0; i < rowAndColsSize[0] - 1; i++)
+for (int i = 0; i < matrix.GetLength(0); i++)
 {
-    for (int j = 0; j < rowAndColsSize[1] - 1; j++)
+    for (int j = 0; j < matrix.GetLength(1); j++)
     {
-        if (matrix[i, j] + matrix[i, j + 1] + matrix[i + 1, j] + matrix[i + 1, j + 1] > highestValue)
+        if (i + 1 < matrix.GetLength(0) && j + 1 < matrix.GetLength(1))
         {
-            highestValue = matrix[i, j] + matrix[i, j + 1] + matrix[i + 1, j] + matrix[i + 1, j + 1];
-            firstPair[0] = matrix[i, j];
-            firstPair[1] = matrix[i, j + 1];
-            secondPair[0] = matrix[i + 1, j];
-            secondPair[1] = matrix[i + 1, j + 1];
+            if (matrix[i, j] + matrix[i + 1, j] + matrix[i, j + 1] + matrix[i + 1, j + 1] > sum)
+            {
+                sum = matrix[i, j] + matrix[i + 1, j] + matrix[i, j + 1] + matrix[i + 1, j + 1];
+                topLeftCoordRow = i;
+                topLeftCoordCol = j;
+            }
         }
     }
 }
 
-Console.WriteLine(string.Join(" ", firstPair));
-Console.WriteLine(string.Join(" ", secondPair));
-Console.WriteLine(highestValue);
+Console.WriteLine($"{matrix[topLeftCoordRow, topLeftCoordCol]} {matrix[topLeftCoordRow, topLeftCoordCol + 1]}");
+Console.WriteLine($"{matrix[topLeftCoordRow + 1, topLeftCoordCol]} {matrix[topLeftCoordRow + 1, topLeftCoordCol + 1]}");
+Console.WriteLine(sum);
