@@ -26,7 +26,6 @@ for (int i = 0; i < matrix.GetLength(0); i++)
             snakeChars.Enqueue(currentSymbol);
         }
     }
-
 }
 
 for (int i = 0; i < matrix.GetLength(0); i++)
