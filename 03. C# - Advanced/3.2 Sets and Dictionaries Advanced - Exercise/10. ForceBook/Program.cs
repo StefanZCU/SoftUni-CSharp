@@ -9,14 +9,29 @@ while((command = Console.ReadLine()) != "Lumpawaroo")
 
         string forceSide = input[0];
         string forceUser = input[1];
+        bool flag = true;
 
-        if (!usersPerForce.ContainsKey(forceSide))
+        foreach (var force in usersPerForce)
         {
-            usersPerForce.Add(forceSide, new List<string>());
+            if (force.Value.Contains(forceUser))
+            {
+                if (!usersPerForce.ContainsKey(forceSide))
+                {
+                    usersPerForce.Add(forceSide, new List<string>());
+                }
+
+                flag = false;
+                break;
+            }
         }
 
-        if (!usersPerForce[forceSide].Contains(forceUser))
+        if (flag)
         {
+            if (!usersPerForce.ContainsKey(forceSide))
+            {
+                usersPerForce.Add(forceSide, new List<string>());
+            }
+
             usersPerForce[forceSide].Add(forceUser);
         }
     }
