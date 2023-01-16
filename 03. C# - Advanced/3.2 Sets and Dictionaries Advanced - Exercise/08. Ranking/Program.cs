@@ -42,17 +42,10 @@ string bestStudent = string.Empty;
 
 foreach (var student in pointsPerStudent)
 {
-    int currPoints = 0;
-
-    foreach (var points in student.Value)
+    if (student.Value.Values.Sum() > mostPoints)
     {
-        currPoints += points.Value;
-    }
-
-    if (currPoints > mostPoints)
-    {
-        mostPoints = currPoints;
         bestStudent = student.Key;
+        mostPoints = student.Value.Values.Sum();
     }
 }
 
