@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace ExtractBytes
+namespace ExtractSpecialBytes
 {
     using System;
     using System.IO;
