@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.IO;
+
 
 namespace ExtractSpecialBytes
 {
-    using System;
-    using System.IO;
     public class ExtractSpecialBytes
     {
         static void Main()
@@ -16,33 +18,25 @@ namespace ExtractSpecialBytes
             ExtractBytesFromBinaryFile(binaryFilePath, bytesFilePath, outputPath);
         }
 
+
         public static void ExtractBytesFromBinaryFile(string binaryFilePath, string bytesFilePath, string outputPath)
         {
-            List<byte> bytes = new List<byte>();
-            using (var reader = new StreamReader(bytesFilePath))
+            byte[] bytesToExtract = File.ReadAllText(bytesFilePath)
+                .Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(b => byte.Parse(b))
+                .ToArray();
+            
+            using (FileStream inputStream = new FileStream(binaryFilePath, FileMode.Open))
+            using (FileStream outputStream = new FileStream(outputPath, FileMode.Create))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                int currentByte;
+                while ((currentByte = inputStream.ReadByte()) != -1)
                 {
-                    bytes.Add(byte.Parse(line));
+                    if (bytesToExtract.Contains((byte)currentByte))
+                    {
+                        outputStream.WriteByte((byte)currentByte);
+                    }
                 }
-            }
-
-            List<byte> occurences = new List<byte>();
-            using (var binaryBytes = new FileStream(binaryFilePath, FileMode.Open))
-            {
-                byte[] buffer = new byte[binaryBytes.Length];
-                binaryBytes.Read(buffer, 0, buffer.Length);
-                for (int i = 0; i < buffer.Length; i++)
-                {
-                    if (bytes.Contains(buffer[i]))
-                        occurences.Add(buffer[i]);
-                }
-            }
-
-            using (var outputFile = new FileStream(outputPath, FileMode.Create))
-            {
-                outputFile.Write(occurences.ToArray(), 0, occurences.Count);
             }
         }
     }
