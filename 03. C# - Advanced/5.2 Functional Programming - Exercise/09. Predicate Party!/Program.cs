@@ -57,16 +57,9 @@ while ((command = Console.ReadLine()) != "Party!")
     }
 }
 
-if (names.Count != 0)
-{
-    Console.WriteLine($"{string.Join(", ", names)} are going to the party!");
-}
-else
-{
-    Console.WriteLine("Nobody is going to the party!");
-}
-
-
+Console.WriteLine(names.Count != 0
+    ? $"{string.Join(", ", names)} are going to the party!"
+    : "Nobody is going to the party!");
 
 
 void Manipulator(string action, List<string> names, Predicate<string> op)
