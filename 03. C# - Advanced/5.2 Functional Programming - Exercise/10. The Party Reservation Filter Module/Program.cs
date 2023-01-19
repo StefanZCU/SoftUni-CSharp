@@ -52,7 +52,14 @@ void Manipulator(string command, List<string> names, List<string> originalNames,
         {
             if (op(originalNames[i]))
             {
-                names.Insert(i, originalNames[i]);
+                for (int j = 0; j < names.Count; j++)
+                {
+                    if (names[j] != originalNames[j])
+                    {
+                        names.Insert(j, originalNames[i]);
+                        break;
+                    }
+                }
             }
         }
     }
