@@ -9,51 +9,25 @@ while ((command = Console.ReadLine()) != "Party!")
     string criteria = input[1];
     string value = input[2];
 
-    if (action == "Remove")
+    switch (criteria)
     {
-        switch (criteria)
-        {
-            case "StartsWith":
+        case "StartsWith":
 
-                Manipulator(action, names, x => x.Substring(0, value.Length) == value);
+            Manipulator(action, names, x => x.Substring(0, value.Length) == value);
 
-                break;
+            break;
 
-            case "EndsWith":
+        case "EndsWith":
 
-                Manipulator(action, names, x => x.Substring(x.Length - value.Length, value.Length) == value);
+            Manipulator(action, names, x => x.Substring(x.Length - value.Length, value.Length) == value);
 
-                break;
+            break;
 
-            case "Length":
+        case "Length":
 
-                Manipulator(action, names, x => x.Length == int.Parse(value));
+            Manipulator(action, names, x => x.Length == int.Parse(value));
 
-                break;
-        }
-    }
-    else if (action == "Double")
-    {
-        switch (criteria)
-        {
-            case "StartsWith":
-
-                Manipulator(action, names, x => x.Substring(0, value.Length) == value);
-
-                break;
-
-            case "EndsWith":
-
-                Manipulator(action, names, x => x.Substring(x.Length - value.Length, value.Length) == value);
-
-                break;
-
-            case "Length":
-
-                Manipulator(action, names, x => x.Length == int.Parse(value));
-
-                break;
-        }
+            break;
     }
 }
 
