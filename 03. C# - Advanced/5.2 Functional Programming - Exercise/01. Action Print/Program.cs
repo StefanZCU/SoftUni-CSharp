@@ -1,2 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿Action<string> printNames = s => Console.WriteLine(s);
+
+string[] names = Console.ReadLine().Split(" ");
+
+foreach (var name in names)
+{
+    printNames(name);
+}
