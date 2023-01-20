@@ -38,7 +38,7 @@ while ((command = Console.ReadLine()) != "Print")
     }
 }
 
-Console.WriteLine(string.Join(" ", filteredList));
+Console.WriteLine(string.Join(" ", originalNames.Where(n => filteredList.Contains(n))));
 
 void Manipulator(string command, List<string> names, List<string> originalNames, Predicate<string> op)
 {
@@ -52,14 +52,7 @@ void Manipulator(string command, List<string> names, List<string> originalNames,
         {
             if (op(originalNames[i]))
             {
-                for (int j = 0; j < names.Count; j++)
-                {
-                    if (names[j] != originalNames[j])
-                    {
-                        names.Insert(j, originalNames[i]);
-                        break;
-                    }
-                }
+                names.Add(originalNames[i]);
             }
         }
     }
