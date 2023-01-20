@@ -1,10 +1,10 @@
-﻿namespace _02._Creating_Constructors
+﻿namespace DefiningClasses
 {
-    internal class Program
+    public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            
         }
     }
 }
