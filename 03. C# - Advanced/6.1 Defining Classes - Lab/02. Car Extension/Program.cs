@@ -1,2 +1,9 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace CarManufacturer;
+
+public class StartUp
+{
+    public static void Main(string[] args)
+    {
+
+    }
+}
