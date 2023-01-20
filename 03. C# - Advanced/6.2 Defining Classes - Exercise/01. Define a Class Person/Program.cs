@@ -1,10 +1,12 @@
-﻿namespace _01._Define_a_Class_Person
+﻿namespace DefiningClasses
 {
-    internal class Program
+    public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Person person1 = new Person("Peter", 20);
+            Person person2 = new Person("George", 18);
+            Person person3 = new Person("Jose", 43);
         }
     }
 }
