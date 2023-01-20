@@ -1,8 +1,8 @@
 ﻿namespace CarManufacturer;
 
-class StartUp
+public class StartUp
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         Car car = new Car();
 
