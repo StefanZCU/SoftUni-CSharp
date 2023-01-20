@@ -1,10 +1,15 @@
-﻿namespace _05._Date_Modifier
+﻿namespace DefiningClasses
 {
-    internal class Program
+    public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            string firstDate = Console.ReadLine();
+            string secondDate = Console.ReadLine();
+
+            DateModifier dateModifier = new DateModifier();
+
+            Console.WriteLine(dateModifier.CalculateDifference(firstDate, secondDate));
         }
     }
 }
