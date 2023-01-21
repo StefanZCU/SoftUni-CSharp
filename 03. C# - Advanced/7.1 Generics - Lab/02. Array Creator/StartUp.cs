@@ -4,7 +4,8 @@
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            string[] strings = ArrayCreator.Create(5, "Pesho");
+
         }
     }
 }
