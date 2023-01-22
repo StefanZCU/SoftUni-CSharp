@@ -1,67 +1,53 @@
-﻿int[] foodArray = Console.ReadLine().Split(", ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
-int[] staminaArray = Console.ReadLine().Split(", ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+﻿Queue<string> conqueredPeaks = new Queue<string>();
 
-List<int> mountainDifficulties = new List<int> { 80, 90, 100, 60, 70 };
+Stack<int> foodSupplies = new Stack<int>(Console.ReadLine()
+    .Split(", ").Select(int.Parse).ToArray());
 
-List<string> conqueredMountains = new List<string>();
+Queue<int> stamina = new Queue<int>(Console.ReadLine()
+    .Split(", ").Select(int.Parse).ToArray());
 
-Stack<int> foodPortions = new Stack<int>(foodArray);
-Queue<int> staminaQnt = new Queue<int>(staminaArray);
-
-while (mountainDifficulties.Count != 0)
+Dictionary<string, int> peaks = new Dictionary<string, int>()
 {
-    string currMountain = string.Empty;
+    { "Vihren", 80},
+    { "Kutelo", 90},
+    { "Banski Suhodol", 100},
+    { "Polezhan", 60},
+    { "Kamenitza", 70}
+};
 
-    switch (mountainDifficulties[0])
+Queue<string> peaksNames = new Queue<string>();
+foreach (var peak in peaks)
+{
+    peaksNames.Enqueue(peak.Key);
+}
+
+while (foodSupplies.Any() && stamina.Any() && peaksNames.Any())
+{
+    if (foodSupplies.Peek() + stamina.Peek() >= peaks[peaksNames.Peek()])
     {
-        case 60:
-            currMountain = "Polezhan";
-            break;
-        case 70:
-            currMountain = "Kamenitza";
-            break;
-        case 80:
-            currMountain = "Vihren";
-            break;
-        case 90:
-            currMountain = "Kutelo";
-            break;
-        case 100:
-            currMountain = "Banski Suhodol";
-            break;
+        conqueredPeaks.Enqueue(peaksNames.Dequeue());
+        foodSupplies.Pop();
+        stamina.Dequeue();
     }
-
-    if (foodPortions.Peek() + staminaQnt.Peek() >= mountainDifficulties[0])
+    else
     {
-        foodPortions.Pop();
-        staminaQnt.Dequeue();
-        mountainDifficulties.RemoveAt(0);
-        conqueredMountains.Add(currMountain);
+        foodSupplies.Pop();
+        stamina.Dequeue();
     }
-    else if (foodPortions.Peek() + staminaQnt.Peek() < mountainDifficulties[0])
-    {
-        foodPortions.Pop();
-        staminaQnt.Dequeue();
-    }
-
-    if (mountainDifficulties.Count == 0)
-    {
-        Console.WriteLine($"Alex did it! He climbed all top five Pirin peaks in one week -> @FIVEinAWEEK");
-        Console.WriteLine($"Conquered peaks:\n{string.Join("\n", conqueredMountains)}");
-        break;
-    }
+}
 
 
-    if ((foodPortions.Count == 0 && staminaQnt.Count == 0) && mountainDifficulties.Count != 0)
-    {
-        Console.WriteLine($"Alex failed! He has to organize his journey better next time -> @PIRINWINS");
+if (peaksNames.Any())
+{
+    Console.WriteLine("Alex failed! He has to organize his journey better next time -> @PIRINWINS");
+}
+else
+{
+    Console.WriteLine("Alex did it! He climbed all top five Pirin peaks in one week -> @FIVEinAWEEK");
+}
 
-        if (conqueredMountains.Count != 0)
-        {
-            Console.WriteLine($"Conquered peeks;\n{string.Join("\n", conqueredMountains)}");
-        }
-
-        break;
-    }
-
+if (conqueredPeaks.Any())
+{
+    Console.WriteLine("Conquered peaks:");
+    Console.WriteLine(String.Join(Environment.NewLine, conqueredPeaks));
 }
