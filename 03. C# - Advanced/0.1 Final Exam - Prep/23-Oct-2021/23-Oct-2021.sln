@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01. Food Finder", "01. Food Finder\01. Food Finder.csproj", "{C325C36D-9B68-4922-A396-BC9415FAB295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02. Pawn Wars", "02. Pawn Wars\02. Pawn Wars.csproj", "{711049EA-0DF3-4DBE-8819-73A9D5D55C66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C325C36D-9B68-4922-A396-BC9415FAB295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C325C36D-9B68-4922-A396-BC9415FAB295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C325C36D-9B68-4922-A396-BC9415FAB295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C325C36D-9B68-4922-A396-BC9415FAB295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{711049EA-0DF3-4DBE-8819-73A9D5D55C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{711049EA-0DF3-4DBE-8819-73A9D5D55C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{711049EA-0DF3-4DBE-8819-73A9D5D55C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{711049EA-0DF3-4DBE-8819-73A9D5D55C66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9C1B7EB-3A90-41AF-9B5C-BC130411F0C5}
+	EndGlobalSection
+EndGlobal
