@@ -121,6 +121,10 @@ namespace _02._Beaver_at_Work
                             matrix[row, col] = '-';
                         }
                     }
+                    else
+                    {
+                        matrix[row, col] = '-';
+                    }
                 }
                 else
                 {
