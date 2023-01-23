@@ -57,56 +57,29 @@ namespace _02._Truffle_Hunter
                 {
                     string direction = input[3];
 
-                    switch (direction)
+                    while (IndexChecker(row, col, matrix))
                     {
-                        case "up":
-                            while (IndexChecker(row, col, matrix))
-                            {
-                                if (TruffleChecker(row, col, matrix))
-                                {
-                                    eatenTrufflesBoar++;
-                                    matrix[row, col] = '-';
-                                }
+                        if (TruffleChecker(row, col, matrix))
+                        {
+                            eatenTrufflesBoar++;
+                            matrix[row, col] = '-';
+                        }
 
+                        switch (direction)
+                        {
+                            case "up":
                                 row -= 2;
-                            }
-                            break;
-                        case "down":
-                            while (IndexChecker(row, col, matrix))
-                            {
-                                if (TruffleChecker(row, col, matrix))
-                                {
-                                    eatenTrufflesBoar++;
-                                    matrix[row, col] = '-';
-                                }
-
+                                break;
+                            case "down":
                                 row += 2;
-                            }
-                            break;
-                        case "right":
-                            while (IndexChecker(row, col, matrix))
-                            {
-                                if (TruffleChecker(row, col, matrix))
-                                {
-                                    eatenTrufflesBoar++;
-                                    matrix[row, col] = '-';
-                                }
-
+                                break;
+                            case "right":
                                 col += 2;
-                            }
-                            break;
-                        case "left":
-                            while (IndexChecker(row, col, matrix))
-                            {
-                                if (TruffleChecker(row, col, matrix))
-                                {
-                                    eatenTrufflesBoar++;
-                                    matrix[row, col] = '-';
-                                }
-
+                                break;
+                            case "left":
                                 col -= 2;
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
             }
