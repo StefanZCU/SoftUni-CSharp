@@ -82,7 +82,7 @@ namespace _02._Selling
                     collectedEnoughMoney = true;
                     break;
                 }
-                
+
                 if (matrix[row, col] == 'O')
                 {
                     matrix[row, col] = '-';
@@ -107,8 +107,6 @@ namespace _02._Selling
                 {
                     matrix[row, col] = '-';
                 }
-
-                
             }
 
             Console.WriteLine(collectedEnoughMoney
@@ -121,6 +119,11 @@ namespace _02._Selling
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
+                    if (position[0] == i && position[1] == j && collectedEnoughMoney)
+                    {
+                        matrix[i, j] = 'S';
+                    }
+
                     Console.Write(matrix[i, j]);
                 }
 
