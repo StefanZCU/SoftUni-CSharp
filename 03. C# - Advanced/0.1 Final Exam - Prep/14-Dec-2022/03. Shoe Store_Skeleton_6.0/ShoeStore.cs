@@ -1,73 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace ShoeStore
 {
     public class ShoeStore
     {
-        public string Name { get; set; }
-        public int StorageCapacity { get; set; }
-        public List<Shoe> Shoes { get;}
-        public int Count => Shoes.Count;
-
+        private List<Shoe> shoes;
         public ShoeStore(string name, int storageCapacity)
         {
             Name = name;
             StorageCapacity = storageCapacity;
-            Shoes = new List<Shoe>();
+            this.shoes = new List<Shoe>();
         }
 
-        public string AddShoe(Shoe shoe)
-        {
-            if (Shoes.Count == StorageCapacity)
-            {
-                return "No more space in the storage room.";
-            }
-
-            Shoes.Add(shoe);
-
-            return $"Successfully added {shoe.Type} {shoe.Material} pair of shoes to the store.";
-        }
-
-        public int RemoveShoes(string material)
-        {
-            int shoesRemoved = 0;
-            List<Shoe> shoesToRemove = new List<Shoe>();
-
-            foreach (var shoe in Shoes)
-            {
-                if (shoe.Material.ToLower() == material.ToLower())
-                {
-                    shoesToRemove.Add(shoe);
-                    shoesRemoved++;
-                }
-            }
-
-            foreach (var shoe in shoesToRemove)
-            {
-                Shoes.Remove(shoe);
-            }
-
-            return shoesRemoved;
-        }
-
-        public List<Shoe> GetShoesByType(string type)
-        {
-            return Shoes.Where(x => String.Equals(x.Type, type, StringComparison.CurrentCultureIgnoreCase)).ToList();
-        }
-
-        public Shoe GetShoeBySize(double size)
-        {
-            return Shoes.FirstOrDefault(x => x.Size == size);
-        }
+        public string Name { get; set; }
+        public int StorageCapacity { get; set; }
+        IReadOnlyCollection<Shoe> Shoes => shoes;
+        public int Count => this.shoes.Count;
 
         public string StockList(double size, string type)
         {
-            List<Shoe> stockList = Shoes.Where(s => s.Size == size && s.Type == type).ToList();
+            List<Shoe> stockList = this.shoes.Where(s => s.Size == size && s.Type == type).ToList();
 
             StringBuilder sb = new StringBuilder();
             if (stockList.Count == 0)
@@ -86,5 +40,47 @@ namespace ShoeStore
             return sb.ToString().TrimEnd();
         }
 
+
+        public Shoe GetShoeBySize(double size) => this.shoes.FirstOrDefault(s => s.Size == size);
+
+        public List<Shoe> GetShoesByType(string type)
+        {
+            List<Shoe> listToReturn = new List<Shoe>();
+            foreach (Shoe shoe in this.shoes)
+            {
+                if (shoe.Type == type.ToLower())
+                {
+                    listToReturn.Add(shoe);
+                }
+            }
+            return listToReturn;
+        }
+
+        public int RemoveShoes(string material)
+        {
+            int removedShoes = 0;
+
+            for (int i = 0; i < shoes.Count; i++)
+            {
+                if (shoes[i].Material == material.ToLower())
+                {
+                    shoes.RemoveAt(i--);
+                    removedShoes++;
+                }
+            }
+
+            return removedShoes;
+        }
+
+        public string AddShoe(Shoe shoe)
+        {
+            if (this.StorageCapacity == this.shoes.Count)
+            {
+                return "No more space in the storage room.";
+            }
+
+            this.shoes.Add(shoe);
+            return $"Successfully added {shoe.Type} {shoe.Material} pair of shoes to the store.";
+        }
     }
 }
