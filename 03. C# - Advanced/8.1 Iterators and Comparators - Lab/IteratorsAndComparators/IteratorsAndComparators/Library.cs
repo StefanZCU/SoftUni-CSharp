@@ -34,6 +34,7 @@ namespace IteratorsAndComparators
             {
                 this.Reset();
                 this.books = new List<Book>(books);
+                this.books.Sort();
             }
 
             private readonly List<Book> books;
