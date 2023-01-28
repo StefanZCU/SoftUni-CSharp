@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _01.ListyIterator
 {
-    public class ListyIterator<T>
+    public class ListyIterator<T> : IEnumerable<T>
     {
         private int index;
         private List<T> items;
@@ -42,6 +42,29 @@ namespace _01.ListyIterator
             }
 
             Console.WriteLine(items[index]);
+        }
+
+        public void PrintAll()
+        {
+            if (items.Count == 0)
+            {
+                throw new InvalidOperationException("Invalid Operation!");
+            }
+
+            Console.WriteLine(string.Join(" ", items));
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                yield return items[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
