@@ -33,21 +33,16 @@ int index = 1;
 
 foreach (var vlogger in statsPerVlogger.OrderByDescending(x => x.Value.followers.Count).ThenBy(x => x.Value.following.Count))
 {
+    Console.WriteLine($"{index}. {vlogger.Key} : {vlogger.Value.followers.Count} followers, {vlogger.Value.following.Count} following");
+
     if (index == 1)
     {
-        Console.WriteLine($"{index}. {vlogger.Key} : {vlogger.Value.followers.Count} followers, {vlogger.Value.following.Count} following");
-
         foreach (var follower in vlogger.Value.followers.OrderBy(x => x))
         {
             Console.WriteLine($"*  {follower}");
         }
     }
-    else
-    {
-        Console.WriteLine($"{index}. {vlogger.Key} : {vlogger.Value.followers.Count} followers, {vlogger.Value.following.Count} following");
-    }
-
-
+    
     index++;
 }
 
