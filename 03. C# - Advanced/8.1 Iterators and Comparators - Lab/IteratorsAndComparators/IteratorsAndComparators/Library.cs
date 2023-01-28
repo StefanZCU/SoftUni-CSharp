@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,12 +19,39 @@ namespace IteratorsAndComparators
 
         public IEnumerator<Book> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new LibraryIterator(books);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
+        }
+
+        private class LibraryIterator : IEnumerator<Book>
+        {
+
+            public LibraryIterator(IEnumerable<Book> books)
+            {
+                this.Reset();
+                this.books = new List<Book>(books);
+            }
+
+            private readonly List<Book> books;
+            private int currentIndex;
+
+            public bool MoveNext()
+            {
+                return ++this.currentIndex < this.books.Count;
+            }
+
+            public void Reset() => this.currentIndex = -1;
+            
+
+            public Book Current => this.books[this.currentIndex];
+
+            object IEnumerator.Current => this.Current;
+
+            public void Dispose() { }
         }
     }
 }
