@@ -1,27 +1,61 @@
-﻿namespace DirectoryTraversal
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace DirectoryTraversal;
+
+public class DirectoryTraversal
 {
-    using System;
-    public class DirectoryTraversal
+    static void Main()
     {
-        static void Main()
+        string path = Console.ReadLine();
+        string reportFileName = @"\report.txt";
+
+        string reportContent = TraverseDirectory(path);
+        Console.WriteLine(reportContent);
+
+        WriteReportToDesktop(reportContent, reportFileName);
+    }
+
+    public static string TraverseDirectory(string inputFolderPath)
+    {
+        SortedDictionary<string, List<FileInfo>> extensionsFiles = new();
+
+        string[] files = Directory.GetFiles(inputFolderPath);
+
+        foreach (var file in files)
         {
-            string path = Console.ReadLine();
-            string reportFileName = @"\report.txt";
+            FileInfo fileInfo = new(file);
 
-            string reportContent = TraverseDirectory(path);
-            Console.WriteLine(reportContent);
+            if (!extensionsFiles.ContainsKey(fileInfo.Extension))
+            {
+                extensionsFiles.Add(fileInfo.Extension, new List<FileInfo>());
+            }
 
-            WriteReportToDesktop(reportContent, reportFileName);
+            extensionsFiles[fileInfo.Extension].Add(fileInfo);
         }
 
-        public static string TraverseDirectory(string inputFolderPath)
+        StringBuilder sb = new();
+
+        foreach (var extensionFiles in extensionsFiles.OrderByDescending(ef => ef.Value.Count))
         {
-            throw new NotImplementedException();
+            sb.AppendLine(extensionFiles.Key);
+
+            foreach (var file in extensionFiles.Value.OrderBy(f => f.Length))
+            {
+                sb.AppendLine($"--{file.Name} - {(double)file.Length / 1024:f3}kb");
+            }
         }
 
-        public static void WriteReportToDesktop(string textContent, string reportFileName)
-        {
-            throw new NotImplementedException();
-        }
+        return sb.ToString();
+    }
+
+    public static void WriteReportToDesktop(string textContent, string reportFileName)
+    {
+        string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + reportFileName;
+
+        File.WriteAllText(filePath, textContent);
     }
 }
