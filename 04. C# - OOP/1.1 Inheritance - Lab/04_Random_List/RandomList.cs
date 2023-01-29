@@ -9,13 +9,12 @@ namespace CustomRandomList
     public class RandomList : List<string>
     {
         public Random random = new Random();
-        
 
         public string RandomString()
         {
-            var index = random.Next(0, this.Count);
+            var index = random.Next(0, Count);
             string element = this[index];
-            this.RemoveAt(index);
+            RemoveAt(index);
             return element;
         }
     }
