@@ -1,19 +1,36 @@
-﻿namespace CopyDirectory
-{
-    using System;
-    public class CopyDirectory
-    {
-        static void Main()
-        {
-            string inputPath =  @$"{Console.ReadLine()}";
-            string outputPath = @$"{Console.ReadLine()}";
+﻿namespace CopyDirectory;
 
-            CopyAllFiles(inputPath, outputPath);
+using System;
+using System.IO;
+
+public class CopyDirectory
+{
+    static void Main()
+    {
+        string inputPath = @$"{Console.ReadLine()}";
+        string outputPath = @$"{Console.ReadLine()}";
+
+        CopyAllFiles(inputPath, outputPath);
+    }
+
+    public static void CopyAllFiles(string inputPath, string outputPath)
+    {
+        if (Directory.Exists(outputPath))
+        {
+            Directory.Delete(outputPath);
         }
 
-        public static void CopyAllFiles(string inputPath, string outputPath)
+        Directory.CreateDirectory(outputPath);
+
+        string[] files = Directory.GetFiles(inputPath);
+
+        foreach (var file in files)
         {
-            throw new NotImplementedException();
+            string fileName = Path.GetFileName(file);
+
+            string destination = Path.Combine(outputPath, fileName);
+
+            File.Copy(file, destination);
         }
     }
 }
