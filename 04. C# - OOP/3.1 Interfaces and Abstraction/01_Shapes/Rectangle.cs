@@ -18,7 +18,7 @@ namespace Shapes
             DrawLine(width, '*', '*');
             for (int i = 1; i < height - 1; ++i)
             {
-                DrawLine(width, '*', '*');
+                DrawLine(width, '*', ' ');
             }
 
             DrawLine(width, '*', '*');
