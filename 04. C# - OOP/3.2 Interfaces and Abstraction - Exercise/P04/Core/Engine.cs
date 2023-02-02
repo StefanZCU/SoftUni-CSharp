@@ -1,11 +1,9 @@
-﻿
-using BorderControl.Models.Interfaces;
-
-namespace BorderControl.Core
+﻿namespace BorderControl.Core
 {
     using Interface;
     using IO.Interfaces;
     using Models;
+    using Models.Interfaces;
 
     internal class Engine : IEngine
     {

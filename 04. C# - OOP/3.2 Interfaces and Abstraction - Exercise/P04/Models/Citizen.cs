@@ -1,5 +1,4 @@
-﻿
-namespace BorderControl.Models
+﻿namespace BorderControl.Models
 {
     using Interfaces;
 

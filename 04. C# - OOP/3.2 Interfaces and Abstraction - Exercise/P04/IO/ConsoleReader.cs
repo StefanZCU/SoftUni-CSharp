@@ -1,5 +1,4 @@
-﻿
-namespace BorderControl.IO
+﻿namespace BorderControl.IO
 {
     using Interfaces;
 
