@@ -1,10 +1,18 @@
-﻿namespace P04
+﻿namespace BorderControl
 {
-    internal class Program
+    using Core;
+    using Core.Interface;
+    using IO;
+    using IO.Interfaces;
+    public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            IReader reader = new ConsoleReader();
+            IWriter writer = new ConsoleWriter();
+
+            IEngine engine = new Engine(reader, writer);
+            engine.Start();
         }
     }
 }
