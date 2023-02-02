@@ -1,4 +1,6 @@
 ﻿
+using BorderControl.Models.Interfaces;
+
 namespace BorderControl.Core
 {
     using Interface;
@@ -10,13 +12,11 @@ namespace BorderControl.Core
         private readonly IReader reader;
         private readonly IWriter writer;
 
-        private List<Robot> robots;
-        private List<Citizen> citizens;
+        private readonly List<IIdentifiables> identifiables;
 
-        public Engine()
+        private Engine()
         {
-            robots = new List<Robot>();
-            citizens = new List<Citizen>();
+            identifiables = new List<IIdentifiables>();
         }
 
         public Engine(IReader reader, IWriter writer) : this()
@@ -27,8 +27,6 @@ namespace BorderControl.Core
 
         public void Start()
         {
-            List<string> IDs = new List<string>();
-
             string command;
             while ((command = reader.ReadLine()) != "End")
             {
@@ -39,29 +37,22 @@ namespace BorderControl.Core
                 {
                     int age = int.Parse(input[1]);
                     string ID = input[2];
-                    Citizen citizen = new Citizen(name, age, ID);
-                    citizens.Add(citizen);
-                    IDs.Add(ID);
+                    Citizen citizen = new Citizen(name, ID);
+                    identifiables.Add(citizen);
                 }
                 else if (input.Length == 2)
                 {
                     string ID = input[1];
                     Robot robot = new Robot(name, ID);
-                    robots.Add(robot);
-                    IDs.Add(ID);
+                    identifiables.Add(robot);
                 }
             }
 
             string lastIDDigits = reader.ReadLine();
 
-            foreach (var id in IDs)
+            foreach (var id in identifiables.Where(x => x.ID.EndsWith(lastIDDigits)))
             {
-                string currentIDLastDigits = id.Substring(id.Length - lastIDDigits.Length);
-
-                if (currentIDLastDigits == lastIDDigits)
-                {
-                    writer.WriteLine(id);
-                }
+                Console.WriteLine(id.ID);
             }
         }
     }

@@ -2,7 +2,7 @@
 {
     using Interfaces;
 
-    internal class Robot : IRobotInfo
+    internal class Robot : IIdentifiables
     {
         public string Name { get; }
         public string ID { get; }
