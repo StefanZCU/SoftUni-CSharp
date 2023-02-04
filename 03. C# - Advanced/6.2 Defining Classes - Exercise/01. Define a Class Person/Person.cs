@@ -8,8 +8,22 @@ namespace DefiningClasses
 {
     public  class Person
     {
-        public string Name { get; set; } = default!;
-        public int Age { get; set; }
+
+        private string name;
+        private int age;
+        private string mm;
+        private string aa;
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+        public int Age
+        {
+            get => age;
+            set => age = value;
+        }
 
         public Person(string name, int age)
         {
