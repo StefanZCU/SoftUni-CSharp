@@ -5,6 +5,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Vehicles</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Interfaces\" />
+  </ItemGroup>
 
 </Project>
