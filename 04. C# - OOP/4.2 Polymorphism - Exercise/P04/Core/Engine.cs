@@ -38,7 +38,7 @@ namespace WildFarm.Core
                 }
                 catch (InvalidTypeOfFoodForAnimal itoffa)
                 {
-                    Console.WriteLine(itoffa.Message);
+                    writer.WriteLine(itoffa.Message);
                 }
             }
 

@@ -60,7 +60,7 @@ namespace Raiding.Core
             }
             catch (InvalidHeroException ihe)
             {
-                Console.WriteLine(ihe.Message);
+                writer.WriteLine(ihe.Message);
             }
         }
     }

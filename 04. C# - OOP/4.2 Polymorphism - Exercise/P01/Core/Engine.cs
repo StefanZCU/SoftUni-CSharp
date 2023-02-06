@@ -58,13 +58,13 @@ namespace Vehicles.Core
                 }
                 catch (InvalidFuelAmount IFA)
                 {
-                    Console.WriteLine(IFA.Message);
+                    writer.WriteLine(IFA.Message);
                 }
             }
 
             foreach (var vehicle in vehicles)
             {
-                Console.WriteLine(vehicle);
+                writer.WriteLine(vehicle);
             }
         }
 
