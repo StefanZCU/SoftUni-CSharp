@@ -21,11 +21,11 @@
 
                     index++;
                 }
-                catch (ArgumentOutOfRangeException aoore)
+                catch (FormatException fe)
                 {
-                    Console.WriteLine(aoore.Message);
+                    Console.WriteLine(fe.Message);
                 }
-                catch (Exception ae)
+                catch (ArgumentException ae)
                 {
                     Console.WriteLine(ae.Message);
                 }
@@ -41,14 +41,14 @@
             {
                 num = int.Parse(Console.ReadLine());
             }
-            catch (Exception)
+            catch (FormatException)
             {
-                throw new Exception("Invalid Number!");
+                throw new FormatException("Invalid Number!");
             }
 
             if (num <= start || num >= end)
             {
-                throw new ArgumentOutOfRangeException($"Your number is not in range {start} - {end}!");
+                throw new ArgumentException($"Your number is not in range {start} - {end}!");
             }
 
             return num;
