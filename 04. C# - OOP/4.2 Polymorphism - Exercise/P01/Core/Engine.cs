@@ -1,11 +1,10 @@
-using Vehicles.Exceptions;
-using Vehicles.Factories.Interfaces;
-using Vehicles.Models.Interfaces;
-
 namespace Vehicles.Core
 {
     using Interface;
     using IO.Interfaces;
+    using Exceptions;
+    using Factories.Interfaces;
+    using Models.Interfaces;
 
     public class Engine : IEngine
     {

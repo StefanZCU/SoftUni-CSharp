@@ -1,11 +1,10 @@
-﻿using Vehicles.Factories;
-using Vehicles.Factories.Interfaces;
-
-namespace Vehicles
+﻿namespace Vehicles
 {
     using Core;
     using IO;
     using IO.Interfaces;
+    using Factories;
+    using Factories.Interfaces;
 
     public class StartUp
     {
