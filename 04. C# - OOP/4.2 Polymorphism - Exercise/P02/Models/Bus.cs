@@ -1,7 +1,7 @@
-﻿using VehiclesExtension.Models.Interfaces;
-
-namespace VehiclesExtension.Models
+﻿namespace VehiclesExtension.Models
 {
+    using Interfaces;
+
     internal class Bus : Vehicle, IBus
     {
         private const double FuelIncrement = 1.4;

@@ -1,7 +1,7 @@
-﻿using VehiclesExtension.Exceptions;
-
-namespace VehiclesExtension.Models
+﻿namespace VehiclesExtension.Models
 {
+    using Exceptions;
+
     public class Truck : Vehicle
     {
         private const double FuelIncrement = 1.6;

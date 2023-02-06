@@ -1,7 +1,6 @@
-using VehiclesExtension.Models;
-
 namespace VehiclesExtension.Core
 {
+    using Models;
     using Interface;
     using Exceptions;
     using Factories.Interfaces;
