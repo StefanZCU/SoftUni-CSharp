@@ -1,4 +1,7 @@
-﻿namespace Vehicles
+﻿using Vehicles.Factories;
+using Vehicles.Factories.Interfaces;
+
+namespace Vehicles
 {
     using Core;
     using IO;
@@ -10,8 +13,9 @@
         {
             IReader reader = new ConsoleReader();
             IWriter writer = new ConsoleWriter();
+            IVehicleFactory vehicleFactory = new VehicleFactory();
 
-            Engine engine = new Engine(reader, writer);
+            Engine engine = new Engine(reader, writer, vehicleFactory);
             engine.Run();
         }
     }
