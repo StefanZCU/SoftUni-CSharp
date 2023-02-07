@@ -14,28 +14,34 @@
 
                 try
                 {
-                    if (command == "Replace")
+                    switch (command)
                     {
-                        int index = int.Parse(cmdArgs[1]);
-                        int element = int.Parse(cmdArgs[2]);
+                        case "Replace":
+                        {
+                            int index = int.Parse(cmdArgs[1]);
+                            int element = int.Parse(cmdArgs[2]);
 
-                        originalArray[index] = element;
-                    }
-                    else if (command == "Print")
-                    {
-                        int startIndex = int.Parse(cmdArgs[1]);
-                        int endIndex = int.Parse(cmdArgs[2]);
+                            originalArray[index] = element;
+                            break;
+                        }
+                        case "Print":
+                        {
+                            int startIndex = int.Parse(cmdArgs[1]);
+                            int endIndex = int.Parse(cmdArgs[2]);
 
-                        int[] arrayCopy = new int[(endIndex - startIndex) + 1];
-                        Array.Copy(originalArray, startIndex, arrayCopy, 0, (endIndex - startIndex) + 1);
+                            int[] arrayCopy = new int[(endIndex - startIndex) + 1];
+                            Array.Copy(originalArray, startIndex, arrayCopy, 0, (endIndex - startIndex) + 1);
 
-                        Console.WriteLine(string.Join(", ", arrayCopy));
-                    }
-                    else if (command == "Show")
-                    {
-                        int index = int.Parse(cmdArgs[1]);
+                            Console.WriteLine(string.Join(", ", arrayCopy));
+                            break;
+                        }
+                        case "Show":
+                        {
+                            int index = int.Parse(cmdArgs[1]);
 
-                        Console.WriteLine(originalArray[index]);
+                            Console.WriteLine(originalArray[index]);
+                            break;
+                        }
                     }
                 }
                 catch (FormatException)
