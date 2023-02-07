@@ -45,18 +45,18 @@
             Suit = suit;
         }
 
-        public string Face
+        private string Face
         {
             get => face;
 
-            private set => face = FaceChecker(value);
+            set => face = FaceChecker(value);
         }
 
-        public char Suit
+        private char Suit
         {
             get => suit;
 
-            private set => suit = SuitChecker(value);
+            set => suit = SuitChecker(value);
         }
 
         private string FaceChecker(string value)
@@ -73,38 +73,30 @@
                 return value;
             }
 
-            if (char.IsLetter(Convert.ToChar(value)))
+            if (!char.IsLetter(Convert.ToChar(value)))
+                throw new InvalidCardException(InvalidCardException.InvalidCardExceptionMessage);
+            switch (value)
             {
-                switch (value)
-                {
-                    case "J":
-                    case "Q":
-                    case "K":
-                    case "A":
-                        return value;
-                    default:
-                        throw new InvalidCardException(InvalidCardException.InvalidCardExceptionMessage);
-                }
+                case "J":
+                case "Q":
+                case "K":
+                case "A":
+                    return value;
+                default:
+                    throw new InvalidCardException(InvalidCardException.InvalidCardExceptionMessage);
             }
-
-            throw new InvalidCardException(InvalidCardException.InvalidCardExceptionMessage);
         }
 
         private char SuitChecker(char value)
         {
-            switch (value)
+            return value switch
             {
-                case 'S':
-                    return '\u2660';
-                case 'H':
-                    return '\u2665';
-                case 'D':
-                    return '\u2666';
-                case 'C':
-                    return '\u2663';
-                default:
-                    throw new InvalidCardException(InvalidCardException.InvalidCardExceptionMessage);
-            }
+                'S' => '\u2660',
+                'H' => '\u2665',
+                'D' => '\u2666',
+                'C' => '\u2663',
+                _ => throw new InvalidCardException(InvalidCardException.InvalidCardExceptionMessage)
+            };
         }
 
         public override string ToString()
@@ -113,7 +105,7 @@
         }
     }
 
-    class InvalidCardException : Exception
+    internal class InvalidCardException : Exception
     {
         public const string InvalidCardExceptionMessage = "Invalid card!";
 
