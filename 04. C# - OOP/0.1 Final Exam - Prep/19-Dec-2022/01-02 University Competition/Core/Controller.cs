@@ -72,11 +72,7 @@ namespace UniversityCompetition.Core
             }
             else 
             {
-                List<int> rs = new List<int>();
-                foreach (var subName in requiredSubjects)
-                {
-                    rs.Add(this.subjects.FindByName(subName).Id);
-                }
+                List<int> rs = requiredSubjects.Select(subName => this.subjects.FindByName(subName).Id).ToList();
                 IUniversity university =
                     new University(this.university.Models.Count + 1, universityName, category, capacity, rs);
                 this.university.AddModel(university);
