@@ -11,8 +11,6 @@ namespace DefiningClasses
 
         private string name;
         private int age;
-        private string mm;
-        private string aa;
 
         public string Name
         {
