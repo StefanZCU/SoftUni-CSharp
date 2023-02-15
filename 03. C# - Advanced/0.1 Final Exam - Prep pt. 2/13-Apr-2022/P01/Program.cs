@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace P01
+﻿namespace P01
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     internal class Program
     {
