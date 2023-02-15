@@ -1,44 +1,113 @@
 ﻿namespace P02
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     internal class Program
     {
         static void Main(string[] args)
         {
-            Stack<int> caffeine = new Stack<int>(Console.ReadLine().Split(", ").Select(int.Parse).ToArray());
-            Queue<int> energyDrink = new Queue<int>(Console.ReadLine().Split(", ").Select(int.Parse).ToArray());
+            int sizeMatrix = int.Parse(Console.ReadLine());
+            string racingNumber = Console.ReadLine();
 
-            int caffeineDrank = 0;
+            char[,] matrix = new char[sizeMatrix, sizeMatrix];
+            int[] position = { 0, 0 };
 
-            while (caffeine.Any() && energyDrink.Any())
+            for (int i = 0; i < matrix.GetLength(0); i++)
             {
-                if (caffeine.Peek() * energyDrink.Peek() + caffeineDrank <= 300)
+                char[] line = Console.ReadLine()
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(char.Parse)
+                    .ToArray();
+
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    caffeineDrank += caffeine.Pop() * energyDrink.Dequeue();
-                }
-                else
-                {
-                    caffeine.Pop();
-                    if (caffeineDrank - 30 >= 0)
-                    {
-                        caffeineDrank -= 30;
-                    }
-                    else
-                    {
-                        caffeineDrank = 0;
-                    }
-                    energyDrink.Enqueue(energyDrink.Dequeue());
+                    matrix[i, j] = line[j];
                 }
             }
 
-            Console.WriteLine(energyDrink.Any()
-                ? $"Drinks left: {string.Join(", ", energyDrink)}"
-                : "At least Stamat wasn't exceeding the maximum caffeine.");
+            int kmPassed = 0;
+            bool won = false;
+            string command;
+            while ((command = Console.ReadLine()) != "End")
+            {
+                switch (command)
+                {
+                    case "up":
+                        position[0]--;
+                        break;
+                    case "down":
+                        position[0]++;
+                        break;
+                    case "left":
+                        position[1]--;
+                        break;
+                    case "right":
+                        position[1]++;
+                        break;
+                }
 
-            Console.WriteLine($"Stamat is going to sleep with {caffeineDrank} mg caffeine.");
+                int row = position[0];
+                int col = position[1];
+
+                kmPassed += 10;
+
+                switch (matrix[row, col])
+                {
+                    case 'T':
+                        {
+                            bool flag = false;
+                            matrix[row, col] = '.';
+                            for (int i = 0; i < matrix.GetLength(0); i++)
+                            {
+                                for (int j = 0; j < matrix.GetLength(1); j++)
+                                {
+                                    if (matrix[i, j] != 'T') continue;
+
+                                    matrix[i, j] = '.';
+                                    flag = true;
+                                    position[0] = i;
+                                    position[1] = j;
+                                    break;
+                                }
+
+                                if (flag)
+                                {
+                                    break;
+                                }
+                            }
+
+                            kmPassed += 20;
+                            break;
+                        }
+                    case 'F':
+                        won = true;
+                        break;
+                }
+
+                if (won)
+                {
+                    break;
+                }
+            }
+
+            Console.WriteLine(!won
+                ? $"Racing car {racingNumber} DNF."
+                : $"Racing car {racingNumber} finished the stage!");
+
+            Console.WriteLine($"Distance covered {kmPassed} km.");
+
+            matrix[position[0], position[1]] = 'C';
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Console.Write(matrix[i, j]);
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 }
