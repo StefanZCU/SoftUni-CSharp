@@ -60,43 +60,29 @@ namespace P02
                     case "Wild_Boar":
                         string direction = cmdArgs[3];
 
-                        boarTrufflesCollected += BoarTruffleChecker(row, col, matrix);
-                        matrix[row, col] = '-';
-
-                        switch (direction)
+                        while (IndexChecker(row, col, matrix))
                         {
-                            case "up":
-                                while (IndexChecker(row - 2, col, matrix))
-                                {
+                            if (BoarTruffleChecker(row, col, matrix))
+                            {
+                                boarTrufflesCollected++;
+                                matrix[row, col] = '-';
+                            }
+
+                            switch (direction)
+                            {
+                                case "up":
                                     row -= 2;
-                                    boarTrufflesCollected += BoarTruffleChecker(row, col, matrix);
-                                    matrix[row, col] = '-';
-                                }
-                                break;
-                            case "down":
-                                while (IndexChecker(row + 2, col, matrix))
-                                {
+                                    break;
+                                case "down":
                                     row += 2;
-                                    boarTrufflesCollected += BoarTruffleChecker(row, col, matrix);
-                                    matrix[row, col] = '-';
-                                }
-                                break;
-                            case "left":
-                                while (IndexChecker(row, col - 2, matrix))
-                                {
-                                    col -= 2;
-                                    boarTrufflesCollected += BoarTruffleChecker(row, col, matrix);
-                                    matrix[row, col] = '-';
-                                }
-                                break;
-                            case "right":
-                                while (IndexChecker(row, col + 2, matrix))
-                                {
+                                    break;
+                                case "right":
                                     col += 2;
-                                    boarTrufflesCollected += BoarTruffleChecker(row, col, matrix);
-                                    matrix[row, col] = '-';
-                                }
-                                break;
+                                    break;
+                                case "left":
+                                    col -= 2;
+                                    break;
+                            }
                         }
 
                         break;
@@ -122,24 +108,9 @@ namespace P02
             col >= 0 && col < matrix.GetLength(1);
         }
 
-        private static int BoarTruffleChecker(int row, int col, char[,] matrix)
+        private static bool BoarTruffleChecker(int row, int col, char[,] matrix)
         {
-            int collectedTruffles = 0;
-
-            switch (matrix[row, col])
-            {
-                case 'S':
-                    collectedTruffles++;
-                    break;
-                case 'B':
-                    collectedTruffles++;
-                    break;
-                case 'W':
-                    collectedTruffles++;
-                    break;
-            }
-
-            return collectedTruffles;
+            return matrix[row, col] != '-';
         }
     }
 }
