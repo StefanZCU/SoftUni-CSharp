@@ -62,7 +62,7 @@ namespace P02
 
                         while (IndexChecker(row, col, matrix))
                         {
-                            if (BoarTruffleChecker(row, col, matrix))
+                            if (matrix[row, col] != '-')
                             {
                                 boarTrufflesCollected++;
                                 matrix[row, col] = '-';
@@ -106,11 +106,6 @@ namespace P02
         {
             return row >= 0 && row < matrix.GetLength(0) &&
             col >= 0 && col < matrix.GetLength(1);
-        }
-
-        private static bool BoarTruffleChecker(int row, int col, char[,] matrix)
-        {
-            return matrix[row, col] != '-';
         }
     }
 }
