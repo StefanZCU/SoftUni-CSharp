@@ -9,6 +9,11 @@
     {
         private List<ISubject> models;
 
+        public SubjectRepository()
+        {
+            models = new List<ISubject>();
+        }
+
         public IReadOnlyCollection<ISubject> Models => models.AsReadOnly();
 
         public void AddModel(ISubject model)

@@ -9,6 +9,12 @@
     public class StudentRepository : IRepository<IStudent>
     {
         private List<IStudent> models;
+
+        public StudentRepository()
+        {
+            models = new List<IStudent>();
+        }
+
         public IReadOnlyCollection<IStudent> Models => models.AsReadOnly();
         public void AddModel(IStudent model)
         {
