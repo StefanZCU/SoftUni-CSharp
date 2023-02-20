@@ -41,8 +41,8 @@
             {
                 price = Size switch
                 {
-                    "Middle" => value * (2 / 3),
-                    "Small" => value * (1 / 3),
+                    "Middle" => (value / 3.0) * 2.0,
+                    "Small" => (value / 3.0),
                     _ => value
                 };
             }

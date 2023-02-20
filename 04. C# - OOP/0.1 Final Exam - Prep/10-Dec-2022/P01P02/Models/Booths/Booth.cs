@@ -1,4 +1,6 @@
-﻿namespace ChristmasPastryShop.Models.Booths
+﻿using ChristmasPastryShop.Repositories;
+
+namespace ChristmasPastryShop.Models.Booths
 {
     using System;
     using System.Text;
@@ -17,6 +19,8 @@
         {
             BoothId = boothId;
             Capacity = capacity;
+            DelicacyMenu = new DelicacyRepository();
+            CocktailMenu = new CocktailRepository();
         }
 
         public int BoothId { get; }
