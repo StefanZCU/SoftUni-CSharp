@@ -3,6 +3,7 @@
     using ChristmasPastryShop.Models.Cocktails.Contracts;
     using ChristmasPastryShop.Models.Delicacies.Contracts;
     using ChristmasPastryShop.Repositories.Contracts;
+
     public interface IBooth
     {
         public int BoothId { get; }
