@@ -138,15 +138,6 @@ namespace ChristmasPastryShop.Core
                 if (cocktail == null || cocktail.GetType().Name != itemTypeName)
                     return string.Format(OutputMessages.NotRecognizedItemName, cockTailSize, itemName);
 
-                if (cocktail is MulledWine)
-                {
-                    cocktail = new MulledWine(itemName, cockTailSize);
-                }
-                else
-                {
-                    cocktail = new Hibernation(itemName, cockTailSize);
-                }
-
                 booth.UpdateCurrentBill(cocktail.Price * orderPiecesCount);
                 return string.Format(OutputMessages.SuccessfullyOrdered, boothId, orderPiecesCount, itemName);
             }
@@ -155,16 +146,7 @@ namespace ChristmasPastryShop.Core
             var delicacy = booth.DelicacyMenu.Models.FirstOrDefault(x => x.Name == itemName);
             if (delicacy == null || delicacy.GetType().Name != itemTypeName)
                 return string.Format(OutputMessages.NotRecognizedItemName, itemTypeName, itemName);
-
-            if (delicacy is Gingerbread)
-            {
-                delicacy = new Gingerbread(itemName);
-            }
-            else
-            {
-                delicacy = new Stolen(itemName);
-            }
-
+            
             booth.UpdateCurrentBill(delicacy.Price * orderPiecesCount);
             return string.Format(OutputMessages.SuccessfullyOrdered, boothId, orderPiecesCount, itemName);
 
