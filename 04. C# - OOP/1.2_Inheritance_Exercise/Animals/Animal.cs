@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Animals
 {
-    public class Animal
+    public abstract class Animal
     {
         private string name;
         private int age;
@@ -50,7 +50,7 @@ namespace Animals
 
             private set
             {
-                if (string.IsNullOrEmpty(value) || value is not ("Male" or "Female"))
+                if (string.IsNullOrEmpty(value))
                 {
                     throw new Exception("Invalid input!");
                 }
@@ -59,10 +59,7 @@ namespace Animals
             }
         }
 
-        public virtual void ProduceSound()
-        {
-            Console.WriteLine();
-        }
+        public abstract string ProduceSound();
 
         public override string ToString()
         {

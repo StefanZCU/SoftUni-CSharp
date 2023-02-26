@@ -54,7 +54,7 @@ namespace Animals
             {
                 Console.WriteLine(animal.GetType().Name);
                 Console.WriteLine(animal);
-                animal.ProduceSound();
+                Console.WriteLine(animal.ProduceSound());
             }
         }
     }
