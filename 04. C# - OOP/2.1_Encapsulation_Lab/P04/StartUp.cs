@@ -1,6 +1,6 @@
-﻿namespace P04
+﻿namespace PersonsInfo
 {
-    internal class Program
+    public class StartUp
     {
         static void Main(string[] args)
         {
