@@ -72,7 +72,7 @@
                 .AppendLine($"*Armor thickness: {ArmorThickness}")
                 .AppendLine($"*Main weapon caliber: {MainWeaponCaliber}")
                 .AppendLine($"*Speed: {Speed} knots")
-                .AppendLine(Targets.Count <= 1 ? $"*Targets: {string.Join(", ", Targets)}" : "*Targets: None");
+                .AppendLine(Targets.Count > 0 ? $"*Targets: {string.Join(", ", Targets)}" : "*Targets: None");
 
             return sb.ToString().TrimEnd();
         }

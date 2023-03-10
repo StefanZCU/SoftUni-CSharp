@@ -1,8 +1,6 @@
-﻿using System.Linq;
-
-namespace NavalVessels.Repositories
+﻿namespace NavalVessels.Repositories
 {
-    using System;
+    using System.Linq;  
     using System.Collections.Generic;
 
     using Contracts;
