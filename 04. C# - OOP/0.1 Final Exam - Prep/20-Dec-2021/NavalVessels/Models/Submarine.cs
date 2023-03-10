@@ -39,7 +39,7 @@
             StringBuilder sb = new StringBuilder();
             sb
                 .AppendLine(base.ToString())
-                .AppendLine(SubmergeMode ? "*Submerge mode: ON" : "*Submerge mode: OFF");
+                .AppendLine(SubmergeMode ? " *Submerge mode: ON" : " *Submerge mode: OFF");
 
             return sb.ToString().TrimEnd();
         }

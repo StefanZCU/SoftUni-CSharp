@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NavalVessels.Models;
-using NavalVessels.Models.Contracts;
-using NavalVessels.Repositories;
-using NavalVessels.Utilities.Messages;
-
-namespace NavalVessels.Core
+﻿namespace NavalVessels.Core
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Models;
+    using NavalVessels.Models.Contracts;
+    using Repositories;
+    using Utilities.Messages;
     using Contracts;
 
     public class Controller : IController
@@ -83,7 +82,6 @@ namespace NavalVessels.Core
             vesselToFind.Captain = captainToFind;
 
             return string.Format(OutputMessages.SuccessfullyAssignCaptain, selectedCaptainName, selectedVesselName);
-
         }
 
         public string CaptainReport(string captainFullName)

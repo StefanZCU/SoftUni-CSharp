@@ -68,11 +68,11 @@
 
             sb
                 .AppendLine($"- {Name}")
-                .AppendLine($"*Type: {GetType().Name}")
-                .AppendLine($"*Armor thickness: {ArmorThickness}")
-                .AppendLine($"*Main weapon caliber: {MainWeaponCaliber}")
-                .AppendLine($"*Speed: {Speed} knots")
-                .AppendLine(Targets.Count > 0 ? $"*Targets: {string.Join(", ", Targets)}" : "*Targets: None");
+                .AppendLine($" *Type: {GetType().Name}")
+                .AppendLine($" *Armor thickness: {ArmorThickness}")
+                .AppendLine($" *Main weapon caliber: {MainWeaponCaliber}")
+                .AppendLine($" *Speed: {Speed} knots")
+                .AppendLine(Targets.Count > 0 ? $" *Targets: {string.Join(", ", Targets)}" : " *Targets: None");
 
             return sb.ToString().TrimEnd();
         }

@@ -38,7 +38,7 @@
             StringBuilder sb = new StringBuilder();
             sb
                 .AppendLine(base.ToString())
-                .AppendLine(SonarMode ? "*Sonar mode: ON" : "*Sonar mode: OFF");
+                .AppendLine(SonarMode ? " *Sonar mode: ON" : " *Sonar mode: OFF");
 
             return sb.ToString().TrimEnd();
         }
