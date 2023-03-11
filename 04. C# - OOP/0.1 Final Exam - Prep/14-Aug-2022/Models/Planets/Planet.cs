@@ -119,12 +119,12 @@
                 .AppendLine($"Planet: {Name}")
                 .AppendLine($"--Budget: {Budget} billion QUID")
                 .AppendLine(Army.Count > 0
-                    ? $"--Forces: {string.Join(", ", Army.GetType().Name)}"
+                    ? $"--Forces: {string.Join(", ", Army.Select(x => x.GetType().Name))}"
                     : "--Forces: No units")
                 .AppendLine(Weapons.Count > 0
-                    ? $"--Combat equipment: {string.Join(", ", Weapons.GetType().Name)}"
+                    ? $"--Combat equipment: {string.Join(", ", Weapons.Select(x => x.GetType().Name))}"
                     : "--Combat equipment: No weapons")
-                .AppendLine($"--Military power: {MilitaryPower}");
+                .AppendLine($"--Military Power: {MilitaryPower}");
 
             return sb.ToString().TrimEnd();
         }
