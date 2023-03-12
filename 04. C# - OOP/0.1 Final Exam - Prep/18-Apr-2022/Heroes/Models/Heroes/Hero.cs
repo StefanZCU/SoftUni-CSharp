@@ -69,23 +69,25 @@ namespace Heroes.Models.Heroes
         }
         public void TakeDamage(int points)
         {
-            if (!IsAlive) return;
             if (Armour - points <= 0)
             {
                 points -= Armour;
                 Armour = 0;
-                Health -= points;
+
+                if (Health - points <= 0)
+                {
+                    Health = 0;
+                }
+                else
+                {
+                    Health -= points;
+                }
             }
             else
             {
                 Armour -= points;
-                points = 0;
             }
 
-            if (Health - points <= 0)
-            {
-                Health = 0;
-            }
         }
     }
 }
