@@ -8,7 +8,10 @@
 
         public override int DoDamage()
         {
-            Durability--;
+            if (Durability > 0)
+            {
+                Durability--;
+            }
             return Durability == 0 ? 0 : 20;
         }
     }
