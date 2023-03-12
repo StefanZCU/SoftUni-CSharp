@@ -8,6 +8,10 @@ namespace Heroes.Models.Map
 {
     public class Map : IMap
     {
+        public Map()
+        {
+            
+        }
         public string Fight(ICollection<IHero> players)
         {
             var knights = players.Where(x => x.GetType().Name == nameof(Knight)).ToList();
