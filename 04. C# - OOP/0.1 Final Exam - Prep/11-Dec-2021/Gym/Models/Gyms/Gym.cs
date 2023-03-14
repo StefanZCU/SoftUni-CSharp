@@ -77,7 +77,7 @@ namespace Gym.Models.Gyms
                     ? $"Athletes: {string.Join(", ", Athletes.Select(x => x.FullName))}"
                     : "Athletes: No athletes")
                 .AppendLine($"Equipment total count: {Equipment.Count}")
-                .AppendLine($"Equipment total weight: {EquipmentWeight} grams");
+                .AppendLine($"Equipment total weight: {EquipmentWeight:F2} grams");
 
             return sb.ToString().TrimEnd();
         }
