@@ -1,7 +1,9 @@
 ﻿namespace SpaceStation.Models.Astronauts
 {
     using System;
+    using System.Text;
 
+    using Bags;
     using Contracts;
     using Utilities.Messages;
     using SpaceStation.Models.Bags.Contracts;
@@ -15,6 +17,7 @@
         {
             Name = name;
             Oxygen = oxygen;
+            Bag = new Backpack();
         }
 
         public string Name
@@ -50,6 +53,17 @@
             Oxygen = Oxygen - 10 < 0 
                 ? 0 
                 : Oxygen - 10;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb
+                .AppendLine($"Name: {Name}")
+                .AppendLine($"Oxygen: {Oxygen}")
+                .AppendLine(Bag.Items.Count > 0 ? $"Bag items: {string.Join(", ", Bag.Items)}" : "Bag items: none");
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
