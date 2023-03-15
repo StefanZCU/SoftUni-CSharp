@@ -1,19 +1,21 @@
 ﻿namespace SpaceStation.Models.Planets
 {
-    using System.Collections.Generic;
     using System;
+    using System.Linq;
+    using System.Collections.Generic;
 
-    using Utilities.Messages;
     using Contracts;
+    using Utilities.Messages;
 
     public class Planet : IPlanet
     {
         private string name;
+        private List<string> items;
 
         public Planet(string name)
         {
             Name = name;
-            Items = new List<string>();
+            items = new List<string>();
         }
 
         public string Name
@@ -29,6 +31,10 @@
             }
         }
 
-        public ICollection<string> Items { get; }
+        public ICollection<string> Items
+        {
+            get => items;
+            set => items = value.ToList();
+        }
     }
 }
