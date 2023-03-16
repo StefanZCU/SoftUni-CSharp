@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-
-namespace Easter.Models.Bunnies
+﻿namespace Easter.Models.Bunnies
 {
     using System;
+    using System.Linq;
     using System.Text;
     using System.Collections.Generic;
 
