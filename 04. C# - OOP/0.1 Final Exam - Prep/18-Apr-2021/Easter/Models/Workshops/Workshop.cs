@@ -3,8 +3,8 @@
     using System.Linq;
 
     using Contracts;
-    using Easter.Models.Bunnies.Contracts;
     using Easter.Models.Eggs.Contracts;
+    using Easter.Models.Bunnies.Contracts;
 
     public class Workshop : IWorkshop
     {
