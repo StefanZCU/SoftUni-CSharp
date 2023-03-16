@@ -1,6 +1,10 @@
-﻿namespace Easter.Models.Bunnies
+﻿using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+
+namespace Easter.Models.Bunnies
 {
     using System;
+    using System.Text;
     using System.Collections.Generic;
 
     using Contracts;
@@ -39,6 +43,18 @@
         public void AddDye(IDye dye)
         {
             dyes.Add(dye);
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb
+                .AppendLine($"Name: {Name}")
+                .AppendLine($"Energy: {Energy}")
+                .AppendLine($"Dyes: {Dyes.Count(x => !x.IsFinished())} not finished");
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
