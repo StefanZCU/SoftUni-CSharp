@@ -9,14 +9,17 @@
             for (int i = 0; i < lines; i++)
             {
                 var cmdArgs = Console.ReadLine().Split();
-                var person = new Person(cmdArgs[0], cmdArgs[1], int.Parse(cmdArgs[2]));
+                var person = new Person(cmdArgs[0],
+                    cmdArgs[1],
+                    int.Parse(cmdArgs[2]),
+                    decimal.Parse(cmdArgs[3]));
+
                 persons.Add(person);
             }
+            var parcentage = decimal.Parse(Console.ReadLine());
+            persons.ForEach(p => p.IncreaseSalary(parcentage));
+            persons.ForEach(p => Console.WriteLine(p.ToString()));
 
-            persons.OrderBy(p => p.FirstName)
-                .ThenBy(p => p.Age)
-                .ToList()
-                .ForEach(p => Console.WriteLine(p.ToString()));
 
         }
     }
