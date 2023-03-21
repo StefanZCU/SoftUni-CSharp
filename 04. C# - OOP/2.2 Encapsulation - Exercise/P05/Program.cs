@@ -10,33 +10,33 @@
 
             while ((input = Console.ReadLine()) != "END")
             {
-                string[] tokens = input.Split(";");
+                string[] cmdArgs = input.Split(";");
 
-                string command = tokens[0];
+                string command = cmdArgs[0];
 
                 try
                 {
                     switch (command)
                     {
                         case "Team":
-                            AddTeam(tokens[1], teams);
+                            AddTeam(cmdArgs[1], teams);
                             break;
                         case "Add":
                             AddPlayer(
-                                tokens[1],
-                                tokens[2],
-                                int.Parse(tokens[3]),
-                                int.Parse(tokens[4]),
-                                int.Parse(tokens[5]),
-                                int.Parse(tokens[6]),
-                                int.Parse(tokens[7]),
+                                cmdArgs[1],
+                                cmdArgs[2],
+                                int.Parse(cmdArgs[3]),
+                                int.Parse(cmdArgs[4]),
+                                int.Parse(cmdArgs[5]),
+                                int.Parse(cmdArgs[6]),
+                                int.Parse(cmdArgs[7]),
                                 teams);
                             break;
                         case "Remove":
-                            RemovePlayer(tokens[1], tokens[2], teams);
+                            RemovePlayer(cmdArgs[1], cmdArgs[2], teams);
                             break;
                         case "Rating":
-                            PrintRating(tokens[1], teams);
+                            PrintRating(cmdArgs[1], teams);
                             break;
                     }
 
