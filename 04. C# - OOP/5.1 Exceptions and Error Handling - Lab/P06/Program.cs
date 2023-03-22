@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace P06
+﻿namespace P06
 {
     internal class Program
     {
