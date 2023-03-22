@@ -1,10 +1,9 @@
-﻿using Vehicles.Core.Interfaces;
-using Vehicles.IO.Interfaces;
-using Vehicles.Models;
-using Vehicles.Models.Interfaces;
-
-namespace Vehicles.Core
+﻿namespace Vehicles.Core
 {
+    using Models;
+    using Interfaces;
+    using Vehicles.IO.Interfaces;
+
     public class Engine : IEngine
     {
         private readonly IReader reader;
