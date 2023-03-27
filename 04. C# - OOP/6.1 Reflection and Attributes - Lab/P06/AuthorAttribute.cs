@@ -5,7 +5,7 @@
     {
         public AuthorAttribute(string name)
         {
-            Name = name;
+            this.Name = name;
         }
 
         public string Name { get; set; }
