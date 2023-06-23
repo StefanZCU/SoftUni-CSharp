@@ -8,13 +8,12 @@
 <br/>
 <br/>
 
-<h2> Certificates </h2>
+<h2 align="center"> Certificates </h2>
 
-<table>
+<table align="center">
 
 <tr>
   <th> C# </th>
-  <th> JS Front-End </th>
 </tr>
 
 <tr>
@@ -28,12 +27,6 @@
 | <a href="https://softuni.bg/trainings/3958/csharp-oop-february-2023" > C# OOP </a>                                                 | <a href="https://softuni.bg/certificates/details/168717/dfbed5da"> Link</a> |
 
 </td>
-<td>
-
-| **Course**                                                                                  | **Link**                                                                    |
-| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| <a href="https://softuni.bg/trainings/4114/html-and-css-may-2023"> HTML & CSS </a>          | <a href="https://softuni.bg/certificates/details/174854/6424f863"> Link </a> |
-| <a href="https://softuni.bg/trainings/2840/js-applications-june-2020"> JS Front-End </a>    | <a href="https://softuni.bg/certificates/details/86804/39c858a7"> Link </a> |
-
-</td>
 </tr>
+
+</table>
