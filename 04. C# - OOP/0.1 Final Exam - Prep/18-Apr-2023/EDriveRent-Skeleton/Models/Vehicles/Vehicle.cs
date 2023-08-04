@@ -10,7 +10,7 @@ public abstract class Vehicle : IVehicle
     private string brand;
     private string model;
     private string licensePlateNumber;
-
+    
     protected Vehicle(string brand, string model, double maxMileage, string licensePlateNumber)
     {
         Brand = brand;
@@ -70,9 +70,9 @@ public abstract class Vehicle : IVehicle
 
     public void Drive(double mileage)
     {
-        BatteryLevel -= (int)Math.Round((mileage / MaxMileage) * 100);
+        BatteryLevel -= (int)Math.Round(mileage / MaxMileage * 100);
 
-        if (this.GetType() == typeof(CargoVan))
+        if (GetType().Name == nameof(CargoVan))
         {
             BatteryLevel -= 5;
         }

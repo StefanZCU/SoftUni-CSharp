@@ -10,6 +10,12 @@ public class User : IUser
     private string firstName;
     private string lastName;
     private string drivingLicenseNumber;
+    public User(string firstName, string lastName, string drivingLicenseNumber)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        DrivingLicenseNumber = drivingLicenseNumber;
+    }
 
     public string FirstName
     {
@@ -59,12 +65,6 @@ public class User : IUser
     public double Rating { get; private set; }
     public bool IsBlocked { get; private set; }
 
-    public User(string firstName, string lastName, string drivingLicenseNumber)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        DrivingLicenseNumber = drivingLicenseNumber;
-    }
 
     public void IncreaseRating()
     {

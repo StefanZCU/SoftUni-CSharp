@@ -23,7 +23,7 @@ public class Controller : IController
             return string.Format(OutputMessages.UserWithSameLicenseAlreadyAdded, drivingLicenseNumber);
         }
 
-        var newUser = new User(firstName, lastName, drivingLicenseNumber);
+        IUser newUser = new User(firstName, lastName, drivingLicenseNumber);
         users.AddModel(newUser);
 
         return string.Format(OutputMessages.UserSuccessfullyAdded, firstName, lastName, drivingLicenseNumber);
@@ -54,28 +54,30 @@ public class Controller : IController
 
     public string AllowRoute(string startPoint, string endPoint, double length)
     {
-        if (routes.GetAll()
-                .FirstOrDefault(x => x.StartPoint == startPoint && x.EndPoint == endPoint && x.Length == length) !=
-            null)
+        int routeId = this.routes.GetAll().Count + 1;
+
+        IRoute existingRoute = this.routes
+            .GetAll()
+            .FirstOrDefault(r => r.StartPoint == startPoint && r.EndPoint == endPoint);
+                        
+        if (existingRoute != null)
         {
-            return string.Format(OutputMessages.RouteExisting, startPoint, endPoint, length);
+            if (existingRoute.Length == length)
+            {
+                return string.Format(OutputMessages.RouteExisting, startPoint, endPoint, length);
+            }
+            else if(existingRoute.Length < length)
+            {
+                return string.Format(OutputMessages.RouteIsTooLong, startPoint, endPoint);
+            }
+            else if (existingRoute.Length > length)
+            {
+                existingRoute.LockRoute();
+            }
         }
+        IRoute newRoute = new Route(startPoint, endPoint, length, routeId);
+        this.routes.AddModel(newRoute);
 
-        var roadToFind = routes.GetAll().FirstOrDefault(x => x.StartPoint == startPoint && x.EndPoint == endPoint);
-
-        if (roadToFind != null && roadToFind.Length < length)
-        {
-            return string.Format(OutputMessages.RouteIsTooLong, startPoint, endPoint);
-        }
-
-        if (roadToFind != null  && roadToFind.Length > length)
-        {
-            roadToFind.LockRoute();
-            return string.Format(OutputMessages.NewRouteAdded, startPoint, endPoint, length);
-        }
-
-        var route = new Route(startPoint, endPoint, length, routes.GetAll().Count + 1);
-        routes.AddModel(route);
         return string.Format(OutputMessages.NewRouteAdded, startPoint, endPoint, length);
     }
 
@@ -119,16 +121,21 @@ public class Controller : IController
 
     public string RepairVehicles(int count)
     {
-        var damagedVehicles = vehicles.GetAll().Where(x => x.IsDamaged).OrderBy(x => x.Brand).ThenBy(x => x.Model).Take(count).ToList();
+        var damagedVehicles = this.vehicles.GetAll().Where(v => v.IsDamaged == true).OrderBy(v => v.Brand).ThenBy(v => v.Model);
 
-        foreach (var vehicle in damagedVehicles)
+        int vehiclesCount = 0;
+
+        vehiclesCount = damagedVehicles.Count() < count ? damagedVehicles.Count() : count;
+
+        var selectedVehicles = damagedVehicles.ToArray().Take(vehiclesCount);
+
+        foreach (var vehicle in selectedVehicles)
         {
-            vehicle.Recharge();
             vehicle.ChangeStatus();
+            vehicle.Recharge();
         }
 
-        return string.Format(OutputMessages.RepairedVehicles, damagedVehicles.Count);
-        
+        return string.Format(OutputMessages.RepairedVehicles, vehiclesCount);
     }
 
     public string UsersReport()
