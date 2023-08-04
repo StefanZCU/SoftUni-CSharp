@@ -90,6 +90,6 @@ public abstract class Vehicle : IVehicle
 
     public override string ToString()
     {
-        return $"{Brand} {Model} License plate: {LicensePlateNumber} Battery: {BatteryLevel}% Status: OK/damaged";
+        return $"{Brand} {Model} License plate: {LicensePlateNumber} Battery: {BatteryLevel}% Status: ${(IsDamaged ? "damaged" : "OK")}";
     }
 }
