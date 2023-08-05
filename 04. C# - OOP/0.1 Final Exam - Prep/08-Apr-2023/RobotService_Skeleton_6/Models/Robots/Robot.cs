@@ -60,12 +60,9 @@ public abstract class Robot : IRobot
     {
         for (int i = 1; i <= minutes; i++)
         {
-            BatteryLevel += ConvertionCapacityIndex * minutes;
-
-            if (BatteryLevel < BatteryCapacity) continue;
+            if (BatteryLevel + ConvertionCapacityIndex * minutes >= BatteryCapacity) return;
             
-            BatteryLevel = batteryCapacity;
-            return;
+            BatteryLevel += ConvertionCapacityIndex * minutes;
         }
     }
 
@@ -94,7 +91,7 @@ public abstract class Robot : IRobot
             .AppendLine($"{GetType().Name} {Model}:")
             .AppendLine($"--Maximum battery capacity: {BatteryCapacity}")
             .AppendLine($"--Current battery level: {BatteryLevel}")
-            .AppendLine($"--Supplements installed: {(interfaceStandards.Any() ? string.Join(", ", interfaceStandards) : "none")}");
+            .AppendLine($"--Supplements installed: {(interfaceStandards.Any() ? string.Join(" ", interfaceStandards) : "none")}");
 
         return sb.ToString().TrimEnd();
     }
