@@ -1,9 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using RobotService.Models.Contracts;
-using RobotService.Repositories.Contracts;
-
 namespace RobotService.Repositories;
+
+using System.Linq;
+using System.Collections.Generic;
+
+using Contracts;
+using RobotService.Models.Contracts;
 
 public class RobotRepository : IRepository<IRobot>
 {
