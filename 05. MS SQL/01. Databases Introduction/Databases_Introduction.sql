@@ -446,6 +446,40 @@ VALUES
 
 -- 16. Create SoftUni Database
 
+CREATE DATABASE [SoftUni]
+GO
 
+USE [SoftUni]
+GO
 
+CREATE TABLE [Towns]
+(
+    [Id] INT IDENTITY(1, 1) PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL
+)
 
+CREATE TABLE [Addresses]
+(
+    [Id] INT IDENTITY(1, 1) PRIMARY KEY,
+    [AddressText] NVARCHAR(200) NOT NULL,
+    [TownId] INT FOREIGN Key REFERENCES [Towns]([Id]) NOT NULL
+)
+
+CREATE TABLE [Departments]
+(
+    [Id] INT IDENTITY(1, 1) PRIMARY KEY,
+    [Name] NVARCHAR(100) NOT NULL
+)
+
+CREATE TABLE [Employees]
+(
+    [Id] INT IDENTITY(1, 1) PRIMARY KEY,
+    [FirstName] NVARCHAR(50) NOT NULL,
+    [MiddleName] NVARCHAR(50) NOT NULL,
+    [LastName] NVARCHAR(50) NOT NULL,
+    [JobTitle] NVARCHAR(100) NOT NULL,
+    [DepartmentId] INT FOREIGN KEY REFERENCES [Departments]([Id]) NOT NULL,
+    [HireDate] DATETIME2 NOT NULL,
+    [Salary] DECIMAL(18, 2) NOT NULL,
+    [AddressId] INT FOREIGN KEY REFERENCES [Addresses]([Id])
+)
