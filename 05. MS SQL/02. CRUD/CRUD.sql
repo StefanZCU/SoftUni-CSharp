@@ -103,3 +103,11 @@ SELECT
     ,[LastName]
     ,[Salary]
 FROM [Employees]
+
+-- 17. Create View Employees with Job Titles
+
+CREATE VIEW [V_EmployeeNameJobTitle] AS
+SELECT
+    CONCAT([FirstName], ' ', ISNULL([MiddleName], ''), ' ', [LastName]) AS [Full Name]
+    ,[JobTitle]
+FROM [Employees]
