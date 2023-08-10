@@ -11,3 +11,7 @@ SELECT [Name] FROM [Departments]
 -- 04. Find Salary of Each Employee
 
 SELECT [FirstName], [LastName], [Salary] FROM [Employees]
+
+-- 05. Find Full Name of Each Employee
+
+SELECT [FirstName], [MiddleName], [LastName] FROM [Employees]
