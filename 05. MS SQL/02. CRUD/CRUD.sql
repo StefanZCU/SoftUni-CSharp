@@ -27,3 +27,8 @@ FROM [Employees]
 SELECT DISTINCT
     [Salary] AS 'Salary'
 FROM [Employees]
+
+-- 08. Find all Information About Employees
+
+SELECT * FROM [Employees]
+WHERE [JobTitle] = 'Sales Representative'
