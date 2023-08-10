@@ -144,4 +144,7 @@ SELECT [Salary] FROM [Employees]
 UPDATE [Employees]
 SET [Salary] /= 1.12
 
+-- 22. All Mountain Peaks
 
+SELECT [PeakName] FROM [Peaks]
+ORDER BY [PeakName]
