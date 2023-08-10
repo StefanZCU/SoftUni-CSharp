@@ -111,3 +111,8 @@ SELECT
     CONCAT([FirstName], ' ', ISNULL([MiddleName], ''), ' ', [LastName]) AS [Full Name]
     ,[JobTitle]
 FROM [Employees]
+
+-- 18. Distinct Job Titles
+
+SELECT DISTINCT [JobTitle]
+FROM [Employees]
