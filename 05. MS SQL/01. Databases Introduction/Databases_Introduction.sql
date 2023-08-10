@@ -535,3 +535,10 @@ SELECT [Name] FROM [Departments] ORDER BY [Name];
 
 SELECT [FirstName], [LastName], [JobTitle], [Salary] FROM [Employees] ORDER BY [Salary] DESC;
 
+-- 22. Increase Employees Salary
+
+UPDATE [Employees]
+SET [Salary] = [Salary] * 1.1
+
+SELECT [Salary] FROM [Employees]
+
