@@ -148,3 +148,13 @@ SET [Salary] /= 1.12
 
 SELECT [PeakName] FROM [Peaks]
 ORDER BY [PeakName]
+
+-- 23. Biggest Countries by Population
+
+SELECT TOP 30
+    [CountryName]
+    ,[Population]
+FROM [Countries]
+WHERE [ContinentCode] = 'EU'
+ORDER BY [Population] DESC, [CountryName]
+
