@@ -54,3 +54,12 @@ WHERE
     OR [Salary] = 14000
     OR [Salary] = 12500
     OR [Salary] = 23600
+
+
+-- 11. Find All Employees Without Manager
+
+SELECT
+    [FirstName]
+    , [LastName]
+FROM [Employees]
+WHERE [ManagerID] IS NULL
