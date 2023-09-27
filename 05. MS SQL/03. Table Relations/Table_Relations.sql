@@ -178,3 +178,12 @@ CREATE TABLE [Payments](
 	[StudentID] INT FOREIGN KEY REFERENCES [Students](StudentID) NOT NULL
 )
 
+-- 09. Peaks in Rila
+
+SELECT mountains.MountainRange, peaks.PeakName, peaks.Elevation
+FROM [Peaks] AS peaks
+JOIN [Mountains] AS mountains
+ON peaks.MountainId = mountains.Id
+WHERE mountains.MountainRange = 'Rila'
+ORDER BY peaks.Elevation DESC
+
