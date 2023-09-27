@@ -145,3 +145,36 @@ CREATE TABLE [OrderItems](
     CONSTRAINT PK_OrderItems PRIMARY KEY (OrderID, ItemID)
 )
 
+-- 06. University Database
+
+CREATE TABLE [Majors](
+    [MajorID] INT PRIMARY KEY IDENTITY(1, 1),
+    [Name] VARCHAR(20) NOT NULL
+)
+
+CREATE TABLE [Subjects](
+    [SubjectID] INT PRIMARY KEY IDENTITY(1, 1),
+    [SubjectName] VARCHAR(20) NOT NULL
+)
+
+CREATE TABLE [Students](
+    [StudentID] INT PRIMARY KEY IDENTITY(1, 1),
+    [StudentNumber] INT NOT NULL,
+    [StudentName] VARCHAR(20) NOT NULL,
+    [MajorID] INT FOREIGN KEY REFERENCES Majors(MajorID) NOT NULL
+)
+
+CREATE TABLE [Agenda](
+    [StudentID] INT FOREIGN KEY REFERENCES Students(StudentID) NOT NULL,
+    [SubjectID] INT FOREIGN KEY REFERENCES Subjects(SubjectID) NOT NULL,
+    CONSTRAINT PK_Agenda PRIMARY KEY (StudentID, SubjectID)
+)
+
+CREATE TABLE [Payments](
+
+	[PaymentID] INT PRIMARY KEY NOT NULL,
+	[PaymentDate] DATE NOT NULL,
+	[PaymentAmount] DECIMAL(6, 2) NOT NULL,
+	[StudentID] INT FOREIGN KEY REFERENCES [Students](StudentID) NOT NULL
+)
+
