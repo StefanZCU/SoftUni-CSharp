@@ -99,3 +99,9 @@ GO
 SELECT [Name], FORMAT([Start], 'yyyy-MM-dd') FROM Games
 WHERE YEAR(Start) BETWEEN 2011 AND 2012
 ORDER BY [Start], [Name]
+
+-- 15. User Email Providers
+
+SELECT [Username], SUBSTRING([Email], CHARINDEX('@', [Email]) + 1, LEN([Email]) - CHARINDEX('@', [Email])) AS [Email Provider]
+FROM Users
+ORDER BY [Email Provider], [Username]
