@@ -13,3 +13,8 @@ WHERE [LastName] LIKE '%ei%';
 SELECT [FirstName] FROM Employees
 WHERE [DepartmentID] = 3 OR [DepartmentID] = 10
 AND YEAR(HireDate) BETWEEN 1995 AND 2005;
+
+-- 04. Find All Employees Except Engineers
+
+SELECT [FirstName], [LastName] FROM Employees
+WHERE [JobTitle] NOT LIKE '%engineer%';
