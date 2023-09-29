@@ -89,3 +89,13 @@ SELECT [PeakName],  [RiverName],
 FROM [Peaks], [Rivers]
 WHERE RIGHT([PeakName], 1) = LEFT([RiverName], 1)
 ORDER BY [Mix]
+
+-- 14. Games From 2011 and 2012 Year
+
+USE Diablo
+
+GO
+
+SELECT [Name], FORMAT([Start], 'yyyy-MM-dd') FROM Games
+WHERE YEAR(Start) BETWEEN 2011 AND 2012
+ORDER BY [Start], [Name]
