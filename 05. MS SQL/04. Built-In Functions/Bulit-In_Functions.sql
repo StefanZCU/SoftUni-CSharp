@@ -18,3 +18,9 @@ AND YEAR(HireDate) BETWEEN 1995 AND 2005;
 
 SELECT [FirstName], [LastName] FROM Employees
 WHERE [JobTitle] NOT LIKE '%engineer%';
+
+-- 05. Find Towns with Name Length
+
+SELECT [Name] FROM Towns
+WHERE LEN([Name]) = 5 OR LEN([Name]) = 6
+ORDER BY [Name]
