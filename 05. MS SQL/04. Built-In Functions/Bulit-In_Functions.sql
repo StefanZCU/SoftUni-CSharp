@@ -24,3 +24,9 @@ WHERE [JobTitle] NOT LIKE '%engineer%';
 SELECT [Name] FROM Towns
 WHERE LEN([Name]) = 5 OR LEN([Name]) = 6
 ORDER BY [Name]
+
+-- 06. Find Towns Starting With
+
+SELECT * FROM Towns
+WHERE [Name] LIKE '[MKBE]%'
+ORDER BY [Name]
