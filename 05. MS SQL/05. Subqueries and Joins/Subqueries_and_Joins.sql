@@ -6,5 +6,6 @@ SELECT TOP 5
     , a.AddressID
     , a.AddressText
 FROM
-    Employees as e JOIN Addresses AS a ON e.AddressID = a.AddressID
+    Employees AS e JOIN Addresses AS a ON e.AddressID = a.AddressID
 ORDER BY a.AddressID
+
