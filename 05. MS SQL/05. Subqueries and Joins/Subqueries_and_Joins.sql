@@ -14,7 +14,7 @@ ORDER BY a.AddressID
 SELECT TOP 50
     e.FirstName
     , e.LastName
-    , t.[Name]
+    , t.[Name] AS Town
     , a.AddressText
 FROM
     Employees AS e
