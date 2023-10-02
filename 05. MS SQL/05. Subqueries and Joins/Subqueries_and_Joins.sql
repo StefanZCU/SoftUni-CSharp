@@ -148,3 +148,12 @@ FROM
     JOIN Mountains AS m ON p.MountainId = m.Id
 WHERE mc.CountryCode = 'BG' AND p.Elevation > 2835
 ORDER BY p.Elevation DESC
+
+-- 13. Count Mountain Ranges
+
+SELECT
+    mc.CountryCode,
+    COUNT(mc.CountryCode)
+FROM MountainsCountries as mc
+WHERE mc.CountryCode IN ('BG', 'RU', 'US')
+GROUP BY mc.CountryCode
