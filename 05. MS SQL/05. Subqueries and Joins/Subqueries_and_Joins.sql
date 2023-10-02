@@ -194,6 +194,14 @@ FROM
 WHERE r.CurrencyRank = 1
 ORDER BY r.ContinentCode
 
+-- 16. Countries Without any Mountains
+
+SELECT
+    COUNT(c.CountryCode) AS Count
+FROM
+    Countries AS c
+    LEFT JOIN MountainsCountries AS mc ON c.CountryCode = mc.CountryCode
+WHERE mc.CountryCode IS NULL
 
 
 
