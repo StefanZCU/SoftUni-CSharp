@@ -152,6 +152,7 @@ FROM TemporaryTable
 GROUP BY DepartmentID
 
 -- 16. Employees Maximum Salaries
+
 SELECT
     *
 FROM(
@@ -161,3 +162,10 @@ SELECT
 FROM Employees
 GROUP BY DepartmentID) AS dt
 WHERE dt.MaxSalary > 70000 OR dt.MaxSalary < 30000
+
+-- 17. Employees Count Salaries
+
+SELECT
+    COUNT(SALARY) AS [Count]
+FROM Employees
+WHERE ManagerID IS NULL
