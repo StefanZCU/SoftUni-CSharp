@@ -82,3 +82,12 @@ FROM
 FROM WizzardDeposits
     ) AS w
 GROUP BY [AgeGroup]
+
+-- 10. First Letter
+
+SELECT
+    SUBSTRING(FirstName, 1, 1) AS [FirstLetter]
+FROM WizzardDeposits
+WHERE DepositGroup = 'Troll Chest'
+GROUP BY SUBSTRING(FirstName, 1, 1)
+ORDER BY FirstLetter
