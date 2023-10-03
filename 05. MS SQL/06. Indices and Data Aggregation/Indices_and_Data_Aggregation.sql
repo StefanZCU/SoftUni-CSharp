@@ -150,3 +150,14 @@ SELECT
     , AVG(Salary) AS [AverageSalary]
 FROM TemporaryTable
 GROUP BY DepartmentID
+
+-- 16. Employees Maximum Salaries
+SELECT
+    *
+FROM(
+SELECT
+    DepartmentID
+    , MAX(Salary) AS [MaxSalary]
+FROM Employees
+GROUP BY DepartmentID) AS dt
+WHERE dt.MaxSalary > 70000 OR dt.MaxSalary < 30000
