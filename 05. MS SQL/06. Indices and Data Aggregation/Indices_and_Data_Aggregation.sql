@@ -36,7 +36,7 @@ GROUP BY DepositGroup
 
 SELECT
     DepositGroup
-    , SUM(DepositAmount)
+    , SUM(DepositAmount) AS [TotalSum]
 FROM WizzardDeposits
 WHERE MagicWandCreator = 'Ollivander family'
 GROUP BY DepositGroup
