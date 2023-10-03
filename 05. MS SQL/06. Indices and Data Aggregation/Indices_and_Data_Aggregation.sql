@@ -131,3 +131,22 @@ WHERE DepartmentID IN (2, 5, 7)
   AND HireDate > '2000-01-01'
 GROUP BY DepartmentID
 
+-- 15. Employees Average Salaries
+
+SELECT * INTO [TemporaryTable]
+FROM Employees
+WHERE Salary > 30000
+
+DELETE
+FROM [TemporaryTable]
+WHERE ManagerID = 42
+
+UPDATE [TemporaryTable]
+SET Salary += 5000
+WHERE DepartmentID = 1
+
+SELECT
+    DepartmentID
+    , AVG(Salary) AS [AverageSalary]
+FROM TemporaryTable
+GROUP BY DepartmentID
