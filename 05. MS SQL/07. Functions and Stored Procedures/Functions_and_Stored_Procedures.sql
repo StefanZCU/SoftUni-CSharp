@@ -159,3 +159,26 @@ BEGIN
 END
 
 EXEC [dbo].usp_GetHoldersFullName
+
+-- 10. People with Balance Higher Than
+
+CREATE PROC [usp_GetHoldersWithBalanceHigherThan] @salary DECIMAL(18,4)
+AS
+BEGIN
+    SELECT
+		a.[FirstName] AS [First Name],
+		a.[LastName] AS [Last Name]
+	FROM [AccountHolders] AS [a]
+	JOIN
+	(
+		SELECT
+			[AccountHolderId],
+			SUM(Balance) AS [TotalMoney]
+		FROM [Accounts]
+		GROUP BY [AccountHolderId]
+	) AS [acc] ON a.[Id] = acc.[AccountHolderId]
+	WHERE acc.[TotalMoney] > @salary
+	ORDER BY a.[FirstName], a.[LastName]
+END
+
+EXEC [dbo].[usp_GetHoldersWithBalanceHigherThan] 55555
