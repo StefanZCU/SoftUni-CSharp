@@ -98,3 +98,11 @@ WHERE Name LIKE '%CO%'
 DELETE FROM ProductsClients WHERE ClientId = 11
 DELETE FROM Invoices WHERE ClientId = 11
 DELETE FROM Clients WHERE NumberVAT LIKE 'IT%'
+
+-- 05. Invoices by Amount and Date
+
+SELECT
+    Number
+    , Currency
+FROM Invoices
+ORDER BY Amount DESC, DueDate
