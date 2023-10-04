@@ -38,3 +38,19 @@ BEGIN
 end
 
 EXEC [dbo].[usp_GetTownsStartingWith] 'b'
+
+-- 04. Employees from Town
+
+CREATE PROC [usp_GetEmployeesFromTown] @townName VARCHAR(50)
+AS
+BEGIN
+    SELECT
+        e.FirstName
+        , e.LastName
+    FROM Employees AS e
+    JOIN Addresses AS a ON e.AddressID = a.AddressID
+    JOIN Towns AS t ON a.TownID = t.TownID
+    WHERE t.Name = @townName
+end
+
+EXEC [dbo].[usp_GetEmployeesFromTown] 'Sofia'
