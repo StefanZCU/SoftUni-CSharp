@@ -118,3 +118,17 @@ FROM Products AS p
 JOIN Categories AS c on c.Id = p.CategoryId
 WHERE c.Name IN ('Others', 'ADR')
 ORDER BY p.Price DESC
+
+-- 07. Clients without Products
+
+SELECT
+    c.Id AS [Id]
+    , c.Name AS [Client]
+    , CONCAT(a.StreetName, ' ', a.StreetNumber, ', ', a.City, ', ', a.PostCode, ', ', c2.Name) AS [Address]
+FROM
+    Clients AS c
+    LEFT JOIN ProductsClients AS pc ON c.Id = pc.ClientId
+    JOIN Addresses AS a ON c.AddressId = a.Id
+    Join Countries AS c2 ON a.CountryId = c2.Id
+WHERE pc.ProductId IS NULL
+ORDER BY c.Name
