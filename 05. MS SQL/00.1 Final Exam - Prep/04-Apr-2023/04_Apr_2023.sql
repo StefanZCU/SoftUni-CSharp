@@ -82,3 +82,13 @@ VALUES
     (1219992181, '2023-03-01', '2023-04-30', 180.96, 'BGN', 3),
     (1729252340, '2022-11-06', '2023-01-04', 158.18, 'EUR', 13),
     (1950101013, '2023-02-17', '2023-04-18', 615.15, 'USD', 19)
+
+-- 03. Update
+
+UPDATE Invoices
+SET DueDate = '2023-04-01'
+WHERE YEAR(IssueDate) = 2022 AND MONTH(IssueDate) = 11
+
+UPDATE Clients
+SET AddressId = 3
+WHERE Name LIKE '%CO%'
