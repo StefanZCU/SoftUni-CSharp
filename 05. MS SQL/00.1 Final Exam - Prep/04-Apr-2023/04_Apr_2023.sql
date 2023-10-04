@@ -106,3 +106,15 @@ SELECT
     , Currency
 FROM Invoices
 ORDER BY Amount DESC, DueDate
+
+-- 06. Products by Category
+
+SELECT
+    p.Id
+    , p.Name
+    , p.Price
+    , c.Name AS [CategoryName]
+FROM Products AS p
+JOIN Categories AS c on c.Id = p.CategoryId
+WHERE c.Name IN ('Others', 'ADR')
+ORDER BY p.Price DESC
