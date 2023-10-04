@@ -92,3 +92,9 @@ WHERE YEAR(IssueDate) = 2022 AND MONTH(IssueDate) = 11
 UPDATE Clients
 SET AddressId = 3
 WHERE Name LIKE '%CO%'
+
+-- 04. Delete
+
+DELETE FROM ProductsClients WHERE ClientId = 11
+DELETE FROM Invoices WHERE ClientId = 11
+DELETE FROM Clients WHERE NumberVAT LIKE 'IT%'
