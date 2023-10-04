@@ -83,3 +83,26 @@ end
 
 EXEC [dbo].[usp_EmployeesBySalaryLevel] 'High'
 
+-- 07. Define Function
+
+CREATE FUNCTION [ufn_IsWordComprised](@setOfLetters VARCHAR(20), @word VARCHAR(20))
+RETURNS VARCHAR(5)
+BEGIN
+        DECLARE @wordIndex INT = 1;
+        WHILE (@wordIndex <= LEN(@word))
+        BEGIN
+            DECLARE @currentChar CHAR = SUBSTRING(@word, @wordIndex, 1);
+
+            IF CHARINDEX(@currentChar, @setOfLetters) = 0
+            BEGIN
+                RETURN 0;
+            END
+
+            SET @wordIndex += 1;
+        END
+
+        RETURN 1;
+END
+
+SELECT [dbo].[ufn_IsWordComprised]('ostmiafh', 'Sofia')
+
