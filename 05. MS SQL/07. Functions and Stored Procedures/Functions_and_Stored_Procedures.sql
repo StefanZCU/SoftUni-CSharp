@@ -25,3 +25,16 @@ BEGIN
 end
 
 EXEC [dbo].[usp_GetEmployeesSalaryAboveNumber] 48100
+
+-- 03. Town Names Starting With
+
+CREATE PROC [usp_GetTownsStartingWith] @startsWithString VARCHAR(10)
+AS
+BEGIN
+    SELECT
+        Name AS [Town]
+    FROM Towns
+    WHERE UPPER(SUBSTRING(Name, 1, LEN(@startsWithString))) = UPPER(@startsWithString)
+end
+
+EXEC [dbo].[usp_GetTownsStartingWith] 'b'
