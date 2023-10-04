@@ -192,5 +192,23 @@ BEGIN
     RETURN @I * (POWER(1 + @R, @T));
 END
 
+-- 12. Calculating Interest
 
+CREATE PROC [usp_CalculateFutureValueForAccount] (@accID INT, @interestRate FLOAT)
+AS
+BEGIN
+    SELECT
+		acc.Id AS [Account Id]
+		, h.FirstName AS [First Name]
+		, h.LastName AS [Last Name]
+		, acc.Balance AS [Current Balance]
+		, dbo.ufn_CalculateFutureValue(acc.Balance, @interestRate, 5) AS [Balance in 5 years]
+	FROM Accounts AS acc
+	JOIN AccountHolders AS h
+		ON acc.AccountHolderId = h.Id
+    WHERE acc.Id = @accID
+END
 
+EXEC [dbo].[usp_CalculateFutureValueForAccount] 1, 0.1
+
+-- 
