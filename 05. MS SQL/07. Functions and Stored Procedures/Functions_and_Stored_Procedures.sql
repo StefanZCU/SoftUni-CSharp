@@ -69,3 +69,17 @@ end
 
 EXEC [dbo].[ufn_GetSalaryLevel] 13500.00
 
+-- 06. Employees by Salary Level
+
+CREATE PROC [usp_EmployeesBySalaryLevel] @levelOfSalary VARCHAR(10)
+AS
+BEGIN
+    SELECT
+        FirstName
+        , LastName
+    FROM Employees
+    WHERE [dbo].[ufn_GetSalaryLevel](Salary) = @levelOfSalary
+end
+
+EXEC [dbo].[usp_EmployeesBySalaryLevel] 'High'
+
