@@ -151,3 +151,17 @@ WHERE c.Email LIKE '%.com'
 GROUP BY CONCAT(c.FirstName, ' ', c.LastName), c.Email
 ORDER BY [FullName]
 
+-- 10. Creators by Rating
+
+SELECT
+    c.LastName
+    , CEILING(AVG(bg.Rating)) AS [AverageRating]
+    , p.Name AS [PublisherName]
+FROM
+    Creators AS c
+    LEFT JOIN CreatorsBoardgames AS cbg on c.Id = cbg.CreatorId
+    JOIN Boardgames AS bg on cbg.BoardgameId = bg.Id
+    JOIN Publishers AS p on bg.PublisherId = p.Id
+WHERE p.Name = 'Stonemaier Games'
+GROUP BY c.LastName, p.Name
+ORDER BY AVG(bg.Rating) DESC
