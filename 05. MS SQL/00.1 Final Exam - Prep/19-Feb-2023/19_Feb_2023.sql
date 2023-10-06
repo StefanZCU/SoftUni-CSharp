@@ -143,10 +143,11 @@ ORDER BY bg.Name, bg.Rating DESC
 SELECT
     CONCAT(c.FirstName, ' ', c.LastName) AS [FullName]
     , c.Email
-    , MAX(bg.Rating)
+    , MAX(bg.Rating) AS [Rating]
 FROM Creators AS c
     JOIN CreatorsBoardgames AS cb on c.Id = cb.CreatorId
     JOIN Boardgames AS bg on cb.BoardgameId = bg.Id
 WHERE c.Email LIKE '%.com'
 GROUP BY CONCAT(c.FirstName, ' ', c.LastName), c.Email
 ORDER BY [FullName]
+
