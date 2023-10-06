@@ -175,3 +175,20 @@ WHERE v.NumberVAT LIKE '%FR%'
 GROUP BY c.Name
 ORDER BY AVG(p.Price), c.Name DESC
 
+-- 11. Product with Clients
+
+CREATE FUNCTION [udf_ProductWithClients](@name VARCHAR(100))
+RETURNS INT
+BEGIN
+    DECLARE @totalProductClient INT =
+	(
+		SELECT
+			COUNT(pc.ClientId)
+		FROM Products AS p
+		INNER JOIN ProductsClients AS pc ON p.Id = pc.ProductId
+		WHERE p.[Name] = @name
+	)
+	RETURN @totalProductClient
+end
+
+SELECT dbo.udf_ProductWithClients('DAF FILTER HU12103X') -- expected: 3
