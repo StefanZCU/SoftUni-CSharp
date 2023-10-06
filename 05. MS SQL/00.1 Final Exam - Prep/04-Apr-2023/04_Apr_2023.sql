@@ -147,3 +147,17 @@ AND i.Currency = 'EUR'
 OR i.Amount > 500 AND c.NumberVAT LIKE 'DE%'
 ORDER BY i.Number, i.Amount DESC
 
+-- 09. Clients with VAT
+
+SELECT
+    c.Name AS [Client]
+    , MAX(p.Price)
+    , c.NumberVAT
+FROM
+    Clients AS c
+    JOIN ProductsClients AS pc ON c.Id = pc.ClientId
+    JOIN Products AS p ON pc.ProductId = p.Id
+WHERE c.Name NOT LIKE '%KG'
+GROUP BY c.Name, c.NumberVAT
+ORDER BY MAX(p.Price) DESC
+
