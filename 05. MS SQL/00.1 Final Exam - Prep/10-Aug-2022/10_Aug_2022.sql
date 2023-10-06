@@ -139,3 +139,20 @@ WHERE l.[Name] NOT LIKE 'B%'
   AND l.[Name] NOT LIKE 'D%'
 AND s.Establishment LIKE '%BC'
 ORDER BY s.Name
+
+-- 09. Tourists with their Bonus Prizes
+
+SELECT
+    t.[Name]
+    , t.Age
+    , t.PhoneNumber
+    , t.Nationality
+    , CASE
+        WHEN tbp.BonusPrizeId IS NULL THEN '(no bonus prize)'
+        WHEN tbp.BonusPrizeId IS NOT NULL THEN bp.Name
+    END
+FROM
+    Tourists AS t
+    LEFT JOIN TouristsBonusPrizes AS tbp on t.Id = tbp.TouristId
+    LEFT JOIN BonusPrizes AS bp on tbp.BonusPrizeId = bp.Id
+ORDER BY t.[Name]
