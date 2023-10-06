@@ -189,4 +189,26 @@ BEGIN
     RETURN @touristCount
 end
 
---
+-- 12. Annual Reward Lottery
+
+CREATE PROC [usp_AnnualRewardLottery](@TouristName VARCHAR(50))
+AS
+BEGIN
+    SELECT
+        dt.[Name]
+        , CASE
+            WHEN dt.CountSites BETWEEN 25 AND 49 THEN 'Bronze badge'
+            WHEN dt.CountSites BETWEEN 50 AND 99 THEN 'Silver badge'
+            WHEN dt.CountSites >= 100 THEN 'Gold badge'
+            END AS [Reward]
+    FROM
+        (
+        SELECT
+            t.[Name]
+            , COUNT(st.SiteId) AS [CountSites]
+        FROM
+        Tourists AS t
+        JOIN SitesTourists AS st on t.Id = st.TouristId
+        WHERE t.[Name] = @TouristName
+        GROUP BY t.Name) AS dt
+end
