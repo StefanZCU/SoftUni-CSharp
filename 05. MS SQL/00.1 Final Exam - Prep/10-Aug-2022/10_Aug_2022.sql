@@ -108,3 +108,17 @@ FROM Sites AS s
     JOIN Locations AS l ON s.LocationId = l.Id
     JOIN Categories AS c ON s.CategoryId = c.Id
 ORDER BY Category DESC, Location, Site
+
+-- 07. Count of Sites in Sofia Province
+
+SELECT
+    l.Province
+    , l.Municipality
+    , l.Name AS [Location]
+    , COUNT(s.LocationId) AS [CountOfSites]
+FROM
+    Locations AS l
+    JOIN Sites AS s ON l.Id = s.LocationId
+WHERE l.Province = 'Sofia'
+GROUP BY l.Province, l.Municipality, l.Name
+ORDER BY CountOfSites DESC, Location
