@@ -122,3 +122,20 @@ FROM
 WHERE l.Province = 'Sofia'
 GROUP BY l.Province, l.Municipality, l.Name
 ORDER BY CountOfSites DESC, Location
+
+-- 08. Tourist Sites established BC
+
+SELECT
+    s.[Name] AS [Site]
+    , l.[Name] AS [Location]
+    , l.Municipality
+    , l.Province
+    , s.Establishment
+FROM
+    Sites AS s
+    JOIN Locations AS l ON s.LocationId = l.Id
+WHERE l.[Name] NOT LIKE 'B%'
+  AND l.[Name] NOT LIKE 'M%'
+  AND l.[Name] NOT LIKE 'D%'
+AND s.Establishment LIKE '%BC'
+ORDER BY s.Name
