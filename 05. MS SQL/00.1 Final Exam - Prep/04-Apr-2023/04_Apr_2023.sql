@@ -132,3 +132,18 @@ FROM
     Join Countries AS c2 ON a.CountryId = c2.Id
 WHERE pc.ProductId IS NULL
 ORDER BY c.Name
+
+-- 08. First 7 Invoices
+
+SELECT TOP 7
+    i.Number
+    , i.Amount
+    , c.Name AS [Client]
+FROM
+    Invoices As i
+    JOIN Clients AS c on i.ClientId = c.Id
+WHERE IssueDate < '2023-01-01'
+AND i.Currency = 'EUR'
+OR i.Amount > 500 AND c.NumberVAT LIKE 'DE%'
+ORDER BY i.Number, i.Amount DESC
+
