@@ -81,3 +81,8 @@ VALUES
 UPDATE [Sites]
 SET Establishment = '(not defined)'
 WHERE Establishment IS NULL
+
+-- 04. Delete
+
+DELETE FROM TouristsBonusPrizes WHERE BonusPrizeId = 5
+DELETE FROM BonusPrizes WHERE Id = 5
