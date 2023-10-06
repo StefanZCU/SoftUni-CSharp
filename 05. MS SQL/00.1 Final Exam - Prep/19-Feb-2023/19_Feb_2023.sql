@@ -124,3 +124,16 @@ FROM Creators AS c
     LEFT JOIN CreatorsBoardgames AS cb on c.Id = cb.CreatorId
 WHERE cb.BoardgameId IS NULL
 ORDER BY CreatorName
+
+-- 08. First 5 Boardgames
+
+SELECT TOP 5
+    bg.Name
+    , bg.Rating
+    , c.Name AS [CategoryName]
+FROM Boardgames AS bg
+    JOIN PlayersRanges AS pr ON bg.PlayersRangeId = pr.Id
+    JOIN Categories AS c ON bg.CategoryId = c.Id
+WHERE bg.Rating > 7.00 AND bg.Name LIKE '%a%'
+OR bg.Rating > 7.50 AND pr.PlayersMin = 2 AND pr.PlayersMax = 5
+ORDER BY bg.Name, bg.Rating DESC
