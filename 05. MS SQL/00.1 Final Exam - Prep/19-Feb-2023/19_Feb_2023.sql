@@ -165,3 +165,19 @@ FROM
 WHERE p.Name = 'Stonemaier Games'
 GROUP BY c.LastName, p.Name
 ORDER BY AVG(bg.Rating) DESC
+
+-- 11. Creator with Boardgames
+
+CREATE FUNCTION [udf_CreatorWithBoardgames](@name NVARCHAR(30))
+RETURNS INT
+BEGIN
+    DECLARE @totalNumberBoardgames INT = (
+        SELECT
+            COUNT(*)
+        FROM
+            Creators AS c
+            JOIN CreatorsBoardgames AS cb on c.Id = cb.CreatorId
+        WHERE c.FirstName = @name
+    )
+    RETURN @totalNumberBoardgames
+end
