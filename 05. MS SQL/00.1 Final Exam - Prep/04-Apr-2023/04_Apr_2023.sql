@@ -192,3 +192,22 @@ BEGIN
 end
 
 SELECT dbo.udf_ProductWithClients('DAF FILTER HU12103X') -- expected: 3
+
+-- 12. Search for Vendors from a Specific Country
+
+CREATE PROC [usp_SearchByCountry](@country VARCHAR(30))
+AS
+BEGIN
+    SELECT
+        v.Name AS [Vendor]
+        , v.NumberVAT AS [VAT]
+        , CONCAT(a.StreetName, ' ', a.StreetNumber) AS [Street Info]
+        , CONCAT(a.City, ' ', a.PostCode) AS [City Info]
+    FROM Vendors AS v
+        JOIN Addresses AS a ON v.AddressId = a.Id
+        JOIN Countries AS c ON a.CountryId = c.Id
+    WHERE c.Name = @country
+    ORDER BY v.Name, a.City
+end
+
+EXEC usp_SearchByCountry 'France'
