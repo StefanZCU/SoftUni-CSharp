@@ -97,7 +97,7 @@ INSERT INTO Boardgames (Id, [Name], YearPublished, Rating, CategoryId, Publisher
 (24, 'Stellar', 2020, 7.6, 6, 9, 4),
 (25, 'Kitara', 2020, 7.31, 4, 10, 5),
 (26, 'Nidavellir', 2020, 7.95, 4, 11, 6),
-(27, 'Dolina królików', 2019, 7.64, 4, 12, 7),
+(27, 'Dolina krï¿½likï¿½w', 2019, 7.64, 4, 12, 7),
 (28, 'Undaunted: North Africa', 2020, 8.09, 8, 13, 8),
 (29, 'Verdun 1916: Steel Inferno', 2020, 8.6, 8, 14, 9),
 (30, 'The Fox in the Forest Duet', 2020, 7.29, 4, 15, 10),
