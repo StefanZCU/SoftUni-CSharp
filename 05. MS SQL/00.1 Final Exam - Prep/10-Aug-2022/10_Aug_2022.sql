@@ -86,3 +86,13 @@ WHERE Establishment IS NULL
 
 DELETE FROM TouristsBonusPrizes WHERE BonusPrizeId = 5
 DELETE FROM BonusPrizes WHERE Id = 5
+
+-- 05. Tourists
+
+SELECT
+    [Name]
+    , Age
+    , PhoneNumber
+    , Nationality
+FROM Tourists
+ORDER BY Nationality, Age DESC, [Name]
