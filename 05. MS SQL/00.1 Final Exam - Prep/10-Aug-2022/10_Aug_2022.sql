@@ -156,3 +156,18 @@ FROM
     LEFT JOIN TouristsBonusPrizes AS tbp on t.Id = tbp.TouristId
     LEFT JOIN BonusPrizes AS bp on tbp.BonusPrizeId = bp.Id
 ORDER BY t.[Name]
+
+-- 10. Tourists visiting History & Archaeology sites
+
+SELECT
+    SUBSTRING(t.[Name], CHARINDEX(' ', t.[Name]) + 1, LEN(t.[Name]) - CHARINDEX(' ', t.[Name])) AS [LastName]
+    , t.Nationality
+    , t.Age
+    , t.PhoneNumber
+FROM
+    Tourists AS t
+    JOIN SitesTourists AS st on t.Id = st.TouristId
+    JOIN Sites AS s on st.SiteId = s.Id
+WHERE s.CategoryId = 8
+GROUP BY SUBSTRING(t.[Name], CHARINDEX(' ', t.[Name]) + 1, LEN(t.[Name]) - CHARINDEX(' ', t.[Name])), t.Nationality, t.Age, t.PhoneNumber
+ORDER BY LastName
