@@ -94,3 +94,10 @@ DELETE FROM Boardgames WHERE PublisherId IN (1,16)
 DELETE FROM Publishers WHERE AddressId IN (5)
 DELETE FROM Addresses WHERE Town LIKE 'L%'
 
+-- 05. Boardgames by Year of Publication
+
+SELECT
+    [Name]
+    , Rating
+FROM Boardgames
+ORDER BY YearPublished, Name DESC
