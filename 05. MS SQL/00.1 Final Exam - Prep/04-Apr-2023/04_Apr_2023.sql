@@ -151,8 +151,8 @@ ORDER BY i.Number, i.Amount DESC
 
 SELECT
     c.Name AS [Client]
-    , MAX(p.Price)
-    , c.NumberVAT
+    , MAX(p.Price) AS [Price]
+    , c.NumberVAT AS [VAT Number]
 FROM
     Clients AS c
     JOIN ProductsClients AS pc ON c.Id = pc.ClientId
