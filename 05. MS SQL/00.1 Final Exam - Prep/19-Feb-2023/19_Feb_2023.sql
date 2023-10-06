@@ -113,3 +113,14 @@ FROM Boardgames AS b
     JOIN Categories AS c ON b.CategoryId = c.Id
 WHERE c.Name IN ('Strategy Games', 'Wargames')
 ORDER BY b.YearPublished DESC
+
+-- 07. Creators without Boardgames
+
+SELECT
+    c.Id
+    , CONCAT(c.FirstName, ' ', c.LastName) AS [CreatorName]
+    , c.Email
+FROM Creators AS c
+    LEFT JOIN CreatorsBoardgames AS cb on c.Id = cb.CreatorId
+WHERE cb.BoardgameId IS NULL
+ORDER BY CreatorName
