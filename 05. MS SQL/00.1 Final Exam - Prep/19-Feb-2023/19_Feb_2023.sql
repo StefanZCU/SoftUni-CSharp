@@ -137,3 +137,16 @@ FROM Boardgames AS bg
 WHERE bg.Rating > 7.00 AND bg.Name LIKE '%a%'
 OR bg.Rating > 7.50 AND pr.PlayersMin = 2 AND pr.PlayersMax = 5
 ORDER BY bg.Name, bg.Rating DESC
+
+-- 09. Creators with Emails
+
+SELECT
+    CONCAT(c.FirstName, ' ', c.LastName) AS [FullName]
+    , c.Email
+    , MAX(bg.Rating)
+FROM Creators AS c
+    JOIN CreatorsBoardgames AS cb on c.Id = cb.CreatorId
+    JOIN Boardgames AS bg on cb.BoardgameId = bg.Id
+WHERE c.Email LIKE '%.com'
+GROUP BY CONCAT(c.FirstName, ' ', c.LastName), c.Email
+ORDER BY [FullName]
