@@ -161,3 +161,17 @@ WHERE c.Name NOT LIKE '%KG'
 GROUP BY c.Name, c.NumberVAT
 ORDER BY MAX(p.Price) DESC
 
+-- 10. Clients by Price
+
+SELECT
+    c.Name
+    , FLOOR(AVG(p.Price))
+FROM
+    Clients AS c
+    JOIN ProductsClients AS pc ON c.Id = pc.ClientId
+    JOIN Products AS p ON pc.ProductId = p.Id
+    JOIN Vendors AS v on p.VendorId = v.Id
+WHERE v.NumberVAT LIKE '%FR%'
+GROUP BY c.Name
+ORDER BY AVG(p.Price), c.Name DESC
+
