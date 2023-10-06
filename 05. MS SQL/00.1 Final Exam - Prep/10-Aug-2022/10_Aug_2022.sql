@@ -171,3 +171,22 @@ FROM
 WHERE s.CategoryId = 8
 GROUP BY SUBSTRING(t.[Name], CHARINDEX(' ', t.[Name]) + 1, LEN(t.[Name]) - CHARINDEX(' ', t.[Name])), t.Nationality, t.Age, t.PhoneNumber
 ORDER BY LastName
+
+-- 11. Tourists Count on a Tourist Site
+
+CREATE FUNCTION [udf_GetTouristsCountOnATouristSite](@Site VARCHAR(100))
+RETURNS INT
+BEGIN
+    DECLARE @touristCount INT = (
+
+            SELECT
+                COUNT(*)
+            FROM
+                Sites AS s
+                JOIN SitesTourists AS st on s.Id = st.SiteId
+            WHERE s.Name = @Site
+        )
+    RETURN @touristCount
+end
+
+--
