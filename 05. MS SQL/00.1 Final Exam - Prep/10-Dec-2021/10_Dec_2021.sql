@@ -121,4 +121,20 @@ FROM
 WHERE DATEPART(DAY, fd.Start) % 2 = 0
 ORDER BY fd.TicketPrice DESC, a.AirportName
 
+-- 08. Number of Flights for Each Aircraft
+
+SELECT
+    a.[Id] AS [AircraftId]
+    , a.Manufacturer
+    , a.FlightHours
+    , COUNT(fd.AircraftId) AS [FlightDestinationsCount]
+    , ROUND(AVG(fd.TicketPrice), 2)
+FROM
+    Aircraft AS a
+    JOIN FlightDestinations AS fd on a.Id = fd.AircraftId
+GROUP BY a.[Id], a.Manufacturer, a.FlightHours
+HAVING COUNT(fd.AircraftId) >= 2
+ORDER BY FlightDestinationsCount DESC, AircraftId
+
+
 
