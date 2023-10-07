@@ -80,3 +80,14 @@ WHERE OwnerId IS NULL
 
 DELETE FROM Volunteers WHERE DepartmentId = 2
 DELETE FROM VolunteersDepartments WHERE DepartmentName = 'Education program assistant'
+
+-- 05. Volunteers
+
+SELECT
+    [Name]
+    , PhoneNumber
+    , Address
+    , AnimalId
+    , DepartmentId
+FROM Volunteers
+ORDER BY [Name], AnimalId, DepartmentId
