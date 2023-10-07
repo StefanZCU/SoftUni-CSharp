@@ -59,3 +59,12 @@ CREATE TABLE FlightDestinations(
     [PassengerId] INT FOREIGN KEY REFERENCES Passengers([Id]) NOT NULL,
     [TicketPrice] DECIMAL(16, 2) NOT NULL DEFAULT 15
 )
+
+-- 02. Insert
+
+INSERT INTO Passengers
+SELECT
+    p.FirstName + ' ' + p.LastName,
+    p.FirstName + p.LastName + '@gmail.com'
+FROM Pilots AS p
+WHERE p.Id BETWEEN 5 AND 15
