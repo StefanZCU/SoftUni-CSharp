@@ -105,3 +105,20 @@ FROM
     JOIN Aircraft AS a on pa.AircraftId = a.Id
 WHERE a.FlightHours IS NOT NULL AND a.FlightHours <= 304
 ORDER BY a.FlightHours DESC, p.FirstName
+
+-- 07. Top 20 Flight Destinations
+
+SELECT TOP 20
+    fd.[Id] AS [DestinationId]
+    , fd.Start AS [Start]
+    , p.FullName
+    , a.AirportName
+    , fd.TicketPrice
+FROM
+    FlightDestinations AS fd
+    JOIN Airports AS a ON fd.AirportId = a.Id
+    JOIN Passengers AS p ON fd.PassengerId = p.Id
+WHERE DATEPART(DAY, fd.Start) % 2 = 0
+ORDER BY fd.TicketPrice DESC, a.AirportName
+
+
