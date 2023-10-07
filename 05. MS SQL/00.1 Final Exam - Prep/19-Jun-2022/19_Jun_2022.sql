@@ -153,3 +153,20 @@ WHERE a.OwnerId IS NULL
 AND DATEPART(YEAR, a.BirthDate) + 5 > 2022
 AND at.AnimalType != 'Birds'
 ORDER BY a.[Name]
+
+-- 11. All Volunteers in a Department
+
+CREATE FUNCTION [udf_GetVolunteersCountFromADepartment] (@VolunteersDepartment VARCHAR(30))
+RETURNS INT
+BEGIN
+    DECLARE @countVolunteers INT = (
+            SELECT
+                COUNT(*)
+            FROM
+                Volunteers AS v
+                JOIN VolunteersDepartments AS vd on v.DepartmentId = vd.Id
+            WHERE vd.DepartmentName = @VolunteersDepartment
+        )
+    RETURN @countVolunteers
+end
+
