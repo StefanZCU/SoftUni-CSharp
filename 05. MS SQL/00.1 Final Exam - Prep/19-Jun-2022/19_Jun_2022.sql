@@ -170,3 +170,22 @@ BEGIN
     RETURN @countVolunteers
 end
 
+-- 12. Animals with Owner or Not
+
+CREATE PROC [usp_AnimalsWithOwnersOrNot](@AnimalName VARCHAR(30))
+AS
+BEGIN
+    SELECT
+        a.[Name]
+        , CASE
+            WHEN a.OwnerId IS NULL THEN 'For adoption'
+            WHEN a.OwnerId IS NOT NULL THEN o.Name
+        END AS [OwnersName]
+    FROM
+        Animals AS a
+        LEFT JOIN Owners AS o ON a.OwnerId = o.Id
+    WHERE a.[Name] = @AnimalName
+end
+
+EXEC usp_AnimalsWithOwnersOrNot 'Hippo'
+EXEC usp_AnimalsWithOwnersOrNot 'Pumpkinseed Sunfish'
