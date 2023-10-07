@@ -101,3 +101,14 @@ SELECT
 FROM Animals AS a
 JOIN AnimalTypes AS at ON a.AnimalTypeId = at.Id
 ORDER BY a.[Name]
+
+-- 07. Owners and Their Animals
+
+SELECT TOP 5
+    o.[Name] AS [Owner]
+    , COUNT(a.OwnerId) AS [CountOfAnimals]
+FROM
+    Owners AS o
+    JOIN Animals AS a ON o.Id = a.OwnerId
+GROUP BY o.[Name]
+ORDER BY CountOfAnimals DESC, Owner
