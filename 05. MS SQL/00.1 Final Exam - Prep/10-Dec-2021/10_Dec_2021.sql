@@ -135,3 +135,17 @@ FROM
 GROUP BY a.[Id], a.Manufacturer, a.FlightHours
 HAVING COUNT(fd.AircraftId) >= 2
 ORDER BY FlightDestinationsCount DESC, AircraftId
+
+-- 09. Regular Passengers
+
+SELECT
+    p.FullName
+    , COUNT(fd.PassengerId) AS [CountOfAircraft]
+    , SUM(fd.TicketPrice) AS [TotalPayed]
+FROM
+    Passengers AS p
+    JOIN FlightDestinations AS fd ON p.Id = fd.PassengerId
+WHERE p.FullName LIKE '_a%'
+GROUP BY p.FullName
+HAVING COUNT(fd.PassengerId) > 1
+ORDER BY p.FullName
