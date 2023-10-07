@@ -183,3 +183,31 @@ BEGIN
         )
     RETURN @countFlights
 end
+
+-- 12. Full Info for Airports
+
+CREATE PROC [usp_SearchByAirportName] (@airportName VARCHAR(70))
+AS
+BEGIN
+    SELECT
+        a.AirportName
+        , p.FullName
+        , CASE
+            WHEN fd.TicketPrice <= 400 THEN 'Low'
+            WHEN fd.TicketPrice BETWEEN 401 AND 1500 THEN 'Medium'
+            WHEN fd.TicketPrice > 1501 THEN 'High'
+        END AS [LevelOfTicketPrice]
+        , a2.Manufacturer
+        , a2.Condition
+        , at.TypeName
+    FROM
+        Airports AS a
+        JOIN FlightDestinations AS fd ON a.Id = fd.AirportId
+        JOIN Passengers AS p ON fd.PassengerId = p.Id
+        JOIN Aircraft AS a2 ON fd.AircraftId = a2.Id
+        JOIN AircraftTypes AS at ON a2.TypeId = at.Id
+    WHERE a.AirportName = @airportName
+    ORDER BY a2.Manufacturer, p.FullName
+end
+
+EXEC usp_SearchByAirportName 'Sir Seretse Khama International Airport'
