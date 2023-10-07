@@ -75,3 +75,8 @@ VALUES
 UPDATE Animals
 SET OwnerId = 4
 WHERE OwnerId IS NULL
+
+-- 04. Delete
+
+DELETE FROM Volunteers WHERE DepartmentId = 2
+DELETE FROM VolunteersDepartments WHERE DepartmentName = 'Education program assistant'
