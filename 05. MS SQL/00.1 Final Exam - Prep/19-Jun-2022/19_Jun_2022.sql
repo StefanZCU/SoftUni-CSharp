@@ -91,3 +91,13 @@ SELECT
     , DepartmentId
 FROM Volunteers
 ORDER BY [Name], AnimalId, DepartmentId
+
+-- 06. Animals data
+
+SELECT
+    a.[Name]
+    , at.AnimalType
+    , CONVERT(varchar, a.BirthDate, 104)
+FROM Animals AS a
+JOIN AnimalTypes AS at ON a.AnimalTypeId = at.Id
+ORDER BY a.[Name]
