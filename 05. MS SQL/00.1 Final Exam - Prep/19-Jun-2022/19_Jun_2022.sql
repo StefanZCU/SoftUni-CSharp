@@ -139,3 +139,17 @@ FROM
 WHERE vd.DepartmentName = 'Education program assistant'
 AND v.Address LIKE '%Sofia%'
 ORDER BY v.[Name]
+
+-- 10. Animals for Adoption
+
+SELECT
+    a.[Name]
+    , DATEPART(YEAR, a.BirthDate) AS [BirthYear]
+    , at.AnimalType
+FROM
+    Animals AS a
+    JOIN AnimalTypes AS at ON a.AnimalTypeId = at.Id
+WHERE a.OwnerId IS NULL
+AND DATEPART(YEAR, a.BirthDate) + 5 > 2022
+AND at.AnimalType != 'Birds'
+ORDER BY a.[Name]
