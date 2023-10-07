@@ -149,3 +149,21 @@ WHERE p.FullName LIKE '_a%'
 GROUP BY p.FullName
 HAVING COUNT(fd.PassengerId) > 1
 ORDER BY p.FullName
+
+-- 10. Full Info for Flight Destinations
+
+SELECT
+    a2.AirportName
+    , fd.Start AS [DayTime]
+    , fd.TicketPrice
+    , p.FullName
+    , a.Manufacturer
+    , a.Model
+FROM
+    FlightDestinations AS fd
+    JOIN Aircraft AS a ON fd.AircraftId = a.Id
+    JOIN Airports AS a2 ON fd.AirportId = a2.Id
+    JOIN Passengers AS p ON fd.PassengerId = p.Id
+WHERE DATEPART(HOUR, fd.Start) >= 6 AND DATEPART(HOUR, fd.Start) <= 20
+AND fd.TicketPrice > 2500
+ORDER BY a.Model
