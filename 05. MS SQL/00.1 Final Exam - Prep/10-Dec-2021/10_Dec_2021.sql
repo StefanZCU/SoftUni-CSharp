@@ -80,3 +80,13 @@ AND Year >= 2013
 -- 04. Delete
 
 DELETE FROM Passengers WHERE LEN(FullName) <= 10
+
+-- 05. Aircraft
+
+SELECT
+    Manufacturer
+    , Model
+    , FlightHours
+    , Condition
+FROM Aircraft
+ORDER BY FlightHours DESC
