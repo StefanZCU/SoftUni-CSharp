@@ -126,3 +126,16 @@ FROM
     JOIN AnimalsCages AS ac on a.Id = ac.AnimalId
 WHERE at.AnimalType = 'Mammals'
 ORDER BY o.[Name], a.[Name] DESC
+
+-- 09. Volunteers in Sofia
+
+SELECT
+    v.[Name]
+    , v.PhoneNumber
+    , SUBSTRING(v.Address, CHARINDEX(',', v.Address) + 2, LEN(v.Address) - CHARINDEX(',', v.Address)) AS [Address]
+FROM
+    Volunteers AS v
+    JOIN VolunteersDepartments AS vd on v.DepartmentId = vd.Id
+WHERE vd.DepartmentName = 'Education program assistant'
+AND v.Address LIKE '%Sofia%'
+ORDER BY v.[Name]
