@@ -86,3 +86,20 @@ WHERE TastId = 1
 UPDATE Brands
 SET BrandDescription = 'New description'
 WHERE BrandDescription IS NULL
+
+-- 04. Delete
+
+BEGIN TRANSACTION
+DELETE FROM Clients
+WHERE AddressId IN
+(
+    SELECT Id
+    FROM Addresses
+    WHERE Country LIKE 'C%'
+)
+
+DELETE FROM Addresses
+WHERE Country LIKE 'C%'
+COMMIT TRANSACTION
+
+-- 
