@@ -148,3 +148,19 @@ FROM
 WHERE s.Length >= 12 AND (c.CigarName LIKE '%ci%'
 OR c.PriceForSingleCigar > 50) AND s.RingRange > 2.55
 ORDER BY c.CigarName, c.PriceForSingleCigar DESC
+
+-- 09. Clients with ZIP Codes
+
+SELECT
+    CONCAT(c.FirstName, ' ', c.LastName) AS [FullName]
+    , a.Country
+    , a.ZIP
+    , FORMAT(MAX(c2.PriceForSingleCigar), 'C')
+FROM
+    Clients AS c
+    JOIN Addresses AS a ON c.AddressId = a.Id
+    JOIN ClientsCigars AS cc ON c.Id = cc.ClientId
+    JOIN Cigars AS c2 ON cc.CigarId = c2.Id
+WHERE a.ZIP NOT LIKE '%[^0-9.]%'
+GROUP BY CONCAT(c.FirstName, ' ', c.LastName), a.Country, a.ZIP
+ORDER BY FullName
