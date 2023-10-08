@@ -135,3 +135,16 @@ FROM
     LEFT JOIN ClientsCigars AS cc ON c.Id = cc.ClientId
 WHERE cc.CigarId IS NULL
 ORDER BY ClientName
+
+-- 08. First 5 Cigars
+
+SELECT TOP 5
+    c.CigarName
+    , c.PriceForSingleCigar
+    , c.ImageURL
+FROM
+    Cigars AS c
+    JOIN Sizes AS s ON c.SizeId = s.Id
+WHERE s.Length >= 12 AND (c.CigarName LIKE '%ci%'
+OR c.PriceForSingleCigar > 50) AND s.RingRange > 2.55
+ORDER BY c.CigarName, c.PriceForSingleCigar DESC
