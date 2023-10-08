@@ -164,3 +164,18 @@ FROM
 WHERE a.ZIP NOT LIKE '%[^0-9.]%'
 GROUP BY CONCAT(c.FirstName, ' ', c.LastName), a.Country, a.ZIP
 ORDER BY FullName
+
+-- 10. Cigars by Size
+
+SELECT
+    c.LastName
+    , AVG(s.Length) AS [CigarLength]
+    , CEILING(AVG(s.RingRange)) AS [CigarRingRange]
+FROM
+    Clients AS c
+    LEFT JOIN ClientsCigars AS cc ON c.Id = cc.ClientId
+    JOIN Cigars AS c2 ON cc.CigarId = c2.Id
+    JOIN Sizes AS s On c2.SizeId = s.Id
+WHERE cc.CigarId IS NOT NULL
+GROUP BY c.LastName
+ORDER BY CigarLength DESC
