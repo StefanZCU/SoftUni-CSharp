@@ -102,4 +102,11 @@ DELETE FROM Addresses
 WHERE Country LIKE 'C%'
 COMMIT TRANSACTION
 
--- 
+-- 05. Cigars by Price
+
+SELECT
+    CigarName
+    , PriceForSingleCigar
+    , ImageURL
+FROM Cigars
+ORDER BY PriceForSingleCigar, CigarName DESC
