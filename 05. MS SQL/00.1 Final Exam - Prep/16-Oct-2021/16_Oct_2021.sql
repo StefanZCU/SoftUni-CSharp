@@ -123,3 +123,15 @@ FROM Cigars AS c
     JOIN Tastes AS t ON c.TastId = t.Id
 WHERE t.TasteType IN ('Earthy', 'Woody')
 ORDER BY c.PriceForSingleCigar DESC
+
+-- 07. Clients without Cigars
+
+SELECT
+    c.Id
+    , CONCAT(c.FirstName, ' ', c.LastName) AS [ClientName]
+    , c.Email
+FROM
+    Clients AS c
+    LEFT JOIN ClientsCigars AS cc ON c.Id = cc.ClientId
+WHERE cc.CigarId IS NULL
+ORDER BY ClientName
