@@ -25,6 +25,7 @@
 | <a href="https://softuni.bg/trainings/3836/programming-fundamentals-with-csharp-september-2022"> Fundamentals with C# </a>         | <a href="https://softuni.bg/certificates/details/148853/d73ad2dd"> Link</a> |
 | <a href="https://softuni.bg/trainings/3957/csharp-advanced-january-2023" > C# Advanced </a>                                        | <a href="https://softuni.bg/certificates/details/158084/73012ac7"> Link</a> |
 | <a href="https://softuni.bg/trainings/3958/csharp-oop-february-2023" > C# OOP </a>                                                 | <a href="https://softuni.bg/certificates/details/168717/dfbed5da"> Link</a> |
+| <a href="https://softuni.bg/trainings/4182/ms-sql-september-2023" > MS SQL </a>                                                    | <a href="https://softuni.bg/certificates/details/185752/176fe2a1"> Link</a> |
 
 </td>
 </tr>
