@@ -26,7 +26,11 @@ namespace AdoDotNetExercise
             //Console.WriteLine(output);
 
             //Problem 05.
-            string output = await ChangeTownNamesCasing(sqlConnection);
+            //string output = await ChangeTownNamesCasing(sqlConnection);
+            //Console.WriteLine(output);
+
+            //Problem 06.
+            string output = await RemoveVillainFromDB(sqlConnection);
             Console.WriteLine(output);
 
         }
@@ -217,6 +221,39 @@ namespace AdoDotNetExercise
             }
 
             sb.Remove(sb.Length - 2, 2);
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 06.
+
+        static async Task<string> RemoveVillainFromDB(SqlConnection connection)
+        {
+            StringBuilder sb = new StringBuilder();
+            int villainId = int.Parse(Console.ReadLine());
+
+            SqlCommand getVillainNameCommand = new SqlCommand(SqlQueries.GetVillainNameById, connection);
+            getVillainNameCommand.Parameters.AddWithValue("@villainId", villainId);
+            string? villainName = (string)await getVillainNameCommand.ExecuteScalarAsync();
+
+            if (villainName == null)
+            {
+                sb.AppendLine("No such villain was found.");
+                return sb.ToString().TrimEnd();
+            }
+
+            sb.AppendLine($"{villainName} was deleted.");
+
+            SqlCommand removeFromMinionsVillainsTable =
+                new SqlCommand(SqlQueries.RemoveFromMinionsVillainsTable, connection);
+            removeFromMinionsVillainsTable.Parameters.AddWithValue("@villainId", villainId);
+            int removedMinions = await removeFromMinionsVillainsTable.ExecuteNonQueryAsync();
+
+            SqlCommand removeVillainFromVillainTable = new SqlCommand(SqlQueries.RemoveFromVillainsTable, connection);
+            removeVillainFromVillainTable.Parameters.AddWithValue("@villainId", villainId);
+            await removeVillainFromVillainTable.ExecuteNonQueryAsync();
+
+            sb.AppendLine($"{removedMinions} minions were released.");
+
             return sb.ToString().TrimEnd();
         }
     }
