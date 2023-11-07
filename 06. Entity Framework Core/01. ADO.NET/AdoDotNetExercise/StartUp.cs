@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Data;
+using System.Xml.Linq;
 
 namespace AdoDotNetExercise
 {
@@ -37,6 +38,9 @@ namespace AdoDotNetExercise
             //string output = await PrintAllMinionNames(sqlConnection);
             //Console.WriteLine(output);
 
+            //Problem 08.
+            //string output = await IncreaseMinionAge(sqlConnection);
+            //Console.WriteLine(output);
         }
 
         //Problem 02.
@@ -288,6 +292,41 @@ namespace AdoDotNetExercise
                 {
                     sb.AppendLine(minionNames[countMinions - 1 - i]);
                 }
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 08.
+
+        static async Task<string> IncreaseMinionAge(SqlConnection connection)
+        {
+            
+            var sb = new StringBuilder();
+
+            int[] minionIds = Console.ReadLine().Split(" ").Select(int.Parse).ToArray();
+
+            SqlCommand alterMinionAgeAndNameCommand =
+                new SqlCommand(SqlQueries.ChangeAgeAndChangeFirstLetterOfMinions, connection);
+
+            SqlParameter minionIdParam = new SqlParameter("@Id", SqlDbType.Int);
+
+            foreach (var id in minionIds)
+            {
+                minionIdParam.Value = id;
+                alterMinionAgeAndNameCommand.Parameters.Add(minionIdParam);
+                await alterMinionAgeAndNameCommand.ExecuteNonQueryAsync();
+                alterMinionAgeAndNameCommand.Parameters.Remove(minionIdParam);
+            }
+
+            SqlCommand nameAndAgeOfMinionsCommand = new SqlCommand(SqlQueries.GetNameAndAgeOfMinions, connection);
+            SqlDataReader minionNameAndAgeReader = await nameAndAgeOfMinionsCommand.ExecuteReaderAsync();
+
+            while (minionNameAndAgeReader.Read())
+            {
+                string minionName = (string)minionNameAndAgeReader["Name"];
+                int minionAge = (int)minionNameAndAgeReader["Age"];
+                sb.AppendLine($"{minionName} {minionAge}");
             }
 
             return sb.ToString().TrimEnd();
