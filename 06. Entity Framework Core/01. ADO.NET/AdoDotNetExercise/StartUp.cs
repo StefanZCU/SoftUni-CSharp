@@ -22,8 +22,8 @@ namespace AdoDotNetExercise
             //Console.WriteLine(output);
 
             //Problem 04.
-            string output = await AddMinionsAndVillains(sqlConnection);
-            Console.WriteLine(output);
+            //string output = await AddMinionsAndVillains(sqlConnection);
+            //Console.WriteLine(output);
 
         }
 
@@ -105,7 +105,7 @@ namespace AdoDotNetExercise
             return sb.ToString().TrimEnd();
         }
 
-        //Problem 04. Start
+        //Problem 04.
 
         static async Task<string> AddMinionsAndVillains(SqlConnection connection)
         {
@@ -116,91 +116,68 @@ namespace AdoDotNetExercise
 
             string minionName = minionInfo[0];
             string minionAge = minionInfo[1];
-            string town = minionInfo[2];
+            string townName = minionInfo[2];
 
             string villainName = villainInfo[0];
 
+            SqlCommand checkTownIdByNameCmd = new SqlCommand(SqlQueries.GetTownIdByName, connection);
+            checkTownIdByNameCmd.Parameters.AddWithValue("@townName", townName);
+            object? foundTown = await checkTownIdByNameCmd.ExecuteScalarAsync();
 
-            //Find townId, if it doesn't exist, insert it into DB and display message
-
-            await using SqlCommand findTownIdCommand = new SqlCommand(SqlQueries.GetTownIdByName, connection);
-            findTownIdCommand.Parameters.AddWithValue("@townName", town);
-
-            using (SqlDataReader reader = await findTownIdCommand.ExecuteReaderAsync())
+            if (foundTown == null)
             {
-                while (!reader.Read())
-                {
-                    await using SqlCommand createTownAndInsertCommand = new SqlCommand(SqlQueries.InsertIntoTownsTable, connection);
-                    createTownAndInsertCommand.Parameters.AddWithValue("@townName", town);
-                    createTownAndInsertCommand.ExecuteNonQuery();
-                    sb.AppendLine($"Town {town} was added to the database.");
-                }
+                SqlCommand insertTownToDBCmd = new SqlCommand(SqlQueries.InsertIntoTownsTable, connection);
+                insertTownToDBCmd.Parameters.AddWithValue("@townName", townName);
+                await insertTownToDBCmd.ExecuteNonQueryAsync();
+                sb.AppendLine($"Town {townName} was added to the database.");
             }
 
-            //Find villainId, if it doesn't exist, insert it into DB and display message
+            int townId = (int)await checkTownIdByNameCmd.ExecuteScalarAsync();
 
-            await using SqlCommand findVillainIdCommand = new SqlCommand(SqlQueries.GetVillainIdByName, connection);
-            findVillainIdCommand.Parameters.AddWithValue("@Name", villainName);
+            SqlCommand checkVillainIdByNameCmd = new SqlCommand(SqlQueries.GetVillainIdByName, connection);
+            checkVillainIdByNameCmd.Parameters.AddWithValue("@Name", villainName);
+            object? foundVillain = await checkVillainIdByNameCmd.ExecuteScalarAsync();
 
-            using (SqlDataReader reader = await findVillainIdCommand.ExecuteReaderAsync())
+            if (foundVillain == null)
             {
-                while (!reader.Read())
-                {
-                    await using SqlCommand createVillainAndInsertCommand = new SqlCommand(SqlQueries.InsertIntoVillainsTable, connection);
-                    createVillainAndInsertCommand.Parameters.AddWithValue("@villainName", villainName);
-                    createVillainAndInsertCommand.ExecuteNonQuery();
-                    sb.AppendLine($"Villain {villainName} was added to the database.");
-                }
+                SqlCommand insertVillainToDBCmd = new SqlCommand(SqlQueries.InsertIntoVillainsTable, connection);
+                insertVillainToDBCmd.Parameters.AddWithValue("@villainName", villainName);
+                await insertVillainToDBCmd.ExecuteNonQueryAsync();
+                sb.AppendLine($"Villain {villainName} was added to the database.");
             }
 
-            await using (SqlCommand createMinionAndInsertCommand =
-                         new SqlCommand(SqlQueries.InsertIntoMinionsTable, connection))
-            {
-                int townId = (int)findTownIdCommand.ExecuteScalar();
+            int villainId = (int)await checkVillainIdByNameCmd.ExecuteScalarAsync();
 
-                createMinionAndInsertCommand.Parameters.AddWithValue("@name", minionName);
-                createMinionAndInsertCommand.Parameters.AddWithValue("@age", minionAge);
-                createMinionAndInsertCommand.Parameters.AddWithValue("@townId", townId);
-                createMinionAndInsertCommand.ExecuteNonQuery();
+            SqlCommand insertMinionToDBCmd = new SqlCommand(SqlQueries.InsertIntoMinionsTable, connection);
+            insertMinionToDBCmd.Parameters.AddWithValue("@name", minionName);
+            insertMinionToDBCmd.Parameters.AddWithValue("@age", minionAge);
+            insertMinionToDBCmd.Parameters.AddWithValue("@townId", townId);
+
+            await insertMinionToDBCmd.ExecuteNonQueryAsync();
+
+            SqlCommand findMinionIdByName = new SqlCommand(SqlQueries.GetMinionIdByName, connection);
+            findMinionIdByName.Parameters.AddWithValue("@Name", minionName);
+            int minionId = 0;
+
+            SqlDataReader minionReader = await findMinionIdByName.ExecuteReaderAsync();
+
+            while (minionReader.Read())
+            {
+                minionId = (int)minionReader[0];
             }
 
-            await using (SqlCommand addMinionToVillainCommand =
-                         new SqlCommand(SqlQueries.InsertIntoMinionsVillainsTable, connection))
-            {
-                int villainId = (int)findVillainIdCommand.ExecuteScalar();
+            minionReader.Close();
 
-                await using (SqlCommand findMinionIdByName = new SqlCommand(SqlQueries.GetMinionIdByName, connection))
-                {
-                    findMinionIdByName.Parameters.AddWithValue("@Name", minionName);
+            SqlCommand insertMinionToVillainTableCmd =
+                new SqlCommand(SqlQueries.InsertIntoMinionsVillainsTable, connection);
+            insertMinionToVillainTableCmd.Parameters.AddWithValue("@minionId", minionId);
+            insertMinionToVillainTableCmd.Parameters.AddWithValue("@villainId", villainId);
+            await insertMinionToVillainTableCmd.ExecuteNonQueryAsync();
 
-                    using (SqlDataReader reader = await findMinionIdByName.ExecuteReaderAsync())
-                    {
-                        if (reader.Read())
-                        {
-                            var loop = true;
-                            while (loop)
-                            {
-                                int minionId = (int)reader["Id"];
-                                loop = reader.Read();
-                                if (loop) continue;
-
-                                addMinionToVillainCommand.Parameters.AddWithValue("@minionId", minionId);
-                                addMinionToVillainCommand.Parameters.AddWithValue("@villainId", villainId);
-
-                            }
-                        }
-                    }
-
-                    addMinionToVillainCommand.ExecuteNonQuery();
-                    sb.AppendLine($"Successfully added {minionName} to be minion of {villainName}.");
-
-                }
-            }
+            sb.AppendLine($"Successfully added {minionName} to be minion of {villainName}.");
 
             return sb.ToString().TrimEnd();
         }
-
-        //Problem 04. End
 
 
     }
