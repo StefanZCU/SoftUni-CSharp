@@ -52,5 +52,11 @@
       WHERE Id = @villainId";
 
         public const string GetAllMinionNames = "SELECT Name FROM Minions";
+
+        public const string ChangeAgeAndChangeFirstLetterOfMinions = @"UPDATE Minions
+                                                                       SET Name = LOWER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)), Age += 1
+                                                                     WHERE Id = @Id";
+
+        public const string GetNameAndAgeOfMinions = @"SELECT Name, Age FROM Minions";
     }
 }
