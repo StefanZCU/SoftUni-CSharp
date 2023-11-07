@@ -41,6 +41,10 @@ namespace AdoDotNetExercise
             //Problem 08.
             //string output = await IncreaseMinionAge(sqlConnection);
             //Console.WriteLine(output);
+
+            //Problem 09.
+            //string output = await IncreaseAgeStoredProcedureAsync(sqlConnection);
+            //Console.WriteLine(output);
         }
 
         //Problem 02.
@@ -327,6 +331,40 @@ namespace AdoDotNetExercise
                 string minionName = (string)minionNameAndAgeReader["Name"];
                 int minionAge = (int)minionNameAndAgeReader["Age"];
                 sb.AppendLine($"{minionName} {minionAge}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 09.
+
+        static async Task<string> IncreaseAgeStoredProcedureAsync(SqlConnection connection)
+        {
+            /*
+                CREATE PROC usp_GetOlder @id INT
+                    AS
+                UPDATE Minions
+                SET Age += 1
+                WHERE Id = @id
+             */
+
+            var sb = new StringBuilder();
+            int minionId = int.Parse(Console.ReadLine());
+
+            SqlCommand storedProcedureCommandToIncreaseAge = new SqlCommand("usp_GetOlder", connection);
+            storedProcedureCommandToIncreaseAge.CommandType = CommandType.StoredProcedure;
+            storedProcedureCommandToIncreaseAge.Parameters.Add(new SqlParameter("@Id", minionId));
+            await storedProcedureCommandToIncreaseAge.ExecuteNonQueryAsync();
+
+            SqlCommand getMinionNameAndAge = new SqlCommand(SqlQueries.GetNameAndAgeOfMinionById, connection);
+            getMinionNameAndAge.Parameters.AddWithValue("@Id", minionId);
+            SqlDataReader minionReader = await getMinionNameAndAge.ExecuteReaderAsync();
+
+            while (minionReader.Read())
+            {
+                string minionName = (string)minionReader["Name"];
+                int minionAge = (int)minionReader["Age"];
+                sb.AppendLine($"{minionName} - {minionAge} years old");
             }
 
             return sb.ToString().TrimEnd();
