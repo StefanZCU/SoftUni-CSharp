@@ -50,5 +50,7 @@
 
         public const string RemoveFromVillainsTable = @"DELETE FROM Villains
       WHERE Id = @villainId";
+
+        public const string GetAllMinionNames = "SELECT Name FROM Minions";
     }
 }
