@@ -72,58 +72,54 @@ namespace AdoDotNetExercise
 
         static async Task<string> GetAllMinionsNamesAndAgeForCurrentVillainIdAsync(SqlConnection connection)
         {
-            StringBuilder sb = new StringBuilder();
-            int id = int.Parse(Console.ReadLine());
+            int villainId = int.Parse(Console.ReadLine());
 
-            await using (SqlCommand sqlCommandFindVillainName = new SqlCommand(SqlQueries.GetVillainNameWithId, connection))
+            SqlCommand getVillainNameCmd =
+                new SqlCommand(SqlQueries.GetVillainNameWithId, connection);
+            getVillainNameCmd.Parameters.AddWithValue("@Id", villainId);
+
+            object? villainNameObj = await getVillainNameCmd.ExecuteScalarAsync();
+            if (villainNameObj == null)
             {
-                sqlCommandFindVillainName.Parameters.AddWithValue("@Id", id);
-
-                await using (SqlDataReader villainReader = await sqlCommandFindVillainName.ExecuteReaderAsync())
-                {
-                    if (!villainReader.HasRows)
-                    {
-                        sb.AppendLine($"No villain with ID {id} exists in the database.");
-                        return sb.ToString().TrimEnd();
-                    }
-
-                    while (villainReader.Read())
-                    {
-                        string villainName = (string)villainReader["Name"];
-                        sb.AppendLine($"Villain: {villainName}");
-                    }
-
-
-                }
-
+                return $"No villain with ID {villainId} exists in the database.";
             }
 
-            await using (SqlCommand sqlCommandFindMinionsNameAndAge = new SqlCommand(SqlQueries.GetMinionsWithVillainId, connection))
+            string villainName = (string)villainNameObj;
+
+            SqlCommand getAllMinionsCmd =
+                new SqlCommand(SqlQueries.GetMinionsWithVillainId, connection);
+            getAllMinionsCmd.Parameters.AddWithValue("@Id", villainId);
+            SqlDataReader minionsReader = await getAllMinionsCmd.ExecuteReaderAsync();
+
+            string output =
+                GenerateVillainWithMinionsOutput(villainName, minionsReader);
+            return output;
+        }
+
+        private static string GenerateVillainWithMinionsOutput(string villainName, SqlDataReader minionsReader)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"Villain: {villainName}");
+            if (!minionsReader.HasRows)
             {
-                sqlCommandFindMinionsNameAndAge.Parameters.AddWithValue("@Id", id);
-
-                await using (SqlDataReader minionReader = await sqlCommandFindMinionsNameAndAge.ExecuteReaderAsync())
+                sb.AppendLine("(no minions)");
+            }
+            else
+            {
+                while (minionsReader.Read())
                 {
+                    long rowNum = (long)minionsReader["RowNum"];
+                    string minionName = (string)minionsReader["Name"];
+                    int minionAge = (int)minionsReader["Age"];
 
-                    if (!minionReader.HasRows)
-                    {
-                        sb.AppendLine("(no minions)");
-                    }
-
-                    while (minionReader.Read())
-                    {
-                        long rowNum = (long)minionReader["RowNum"];
-                        string minionName = (string)minionReader["Name"];
-                        int minionAge = (int)minionReader["Age"];
-
-                        sb.AppendLine($"{rowNum}. {minionName} {minionAge}");
-                    }
+                    sb.AppendLine($"{rowNum}. {minionName} {minionAge}");
                 }
-
             }
 
             return sb.ToString().TrimEnd();
         }
+
 
         //Problem 04.
 
