@@ -25,6 +25,10 @@ namespace AdoDotNetExercise
             //string output = await AddMinionsAndVillains(sqlConnection);
             //Console.WriteLine(output);
 
+            //Problem 05.
+            string output = await ChangeTownNamesCasing(sqlConnection);
+            Console.WriteLine(output);
+
         }
 
         //Problem 02.
@@ -179,6 +183,41 @@ namespace AdoDotNetExercise
             return sb.ToString().TrimEnd();
         }
 
+        //Problem 05.
 
+        static async Task<string> ChangeTownNamesCasing(SqlConnection connection)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string countryName = Console.ReadLine();
+
+            SqlCommand getCountryTownsCmd = new SqlCommand(SqlQueries.GetTownsForCountry, connection);
+            getCountryTownsCmd.Parameters.AddWithValue("@countryName", countryName);
+
+            SqlDataReader countryTownsReader = await getCountryTownsCmd.ExecuteReaderAsync();
+
+            if (!countryTownsReader.HasRows)
+            {
+                sb.AppendLine("No town names were affected.");
+                return sb.ToString().TrimEnd();
+            }
+            
+            countryTownsReader.Close();
+
+            SqlCommand changeTownCasesCommand = new SqlCommand(SqlQueries.ChangeCasesOfTownsTable, connection);
+            changeTownCasesCommand.Parameters.AddWithValue("@countryName", countryName);
+            int rowsAffected = await changeTownCasesCommand.ExecuteNonQueryAsync();
+
+            sb.AppendLine($"{rowsAffected} town names were affected.");
+            SqlDataReader townNameReader = await getCountryTownsCmd.ExecuteReaderAsync();
+
+            while (townNameReader.Read())
+            {
+                sb.Append($"{(string)townNameReader[0]}, ");
+            }
+
+            sb.Remove(sb.Length - 2, 2);
+            return sb.ToString().TrimEnd();
+        }
     }
 }
