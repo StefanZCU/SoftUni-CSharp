@@ -58,5 +58,7 @@
                                                                      WHERE Id = @Id";
 
         public const string GetNameAndAgeOfMinions = @"SELECT Name, Age FROM Minions";
+
+        public const string GetNameAndAgeOfMinionById = @"SELECT Name, Age FROM Minions WHERE Id = @Id";
     }
 }
