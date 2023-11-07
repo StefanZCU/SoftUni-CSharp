@@ -30,8 +30,12 @@ namespace AdoDotNetExercise
             //Console.WriteLine(output);
 
             //Problem 06.
-            string output = await RemoveVillainFromDB(sqlConnection);
-            Console.WriteLine(output);
+            //string output = await RemoveVillainFromDB(sqlConnection);
+            //Console.WriteLine(output);
+
+            //Problem 07.
+            //string output = await PrintAllMinionNames(sqlConnection);
+            //Console.WriteLine(output);
 
         }
 
@@ -253,6 +257,38 @@ namespace AdoDotNetExercise
             await removeVillainFromVillainTable.ExecuteNonQueryAsync();
 
             sb.AppendLine($"{removedMinions} minions were released.");
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 07.
+
+        static async Task<string> PrintAllMinionNames(SqlConnection connection)
+        {
+            var sb = new StringBuilder();
+            var minionNames = new List<string>();
+            SqlCommand getAllMinionNamesCommand = new SqlCommand(SqlQueries.GetAllMinionNames, connection);
+            SqlDataReader minionNameReader = await getAllMinionNamesCommand.ExecuteReaderAsync();
+
+            while (minionNameReader.Read())
+            {
+                minionNames.Add((string)minionNameReader["Name"]);
+            }
+
+            int countMinions = minionNames.Count();
+
+            for (int i = 0; i <= countMinions / 2; i++)
+            {
+                if (i < countMinions)
+                {
+                    sb.AppendLine(minionNames[i]);
+                }
+
+                if (i < countMinions - 1)
+                {
+                    sb.AppendLine(minionNames[countMinions - 1 - i]);
+                }
+            }
 
             return sb.ToString().TrimEnd();
         }
