@@ -29,6 +29,9 @@
 
             //Problem 08.
             //Console.WriteLine(GetAddressesByTown(context));
+
+            //Problem 09.
+            //Console.WriteLine(GetEmployee147(context));
         }
 
         //Problem 03.
@@ -197,6 +200,41 @@
             foreach (var a in addresses)
             {
                 sb.AppendLine($"{a.AddressText}, {a.TownName} - {a.EmployeeCount} employees");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 09.
+        public static string GetEmployee147(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var employee147 = context.Employees
+                .Where(x => x.EmployeeId == 147)
+                .Select(e => new
+                {
+                    e.FirstName,
+                    e.LastName,
+                    e.JobTitle,
+                    Projects = e.EmployeesProjects
+                        .Select(ep => new
+                        {
+                            ProjectName = ep.Project.Name
+                        })
+                        .OrderBy(x => x.ProjectName)
+                        .ToList()
+                })
+                .ToList();
+
+            foreach (var e in employee147)
+            {
+                sb.AppendLine($"{e.FirstName} {e.LastName} - {e.JobTitle}");
+
+                foreach (var project in e.Projects)
+                {
+                    sb.AppendLine($"{project.ProjectName}");
+                }
             }
 
             return sb.ToString().TrimEnd();
