@@ -12,6 +12,9 @@
 
             //Problem 03.
             //Console.WriteLine(GetEmployeesFullInformation(context));
+
+            //Problem 04.
+            //Console.WriteLine(GetEmployeesWithSalaryOver50000(context));
         }
 
         //Problem 03.
@@ -35,6 +38,30 @@
             {
                 sb.AppendLine(
                     $"{employee.FirstName} {employee.LastName} {employee.MiddleName} {employee.JobTitle} {employee.Salary:F2}");
+            }
+
+            return sb.ToString().TrimEnd();
+
+        }
+
+        //Problem 04.
+        public static string GetEmployeesWithSalaryOver50000(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var employees = context.Employees
+                .OrderBy(x => x.FirstName)
+                .Where(x => x.Salary > 50000)
+                .Select(e => new
+                {
+                    e.FirstName,
+                    e.Salary
+                })
+                .ToList();
+
+            foreach (var employee in employees)
+            {
+                sb.AppendLine($"{employee.FirstName} - {employee.Salary:F2}");
             }
 
             return sb.ToString().TrimEnd();
