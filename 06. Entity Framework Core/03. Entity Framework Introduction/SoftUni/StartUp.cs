@@ -38,6 +38,9 @@
 
             //Problem 11.
             //Console.WriteLine(GetLatestProjects(context));
+
+            //Problem 12.
+            //Console.WriteLine(IncreaseSalaries(context));
         }
 
         //Problem 03.
@@ -316,6 +319,42 @@
 
             return sb.ToString().TrimEnd();
 
+        }
+
+        //Problem 12.
+        public static string IncreaseSalaries(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var employeesForIncreasedSalary = context.Employees
+                .Where(x => x.Department.Name == "Engineering" ||
+                            x.Department.Name == "Tool Design" ||
+                            x.Department.Name == "Marketing" ||
+                            x.Department.Name == "Information Services")
+                .ToList();
+
+            foreach (var employee in employeesForIncreasedSalary)
+            {
+                employee.Salary += employee.Salary * 0.12m;
+            }
+
+            var employees = employeesForIncreasedSalary
+                .Select(e => new
+                {
+                    e.FirstName,
+                    e.LastName,
+                    e.Salary
+                })
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .ToList();
+
+            foreach (var employee in employees)
+            {
+                sb.AppendLine($"{employee.FirstName} {employee.LastName} (${employee.Salary:F2})");
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
     }
