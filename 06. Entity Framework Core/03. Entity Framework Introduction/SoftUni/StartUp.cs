@@ -35,6 +35,9 @@
 
             //Problem 10.
             //Console.WriteLine(GetDepartmentsWithMoreThan5Employees(context));
+
+            //Problem 11.
+            //Console.WriteLine(GetLatestProjects(context));
         }
 
         //Problem 03.
@@ -284,6 +287,35 @@
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        //Problem 11.
+        public static string GetLatestProjects(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var latest10Projects = context.Projects
+                .OrderByDescending(x => x.StartDate)
+                .OrderBy(x => x.Name)
+                .Select(p => new
+                {
+                    ProjectName = p.Name,
+                    Description = p.Description,
+                    StartDate = p.StartDate.ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
+                })
+                .Take(10)
+                .ToList();
+
+            foreach (var project in latest10Projects)
+            {
+                sb
+                    .AppendLine($"{project.ProjectName}")
+                    .AppendLine($"{project.Description}")
+                    .AppendLine($"{project.StartDate}");
+            }
+
+            return sb.ToString().TrimEnd();
+
         }
 
     }
