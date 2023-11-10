@@ -26,6 +26,9 @@
 
             //Problem 07.
             //Console.WriteLine(GetEmployeesInPeriod(context));
+
+            //Problem 08.
+            //Console.WriteLine(GetAddressesByTown(context));
         }
 
         //Problem 03.
@@ -171,6 +174,32 @@
 
             return sb.ToString().TrimEnd();
 
+        }
+
+        //Problem 08.
+        public static string GetAddressesByTown(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var addresses = context.Addresses
+                .OrderByDescending(x => x.Employees.Count)
+                .ThenBy(x => x.Town.Name)
+                .ThenBy(x => x.AddressText)
+                .Select(a => new
+                {
+                    AddressText = a.AddressText,
+                    TownName = a.Town.Name,
+                    EmployeeCount = a.Employees.Count
+                })
+                .Take(10)
+                .ToList();
+
+            foreach (var a in addresses)
+            {
+                sb.AppendLine($"{a.AddressText}, {a.TownName} - {a.EmployeeCount} employees");
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
     }
