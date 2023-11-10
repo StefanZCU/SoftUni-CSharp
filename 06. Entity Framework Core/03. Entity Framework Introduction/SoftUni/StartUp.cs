@@ -1,6 +1,7 @@
 ﻿namespace SoftUni
 {
     using Data;
+    using Models;
 
     using System.Text;
 
@@ -18,6 +19,9 @@
 
             //Problem 05.
             //Console.WriteLine(GetEmployeesFromResearchAndDevelopment(context));
+
+            //Problem 06.
+            //Console.WriteLine(AddNewAddressToEmployee(context));
         }
 
         //Problem 03.
@@ -94,6 +98,32 @@
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        //Problem 06.
+        public static string AddNewAddressToEmployee(SoftUniContext context)
+        {
+            Address newAddress = new Address()
+            {
+                AddressText = "Vitoshka 15",
+                TownId = 4
+            };
+
+            //context.Addresses.Add(newAddress); // This is the way for adding into the db
+
+            Employee? employee = context.Employees
+                .FirstOrDefault(e => e.LastName == "Nakov");
+            employee.Address = newAddress;
+
+            context.SaveChanges();
+
+            string[] employeeAddresses = context.Employees
+                .OrderByDescending(e => e.AddressId)
+                .Take(10)
+                .Select(e => e.Address!.AddressText)
+                .ToArray();
+
+            return String.Join(Environment.NewLine, employeeAddresses);
         }
 
     }
