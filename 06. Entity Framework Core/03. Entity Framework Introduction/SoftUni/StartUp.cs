@@ -9,9 +9,12 @@
         static void Main(string[] args)
         {
             SoftUniContext context = new SoftUniContext();
-            Console.WriteLine(GetEmployeesFullInformation(context));
+
+            //Problem 03.
+            //Console.WriteLine(GetEmployeesFullInformation(context));
         }
 
+        //Problem 03.
         public static string GetEmployeesFullInformation(SoftUniContext context)
         {
             var sb = new StringBuilder();
@@ -37,5 +40,6 @@
             return sb.ToString().TrimEnd();
 
         }
+
     }
 }
