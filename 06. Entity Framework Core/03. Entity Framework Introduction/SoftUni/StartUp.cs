@@ -6,6 +6,8 @@
     using System.Text;
     using System.Globalization;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class StartUp
     {
         static void Main(string[] args)
@@ -37,10 +39,13 @@
             //Console.WriteLine(GetDepartmentsWithMoreThan5Employees(context));
 
             //Problem 11.
-            Console.WriteLine(GetLatestProjects(context));
+            //Console.WriteLine(GetLatestProjects(context));
 
             //Problem 12.
             //Console.WriteLine(IncreaseSalaries(context));
+
+            //Problem 13.
+            Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(context));
         }
 
         //Problem 03.
@@ -357,6 +362,27 @@
             return sb.ToString().TrimEnd();
         }
 
+        //Problem 13.
+        public static string GetEmployeesByFirstNameStartingWithSa(SoftUniContext context)
+        {
+            var employees = context.Employees
+                .Where(e => EF.Functions.Like(e.FirstName, "Sa%"))
+                .OrderBy(e => e.FirstName)
+                .ThenBy(e => e.LastName)
+                .Select(e => new
+                {
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    JobTitle = e.JobTitle,
+                    Salary = e.Salary
+                })
+                .ToList();
+
+            string result = string.Join(Environment.NewLine, employees
+                .Select(e => $"{e.FirstName} {e.LastName} - {e.JobTitle} - (${e.Salary:F2})"));
+
+            return result;
+        }
     }
 
 
