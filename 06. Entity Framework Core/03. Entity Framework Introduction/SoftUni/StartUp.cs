@@ -15,6 +15,9 @@
 
             //Problem 04.
             //Console.WriteLine(GetEmployeesWithSalaryOver50000(context));
+
+            //Problem 05.
+            //Console.WriteLine(GetEmployeesFromResearchAndDevelopment(context));
         }
 
         //Problem 03.
@@ -66,6 +69,31 @@
 
             return sb.ToString().TrimEnd();
 
+        }
+
+        //Problem 05.
+        public static string GetEmployeesFromResearchAndDevelopment(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var employees = context.Employees
+                .OrderBy(x => x.Salary)
+                .ThenByDescending(x => x.FirstName)
+                .Where(x => x.Department.Name == "Research and Development")
+                .Select(e => new
+                {
+                    e.FirstName,
+                    e.LastName,
+                    e.Department.Name,
+                    e.Salary
+                });
+
+            foreach (var employee in employees)
+            {
+                sb.AppendLine($"{employee.FirstName} {employee.LastName} from {employee.Name} - ${employee.Salary:F2}");
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
     }
