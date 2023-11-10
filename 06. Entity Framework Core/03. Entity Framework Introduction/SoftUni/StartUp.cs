@@ -37,7 +37,7 @@
             //Console.WriteLine(GetDepartmentsWithMoreThan5Employees(context));
 
             //Problem 11.
-            //Console.WriteLine(GetLatestProjects(context));
+            Console.WriteLine(GetLatestProjects(context));
 
             //Problem 12.
             //Console.WriteLine(IncreaseSalaries(context));
@@ -299,14 +299,14 @@
 
             var latest10Projects = context.Projects
                 .OrderByDescending(x => x.StartDate)
-                .OrderBy(x => x.Name)
+                .Take(10)
                 .Select(p => new
                 {
                     ProjectName = p.Name,
                     Description = p.Description,
                     StartDate = p.StartDate.ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
                 })
-                .Take(10)
+                .OrderBy(x => x.ProjectName)
                 .ToList();
 
             foreach (var project in latest10Projects)
