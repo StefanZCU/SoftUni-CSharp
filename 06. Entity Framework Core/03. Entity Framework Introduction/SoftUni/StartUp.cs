@@ -45,7 +45,10 @@
             //Console.WriteLine(IncreaseSalaries(context));
 
             //Problem 13.
-            Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(context));
+            //Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(context));
+
+            //Problem 14.
+            //Console.WriteLine(DeleteProjectById(context));
         }
 
         //Problem 03.
@@ -382,6 +385,35 @@
                 .Select(e => $"{e.FirstName} {e.LastName} - {e.JobTitle} - (${e.Salary:F2})"));
 
             return result;
+        }
+
+        //Problem 14.
+        public static string DeleteProjectById(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var projectToRemove = context.Projects.Find(2);
+
+            var projectsToRemoveFromEmployeesProjects = context.EmployeesProjects
+                .Where(x => x.ProjectId == 2);
+
+            foreach (var project in projectsToRemoveFromEmployeesProjects)
+            {
+                context.EmployeesProjects.Remove(project);
+            }
+
+            context.Projects.Remove(projectToRemove);
+
+            context.SaveChanges();
+
+            var projectsToPrint = context.Projects.Take(10);
+
+            foreach (var project in projectsToPrint)
+            {
+                sb.AppendLine(project.Name);
+            }
+
+            return sb.ToString().TrimEnd();
         }
     }
 
