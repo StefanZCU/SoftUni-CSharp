@@ -49,6 +49,9 @@
 
             //Problem 14.
             //Console.WriteLine(DeleteProjectById(context));
+
+            //Problem 15.
+            //Console.WriteLine(RemoveTown(context));
         }
 
         //Problem 03.
@@ -415,6 +418,42 @@
 
             return sb.ToString().TrimEnd();
         }
+
+        //Problem 15.
+        public static string RemoveTown(SoftUniContext context)
+        {
+            var sb = new StringBuilder();
+
+            var townToDelete = context.Towns.FirstOrDefault(x => x.Name == "Seattle");
+
+            var addressesToDelete = context.Addresses
+                .Where(x => x.TownId == townToDelete.TownId)
+                .ToList();
+
+            sb.AppendLine($"{addressesToDelete.Count} addresses in Seattle were deleted");
+
+            foreach (var address in addressesToDelete)
+            {
+                var employeesWithAddress = context.Employees
+                    .Where(x => x.AddressId == address.AddressId)
+                    .ToList();
+
+                foreach (var employee in employeesWithAddress)
+                {
+                    employee.AddressId = null;
+                    employee.Address = null;
+                }
+
+                context.Addresses.Remove(address);
+            }
+
+            context.Towns.Remove(townToDelete);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
+
+        }
+
     }
 
 
