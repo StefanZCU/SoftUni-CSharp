@@ -3,5 +3,5 @@
 public static class DbConfig
 {
     public const string ConnectionString =
-        @"Server=localhost\SQLEXPRESS;Database=Bet388;Trusted_Connection=True;TrustServerCertificate=True";
+        @"Data Source=localhost;Initial Catalog=Bet388;User Id=sa;Password=TakeawayFood123%6;";
 }
