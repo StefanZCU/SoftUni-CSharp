@@ -22,6 +22,9 @@ namespace BookShop
 
             //Problem 04.
             //Console.WriteLine(GetBooksByPrice(db));
+
+            //Problem 05.
+            Console.WriteLine(GetBooksNotReleasedIn(db, 2000));
         }
 
         //Problem 02.
@@ -83,6 +86,25 @@ namespace BookShop
             foreach (var book in allBooksWithPriceHigherThan40)
             {
                 sb.AppendLine($"{book.BookTitle} - ${book.BookPrice:F2}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 05.
+        public static string GetBooksNotReleasedIn(BookShopContext context, int year)
+        {
+            var sb = new StringBuilder();
+
+            var allBooksNotReleasedInGivenYear = context.Books
+                .Where(x => x.ReleaseDate.HasValue && x.ReleaseDate.Value.Year != year)
+                .OrderBy(x => x.BookId)
+                .Select(x => x.Title)
+                .ToList();
+
+            foreach (var book in allBooksNotReleasedInGivenYear)
+            {
+                sb.AppendLine(book);
             }
 
             return sb.ToString().TrimEnd();
