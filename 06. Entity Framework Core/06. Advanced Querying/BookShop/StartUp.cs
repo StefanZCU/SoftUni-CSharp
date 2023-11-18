@@ -15,7 +15,10 @@ namespace BookShop
             //DbInitializer.ResetDatabase(db);
 
             //Problem 02.
-            Console.WriteLine(GetBooksByAgeRestriction(db, "miNor"));
+            //Console.WriteLine(GetBooksByAgeRestriction(db, "miNor"));
+
+            //Problem 03.
+            //Console.WriteLine(GetGoldenBooks(db));
         }
 
         //Problem 02.
@@ -34,6 +37,26 @@ namespace BookShop
             foreach (var book in allBookTitles)
             {
                 sb.AppendLine(book.ToString());
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 03.
+        public static string GetGoldenBooks(BookShopContext context)
+        {
+            var sb = new StringBuilder();
+
+            var allGoldenBooksWithOver5000Copies = context.Books
+                .Where(x => x.EditionType == EditionType.Gold
+                            && x.Copies < 5000)
+                .OrderBy(x => x.BookId)
+                .Select(x => x.Title)
+                .ToList();
+
+            foreach (var book in allGoldenBooksWithOver5000Copies)
+            {
+                sb.AppendLine(book);
             }
 
             return sb.ToString().TrimEnd();
