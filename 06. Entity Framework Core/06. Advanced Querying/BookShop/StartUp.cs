@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml;
 using BookShop.Models.Enums;
 
 namespace BookShop
@@ -24,7 +26,10 @@ namespace BookShop
             //Console.WriteLine(GetBooksByPrice(db));
 
             //Problem 05.
-            Console.WriteLine(GetBooksNotReleasedIn(db, 2000));
+            //Console.WriteLine(GetBooksNotReleasedIn(db, 2000));
+
+            //Problem 06.
+            Console.WriteLine(GetBooksByCategory(db, "horror mystery drama"));
         }
 
         //Problem 02.
@@ -103,6 +108,29 @@ namespace BookShop
                 .ToList();
 
             foreach (var book in allBooksNotReleasedInGivenYear)
+            {
+                sb.AppendLine(book);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 06.
+        public static string GetBooksByCategory(BookShopContext context, string input)
+        {
+            var sb = new StringBuilder();
+
+            string[] categories = input.Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.ToLower())
+                .ToArray();
+
+            var booksWithGivenCategory = context.Books
+                .Where(x => x.BookCategories.Any(bc => categories.Contains(bc.Category.Name.ToLower())))
+                .OrderBy(x => x.Title)
+                .Select(x => x.Title)
+                .ToList();
+
+            foreach (var book in booksWithGivenCategory)
             {
                 sb.AppendLine(book);
             }
