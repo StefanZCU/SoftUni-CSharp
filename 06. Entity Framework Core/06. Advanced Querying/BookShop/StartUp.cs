@@ -29,7 +29,10 @@ namespace BookShop
             //Console.WriteLine(GetBooksNotReleasedIn(db, 2000));
 
             //Problem 06.
-            Console.WriteLine(GetBooksByCategory(db, "horror mystery drama"));
+            //Console.WriteLine(GetBooksByCategory(db, "horror mystery drama"));
+
+            //Problem 07.
+            //Console.WriteLine(GetBooksReleasedBefore(db, "12-04-1992"));
         }
 
         //Problem 02.
@@ -133,6 +136,33 @@ namespace BookShop
             foreach (var book in booksWithGivenCategory)
             {
                 sb.AppendLine(book);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 07.
+        public static string GetBooksReleasedBefore(BookShopContext context, string date)
+        {
+            var sb = new StringBuilder();
+
+            var parsedDateTime = DateTime.ParseExact(date, "dd-MM-yyyy", null);
+
+            var bookTitles = context.Books
+                .Where(x => x.ReleaseDate.HasValue &&
+                            x.ReleaseDate.Value < parsedDateTime)
+                .OrderByDescending(x => x.ReleaseDate)
+                .Select(b => new
+                {
+                    b.Title,
+                    b.EditionType,
+                    b.Price
+                })
+                .ToList();
+
+            foreach (var book in bookTitles)
+            {
+                sb.AppendLine($"{book.Title} - {book.EditionType} - ${book.Price:F2}");
             }
 
             return sb.ToString().TrimEnd();
