@@ -19,6 +19,9 @@ namespace BookShop
 
             //Problem 03.
             //Console.WriteLine(GetGoldenBooks(db));
+
+            //Problem 04.
+            //Console.WriteLine(GetBooksByPrice(db));
         }
 
         //Problem 02.
@@ -57,6 +60,29 @@ namespace BookShop
             foreach (var book in allGoldenBooksWithOver5000Copies)
             {
                 sb.AppendLine(book);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 04.
+        public static string GetBooksByPrice(BookShopContext context)
+        {
+            var sb = new StringBuilder();
+
+            var allBooksWithPriceHigherThan40 = context.Books
+                .Where(x => x.Price > 40)
+                .Select(b => new
+                {
+                    BookTitle = b.Title,
+                    BookPrice = b.Price
+                })
+                .OrderByDescending(x => x.BookPrice)
+                .ToList();
+
+            foreach (var book in allBooksWithPriceHigherThan40)
+            {
+                sb.AppendLine($"{book.BookTitle} - ${book.BookPrice:F2}");
             }
 
             return sb.ToString().TrimEnd();
