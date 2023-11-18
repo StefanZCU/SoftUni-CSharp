@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 using BookShop.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShop
 {
@@ -36,6 +37,9 @@ namespace BookShop
 
             //Problem 08.
             //Console.WriteLine(GetAuthorNamesEndingIn(db, "e"));
+
+            //Problem 09.
+            //Console.WriteLine(GetBookTitlesContaining(db, "sK"));
         }
 
         //Problem 02.
@@ -190,6 +194,25 @@ namespace BookShop
             foreach (var author in allAuthors)
             {
                 sb.AppendLine($"{author.FirstName} {author.LastName}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 09.
+        public static string GetBookTitlesContaining(BookShopContext context, string input)
+        {
+            var sb = new StringBuilder();
+
+            var allBooks = context.Books
+                .Where(x => EF.Functions.Like(x.Title, $"%{input}%"))
+                .Select(x => x.Title)
+                .OrderBy(x => x)
+                .ToList();
+
+            foreach (var book in allBooks)
+            {
+                sb.AppendLine(book);
             }
 
             return sb.ToString().TrimEnd();
