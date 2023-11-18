@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
@@ -40,6 +41,9 @@ namespace BookShop
 
             //Problem 09.
             //Console.WriteLine(GetBookTitlesContaining(db, "sK"));
+
+            //Problem 10.
+            //Console.WriteLine(GetBooksByAuthor(db, "rYs"));
         }
 
         //Problem 02.
@@ -208,6 +212,25 @@ namespace BookShop
                 .Where(x => EF.Functions.Like(x.Title, $"%{input}%"))
                 .Select(x => x.Title)
                 .OrderBy(x => x)
+                .ToList();
+
+            foreach (var book in allBooks)
+            {
+                sb.AppendLine(book);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 10.
+        public static string GetBooksByAuthor(BookShopContext context, string input)
+        {
+            var sb = new StringBuilder();
+
+            var allBooks = context.Books
+                .Where(x => EF.Functions.Like(x.Author.LastName, input + "%"))
+                .OrderBy(x => x.BookId)
+                .Select(x => $"{x.Title} ({x.Author.FirstName} {x.Author.LastName})")
                 .ToList();
 
             foreach (var book in allBooks)
