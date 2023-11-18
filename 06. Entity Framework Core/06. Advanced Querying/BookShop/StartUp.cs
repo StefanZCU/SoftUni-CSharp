@@ -46,7 +46,10 @@ namespace BookShop
             //Console.WriteLine(GetBooksByAuthor(db, "rYs"));
 
             //Problem 11.
-            Console.WriteLine(CountBooks(db, 12));
+            //Console.WriteLine(CountBooks(db, 12));
+
+            //Problem 12.
+            //Console.WriteLine(CountCopiesByAuthor(db));
         }
 
         //Problem 02.
@@ -249,6 +252,29 @@ namespace BookShop
         {
             return context.Books
                 .Count(x => x.Title.Length > lengthCheck);
+        }
+
+        //Problem 12.
+        public static string CountCopiesByAuthor(BookShopContext context)
+        {
+            var sb = new StringBuilder();
+
+            var numberOfBooksPerAuthor = context.Authors
+                .Select(a => new
+                {
+                    a.FirstName,
+                    a.LastName,
+                    CountOfBooks = a.Books.Sum(b => b.Copies)
+                })
+                .OrderByDescending(b => b.CountOfBooks)
+                .ToList();
+
+            foreach (var author in numberOfBooksPerAuthor)
+            {
+                sb.AppendLine($"{author.FirstName} {author.LastName} - {author.CountOfBooks}");
+            }
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
