@@ -33,6 +33,9 @@ namespace BookShop
 
             //Problem 07.
             //Console.WriteLine(GetBooksReleasedBefore(db, "12-04-1992"));
+
+            //Problem 08.
+            //Console.WriteLine(GetAuthorNamesEndingIn(db, "e"));
         }
 
         //Problem 02.
@@ -163,6 +166,30 @@ namespace BookShop
             foreach (var book in bookTitles)
             {
                 sb.AppendLine($"{book.Title} - {book.EditionType} - ${book.Price:F2}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 08.
+        public static string GetAuthorNamesEndingIn(BookShopContext context, string input)
+        {
+            var sb = new StringBuilder();
+
+            var allAuthors = context.Authors
+                .Where(x => x.FirstName.EndsWith(input))
+                .Select(x => new
+                {
+                    x.FirstName,
+                    x.LastName
+                })
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .ToList();
+
+            foreach (var author in allAuthors)
+            {
+                sb.AppendLine($"{author.FirstName} {author.LastName}");
             }
 
             return sb.ToString().TrimEnd();
