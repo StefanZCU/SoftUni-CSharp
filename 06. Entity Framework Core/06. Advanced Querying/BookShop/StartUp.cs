@@ -44,6 +44,9 @@ namespace BookShop
 
             //Problem 10.
             //Console.WriteLine(GetBooksByAuthor(db, "rYs"));
+
+            //Problem 11.
+            Console.WriteLine(CountBooks(db, 12));
         }
 
         //Problem 02.
@@ -239,6 +242,13 @@ namespace BookShop
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        //Problem 11.
+        public static int CountBooks(BookShopContext context, int lengthCheck)
+        {
+            return context.Books
+                .Count(x => x.Title.Length > lengthCheck);
         }
     }
 }
