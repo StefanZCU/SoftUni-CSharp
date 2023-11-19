@@ -57,6 +57,9 @@ namespace BookShop
 
             //Problem 14.
             //Console.WriteLine(GetMostRecentBooks(db));
+
+            //Problem 16.
+            //Console.WriteLine(RemoveBooks(db));
         }
 
         //Problem 02.
@@ -357,6 +360,26 @@ namespace BookShop
             }
 
             context.SaveChanges();
+        }
+
+        //Problem 16.
+        public static int RemoveBooks(BookShopContext context)
+        {
+            var allBooksWithLessThan4200Copies = context.Books
+                .Where(x => x.Copies < 4200)
+                .ToList();
+
+            foreach (var book in allBooksWithLessThan4200Copies)
+            {
+                var booksCategory = context.BooksCategories
+                    .First(x => x.BookId == book.BookId);
+                context.BooksCategories.Remove(booksCategory);
+                context.Books.Remove(book);
+            }
+
+            context.SaveChanges();
+
+            return allBooksWithLessThan4200Copies.Count;
         }
     }
 }
