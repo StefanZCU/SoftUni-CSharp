@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookShop
 {
+    using BookShop.Models;
     using Data;
     using Initializer;
 
@@ -339,6 +340,23 @@ namespace BookShop
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        //Problem 15.
+        public static void IncreasePrices(BookShopContext context)
+        {
+            var bookReleasedBefore2010 = context
+                .Books
+                .Where(b => b.ReleaseDate.HasValue &&
+                            b.ReleaseDate.Value.Year < 2010)
+                .ToList();
+
+            foreach (var book in bookReleasedBefore2010)
+            {
+                book.Price += 5;
+            }
+
+            context.SaveChanges();
         }
     }
 }
