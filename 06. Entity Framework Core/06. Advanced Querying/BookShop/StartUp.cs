@@ -53,6 +53,9 @@ namespace BookShop
 
             //Problem 13.
             //Console.WriteLine(GetTotalProfitByCategory(db));
+
+            //Problem 14.
+            //Console.WriteLine(GetMostRecentBooks(db));
         }
 
         //Problem 02.
@@ -298,6 +301,41 @@ namespace BookShop
             foreach (var category in profitPerCategory)
             {
                 sb.AppendLine($"{category.Name} ${category.TotalProfit:F2}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        //Problem 14.
+        public static string GetMostRecentBooks(BookShopContext context)
+        {
+            var sb = new StringBuilder();
+
+            var top3BooksPerCategory = context.Categories
+                .Select(c => new
+                {
+                    c.Name,
+                    TopThreeBooks = c.CategoryBooks
+                        .Select(b => new
+                        {
+                            BookTitle = b.Book.Title,
+                            BookReleaseDate = b.Book.ReleaseDate
+                        })
+                        .OrderByDescending(x => x.BookReleaseDate)
+                        .Take(3)
+                        .ToList()
+                })
+                .OrderBy(x => x.Name)
+                .ToList();
+
+            foreach (var category in top3BooksPerCategory)
+            {
+                sb.AppendLine($"--{category.Name}");
+
+                foreach (var book in category.TopThreeBooks)
+                {
+                    sb.AppendLine($"{book.BookTitle} ({book.BookReleaseDate.Value.Year})");
+                }
             }
 
             return sb.ToString().TrimEnd();
