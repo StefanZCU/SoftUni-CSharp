@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProductShop.DTOs.Import;
 
 namespace ProductShop
@@ -26,8 +27,11 @@ namespace ProductShop
             //Console.WriteLine(ImportCategories(context, inputJson));
 
             //Problem 04.
-            string inputJson = File.ReadAllText(@"../../../Datasets/categories-products.json");
-            Console.WriteLine(ImportCategoryProducts(context, inputJson));
+            //string inputJson = File.ReadAllText(@"../../../Datasets/categories-products.json");
+            //Console.WriteLine(ImportCategoryProducts(context, inputJson));
+
+            //Problem 05.
+            //Console.WriteLine(GetProductsInRange(context));
         }
 
         //Problem 01.
@@ -120,6 +124,25 @@ namespace ProductShop
             return $"Successfully imported {validEntries.Count}";
 
         }
+
+        //Problem 05.
+        public static string GetProductsInRange(ProductShopContext context)
+        {
+            var products = context.Products
+                .Where(x => x.Price >= 500 && x.Price <= 1000)
+                .Select(p => new
+                {
+                    name = p.Name,
+                    price = p.Price,
+                    seller = $"{p.Seller.FirstName} {p.Seller.LastName}"
+                })
+                .OrderBy(x => x.price)
+                .AsNoTracking()
+                .ToList();
+
+            return JsonConvert.SerializeObject(products, Formatting.Indented);
+        }
+
 
         private static IMapper CreateMapper()
         {
