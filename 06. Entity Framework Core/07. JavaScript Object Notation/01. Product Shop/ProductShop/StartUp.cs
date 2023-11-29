@@ -36,6 +36,9 @@ namespace ProductShop
 
             //Problem 06.
             //Console.WriteLine(GetSoldProducts(context));
+
+            //Problem 07.
+            Console.WriteLine(GetCategoriesByProductsCount(context));
         }
 
         //Problem 01.
@@ -150,7 +153,6 @@ namespace ProductShop
         //Problem 06.
         public static string GetSoldProducts(ProductShopContext context)
         {
-            IContractResolver contractResolver = ConfigureCamelCaseNaming();
 
             var usersWithSoldProducts = context.Users
                 .Where(x => x.ProductsSold.Any(y => y.Buyer != null))
@@ -174,11 +176,25 @@ namespace ProductShop
                 .AsNoTracking()
                 .ToList();
 
-            return JsonConvert.SerializeObject(usersWithSoldProducts, Formatting.Indented,
-                new JsonSerializerSettings()
+            return JsonConvert.SerializeObject(usersWithSoldProducts, Formatting.Indented);
+        }
+
+        //Problem 07.
+        public static string GetCategoriesByProductsCount(ProductShopContext context)
+        {
+            var categories = context.Categories
+                .OrderByDescending(x => x.CategoriesProducts.Count)
+                .Select(c => new
                 {
-                    ContractResolver = contractResolver
-                });
+                    category = c.Name,
+                    productsCount = c.CategoriesProducts.Count,
+                    averagePrice = $"{c.CategoriesProducts.Average(cp => cp.Product.Price):F2}",
+                    totalRevenue = $"{c.CategoriesProducts.Sum(cp => cp.Product.Price):F2}"
+                })
+                .AsNoTracking()
+                .ToArray();
+
+            return JsonConvert.SerializeObject(categories, Formatting.Indented);
         }
 
 
@@ -190,12 +206,5 @@ namespace ProductShop
             }));
         }
 
-        private static IContractResolver ConfigureCamelCaseNaming()
-        {
-            return new DefaultContractResolver()
-            {
-                NamingStrategy = new CamelCaseNamingStrategy(false, true)
-            };
-        }
     }
 }
