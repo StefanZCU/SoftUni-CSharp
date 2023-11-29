@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net.Mime;
 using CarDealer.Data;
 using CarDealer.DTOs.Import;
 using CarDealer.Models;
@@ -37,7 +38,10 @@ namespace CarDealer
             //Console.WriteLine(GetOrderedCustomers(context));
 
             //Problem 15.
-            Console.WriteLine(GetCarsFromMakeToyota(context));
+            //Console.WriteLine(GetCarsFromMakeToyota(context));
+
+            //Problem 16.
+            Console.WriteLine(GetLocalSuppliers(context));
         }
 
         //Problem 09.
@@ -154,6 +158,23 @@ namespace CarDealer
                 .ToList();
 
             return JsonConvert.SerializeObject(carsFromToyota, Formatting.Indented);
+        }
+
+        //Problem 16.
+        public static string GetLocalSuppliers(CarDealerContext context)
+        {
+            var suppliers = context.Suppliers
+                .Where(x => !x.IsImporter)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Name,
+                    PartsCount = s.Parts.Count
+                })
+                .AsNoTracking()
+                .ToList();
+
+            return JsonConvert.SerializeObject(suppliers, Formatting.Indented);
         }
     }
 }
