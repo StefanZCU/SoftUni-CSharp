@@ -9,10 +9,17 @@ namespace ProductShop
         public ProductShopProfile() 
         {
             //User
-            this.CreateMap<ImportUserDto, User>();
+            CreateMap<ImportUserDto, User>();
 
             //Product
-            this.CreateMap<ImportProductDto, Product>();
+            CreateMap<ImportProductDto, Product>();
+
+            //Category
+            CreateMap<ImportCategoryDto, Category>();
+
+            //CategoryProduct
+            CreateMap<ImportCategoryProductDto, CategoryProduct>();
+
         }
     }
 }

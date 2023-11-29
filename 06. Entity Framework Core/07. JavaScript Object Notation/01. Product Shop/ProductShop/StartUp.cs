@@ -18,8 +18,16 @@ namespace ProductShop
             //Console.WriteLine(ImportUsers(context, inputJson));
 
             //Problem 02.
-            string inputJson = File.ReadAllText(@"../../../Datasets/products.json");
-            Console.WriteLine(ImportProducts(context, inputJson));
+            //string inputJson = File.ReadAllText(@"../../../Datasets/products.json");
+            //Console.WriteLine(ImportProducts(context, inputJson));
+
+            //Problem 03.
+            //string inputJson = File.ReadAllText(@"../../../Datasets/categories.json");
+            //Console.WriteLine(ImportCategories(context, inputJson));
+
+            //Problem 04.
+            string inputJson = File.ReadAllText(@"../../../Datasets/categories-products.json");
+            Console.WriteLine(ImportCategoryProducts(context, inputJson));
         }
 
         //Problem 01.
@@ -58,7 +66,60 @@ namespace ProductShop
 
         }
 
+        //Problem 03.
+        public static string ImportCategories(ProductShopContext context, string inputJson)
+        {
+            IMapper mapper = CreateMapper();
 
+            ImportCategoryDto[] categoryDtos = JsonConvert.DeserializeObject<ImportCategoryDto[]>(inputJson);
+
+            ICollection<Category> validCategories = new HashSet<Category>();
+            foreach (var categoryDto in categoryDtos)
+            {
+                if (string.IsNullOrWhiteSpace(categoryDto.Name))
+                {
+                    continue;
+                }
+
+                Category category = mapper.Map<Category>(categoryDto);
+                validCategories.Add(category);
+            }
+
+            context.Categories.AddRange(validCategories);
+            context.SaveChanges();
+
+            return $"Successfully imported {validCategories.Count}";
+
+        }
+
+        //Problem 04.
+        public static string ImportCategoryProducts(ProductShopContext context, string inputJson)
+        {
+            IMapper mapper = CreateMapper();
+
+            ImportCategoryProductDto[] categoryProductDtos =
+                JsonConvert.DeserializeObject<ImportCategoryProductDto[]>(inputJson);
+
+            ICollection<CategoryProduct> validEntries = new HashSet<CategoryProduct>();
+            foreach (ImportCategoryProductDto cpDto in categoryProductDtos)
+            {
+                //if (!context.Categories.Any(c => c.Id == cpDto.CategoryId) ||
+                //    !context.Products.Any(p => p.Id == cpDto.ProductId))
+                //{
+                //    continue;
+                //}
+
+                CategoryProduct categoryProduct =
+                    mapper.Map<CategoryProduct>(cpDto);
+                validEntries.Add(categoryProduct);
+            }
+
+            context.CategoriesProducts.AddRange(validEntries);
+            context.SaveChanges();
+
+            return $"Successfully imported {validEntries.Count}";
+
+        }
 
         private static IMapper CreateMapper()
         {
