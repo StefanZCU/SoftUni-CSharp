@@ -34,7 +34,10 @@ namespace CarDealer
             //Console.WriteLine(ImportSales(context, inputJson));
 
             //Problem 14.
-            Console.WriteLine(GetOrderedCustomers(context));
+            //Console.WriteLine(GetOrderedCustomers(context));
+
+            //Problem 15.
+            Console.WriteLine(GetCarsFromMakeToyota(context));
         }
 
         //Problem 09.
@@ -131,6 +134,26 @@ namespace CarDealer
                 .ToList();
 
             return JsonConvert.SerializeObject(customers, Formatting.Indented);
+        }
+
+        //Problem 15.
+        public static string GetCarsFromMakeToyota(CarDealerContext context)
+        {
+            var carsFromToyota = context.Cars
+                .Where(x => x.Make == "Toyota")
+                .OrderBy(x => x.Model)
+                .ThenByDescending(x => x.TraveledDistance)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Make,
+                    c.Model,
+                    c.TraveledDistance
+                })
+                .AsNoTracking()
+                .ToList();
+
+            return JsonConvert.SerializeObject(carsFromToyota, Formatting.Indented);
         }
     }
 }
