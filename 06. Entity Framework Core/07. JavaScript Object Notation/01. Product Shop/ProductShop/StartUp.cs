@@ -38,7 +38,10 @@ namespace ProductShop
             //Console.WriteLine(GetSoldProducts(context));
 
             //Problem 07.
-            Console.WriteLine(GetCategoriesByProductsCount(context));
+            //Console.WriteLine(GetCategoriesByProductsCount(context));
+
+            //Problem 08.
+            Console.WriteLine(GetUsersWithProducts(context));
         }
 
         //Problem 01.
@@ -195,6 +198,47 @@ namespace ProductShop
                 .ToArray();
 
             return JsonConvert.SerializeObject(categories, Formatting.Indented);
+        }
+
+        //Problem 08.
+        public static string GetUsersWithProducts(ProductShopContext context)
+        {
+            var users = context.Users
+                .Where(x => x.ProductsSold.Any(y => y.Buyer != null))
+                .Select(u => new
+                {
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    age = u.Age,
+                    soldProducts = new
+                    {
+                        count = u.ProductsSold.Count(x => x.Buyer != null),
+                        products = u.ProductsSold
+                            .Where(x => x.Buyer != null)
+                            .Select(p => new
+                            {
+                                name = p.Name,
+                                price = p.Price
+                            })
+                            .ToList()
+                    }
+                })
+                .OrderByDescending(x => x.soldProducts.count)
+                .AsNoTracking()
+                .ToList();
+
+            var userWrapperDto = new
+            {
+                usersCount = users.Count,
+                users
+            };
+
+            return JsonConvert.SerializeObject(userWrapperDto, 
+                Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
         }
 
 
