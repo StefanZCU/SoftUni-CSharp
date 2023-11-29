@@ -48,6 +48,9 @@ namespace CarDealer
 
             //Problem 18.
             //Console.WriteLine(GetTotalSalesByCustomer(context));
+
+            //Problem 19.
+            Console.WriteLine(GetSalesWithAppliedDiscount(context));
         }
 
         //Problem 09.
@@ -235,6 +238,31 @@ namespace CarDealer
                 .ToArray();
 
             return JsonConvert.SerializeObject(output, Formatting.Indented);
+        }
+
+        //Problem 19.
+        public static string GetSalesWithAppliedDiscount(CarDealerContext context)
+        {
+            var sales = context.Sales
+                .Take(10)
+                .Select(s => new
+                {
+                    car = new
+                    {
+                        s.Car.Make,
+                        s.Car.Model,
+                        s.Car.TraveledDistance,
+                    },
+
+                    customerName = s.Customer.Name,
+                    discount = s.Discount.ToString("0.00"),
+                    price = s.Car.PartsCars.Sum(p => p.Part.Price).ToString("0.00"),
+                    priceWithDiscount = (s.Car.PartsCars.Sum(p => p.Part.Price) * (1 - s.Discount / 100)).ToString("0.00")
+                })
+                .AsNoTracking()
+                .ToArray();
+
+            return JsonConvert.SerializeObject(sales, Formatting.Indented);
         }
     }
 }
