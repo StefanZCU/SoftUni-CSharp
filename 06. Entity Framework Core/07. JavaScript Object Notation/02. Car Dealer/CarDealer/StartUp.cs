@@ -1,4 +1,5 @@
 ﻿using CarDealer.Data;
+using CarDealer.DTOs.Import;
 using CarDealer.Models;
 using Newtonsoft.Json;
 
@@ -15,8 +16,12 @@ namespace CarDealer
             //Console.WriteLine(ImportSuppliers(context, inputJson));
 
             //Problem 10.
-            string inputJson = File.ReadAllText(@"../../../Datasets/parts.json");
-            Console.WriteLine(ImportParts(context, inputJson));
+            //string inputJson = File.ReadAllText(@"../../../Datasets/parts.json");
+            //Console.WriteLine(ImportParts(context, inputJson));
+
+            //Problem 11.
+            string inputJson = File.ReadAllText(@"../../../Datasets/cars.json");
+            Console.WriteLine(ImportCars(context, inputJson));
         }
 
         //Problem 09.
@@ -45,6 +50,35 @@ namespace CarDealer
             context.SaveChanges();
 
             return $"Successfully imported {parts.Count}.";
+        }
+
+        //Problem 11.
+        public static string ImportCars(CarDealerContext context, string inputJson)
+        {
+            List<CarDto> carsDtos = JsonConvert.DeserializeObject<List<CarDto>>(inputJson);
+
+            List<Car> cars = new List<Car>();
+            List<PartCar> parts = new List<PartCar>();
+
+            foreach (var carDto in carsDtos)
+            {
+                Car car = new Car()
+                {
+                    Make = carDto.Make,
+                    Model = carDto.Model,
+                    TraveledDistance = carDto.TraveledDistance
+                };
+
+                cars.Add(car);
+
+                parts.AddRange(carDto.PartIds.Distinct().Select(carPart => new PartCar() { Car = car, PartId = carPart }));
+            }
+
+            context.AddRange(parts);
+            context.AddRange(cars);
+            context.SaveChanges();
+
+            return $"Successfully imported {cars.Count}.";
         }
     }
 }
