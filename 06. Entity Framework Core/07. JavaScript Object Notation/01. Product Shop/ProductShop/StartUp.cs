@@ -5,6 +5,7 @@ using ProductShop.DTOs.Import;
 namespace ProductShop
 {
     using AutoMapper;
+    using Newtonsoft.Json.Serialization;
     using ProductShop.Data;
     using ProductShop.Models;
 
@@ -32,6 +33,9 @@ namespace ProductShop
 
             //Problem 05.
             //Console.WriteLine(GetProductsInRange(context));
+
+            //Problem 06.
+            //Console.WriteLine(GetSoldProducts(context));
         }
 
         //Problem 01.
@@ -143,6 +147,40 @@ namespace ProductShop
             return JsonConvert.SerializeObject(products, Formatting.Indented);
         }
 
+        //Problem 06.
+        public static string GetSoldProducts(ProductShopContext context)
+        {
+            IContractResolver contractResolver = ConfigureCamelCaseNaming();
+
+            var usersWithSoldProducts = context.Users
+                .Where(x => x.ProductsSold.Any(y => y.Buyer != null))
+                .OrderBy(x => x.LastName)
+                .ThenBy(x => x.FirstName)
+                .Select(u => new
+                {
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    soldProducts = u.ProductsSold
+                        .Where(p => p.Buyer != null)
+                        .Select(p => new
+                        {
+                            name = p.Name,
+                            price = p.Price,
+                            buyerFirstName = p.Buyer.FirstName,
+                            buyerLastName = p.Buyer.LastName
+                        })
+                        .ToList()
+                })
+                .AsNoTracking()
+                .ToList();
+
+            return JsonConvert.SerializeObject(usersWithSoldProducts, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ContractResolver = contractResolver
+                });
+        }
+
 
         private static IMapper CreateMapper()
         {
@@ -150,6 +188,14 @@ namespace ProductShop
             {
                 cfg.AddProfile<ProductShopProfile>();
             }));
+        }
+
+        private static IContractResolver ConfigureCamelCaseNaming()
+        {
+            return new DefaultContractResolver()
+            {
+                NamingStrategy = new CamelCaseNamingStrategy(false, true)
+            };
         }
     }
 }
