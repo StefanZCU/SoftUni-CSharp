@@ -44,7 +44,10 @@ namespace CarDealer
             //Console.WriteLine(GetLocalSuppliers(context));
 
             //Problem 17.
-            Console.WriteLine(GetCarsWithTheirListOfParts(context));
+            //Console.WriteLine(GetCarsWithTheirListOfParts(context));
+
+            //Problem 18.
+            //Console.WriteLine(GetTotalSalesByCustomer(context));
         }
 
         //Problem 09.
@@ -203,6 +206,35 @@ namespace CarDealer
                 .ToList();
 
             return JsonConvert.SerializeObject(carsWithParts, Formatting.Indented);
+        }
+
+        //Problem 18.
+        public static string GetTotalSalesByCustomer(CarDealerContext context)
+        {
+            var customers = context.Customers
+                .Where(cus => cus.Sales.Any())
+                .Select(cus => new
+                {
+                    fullName = cus.Name,
+                    boughtCars = cus.Sales.Count(),
+                    moneyCars = cus.Sales
+                        .SelectMany(c => c.Car.PartsCars.Select(p => p.Part.Price))
+                })
+                .AsNoTracking()
+                .ToArray();
+
+            var output = customers
+                .Select(o => new
+                {
+                    o.fullName,
+                    o.boughtCars,
+                    spentMoney = o.moneyCars.Sum()
+                })
+                .OrderByDescending(o => o.spentMoney)
+                .ThenByDescending(o => o.boughtCars)
+                .ToArray();
+
+            return JsonConvert.SerializeObject(output, Formatting.Indented);
         }
     }
 }
