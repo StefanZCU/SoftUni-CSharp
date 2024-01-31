@@ -76,7 +76,8 @@ namespace Medicines.DataProcessor
             {
                 Indent = true,
                 IndentChars = "    ",
-                NewLineChars = "\n"
+                NewLineChars = "\n",
+                Encoding = Encoding.UTF8
             };
 
             using (var writer = XmlWriter.Create(sb, settings))
