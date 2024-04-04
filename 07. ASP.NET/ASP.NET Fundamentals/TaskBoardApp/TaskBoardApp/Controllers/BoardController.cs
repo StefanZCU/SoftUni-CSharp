@@ -15,6 +15,7 @@ public class BoardController : Controller
         _data = context;
     }
 
+    [HttpGet]
     public async Task<IActionResult> All()
     {
         var boards = await _data
