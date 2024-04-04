@@ -25,5 +25,5 @@ public class Task
     [Required] 
     public string OwnerId { get; set; } = null!;
 
-    public IdentityUser User { get; set; } = null!;
+    public IdentityUser Owner { get; set; } = null!;
 }

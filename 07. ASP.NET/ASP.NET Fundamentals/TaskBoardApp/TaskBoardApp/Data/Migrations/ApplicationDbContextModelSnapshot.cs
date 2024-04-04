@@ -141,15 +141,15 @@ namespace TaskBoardApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ecbf779f-ad19-47ee-b84a-54f81cca521b",
+                            Id = "c8331c96-8997-46a8-b9c4-e1ed011a60b4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ee21e18c-2232-4f64-9855-5ae6ff80c41f",
+                            ConcurrencyStamp = "bd2da266-6445-45d9-b7d8-a5739536e9e5",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "TEST@SOFTUNI.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGunYhFb9ba25rXhqp/O2ocXYIsEXbJ3AWlMx6vyNMXKGg1f5vxplhhl4zvHt+KPyg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELxSDV40gtAlVYjl2aIxbQBFTd+IMaej0DCkAQxKGSsmqJJNvRei5GShI+82Sr+bFQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "03e587e2-136b-4e5e-8a19-e380b269f98c",
+                            SecurityStamp = "b94b317b-468d-4c25-a602-ea6cfd3c1848",
                             TwoFactorEnabled = false,
                             UserName = "test@softuni.bg"
                         });
@@ -296,21 +296,18 @@ namespace TaskBoardApp.Data.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BoardId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Tasks");
 
@@ -319,36 +316,36 @@ namespace TaskBoardApp.Data.Migrations
                         {
                             Id = 1,
                             BoardId = 1,
-                            CreatedOn = new DateTime(2023, 11, 4, 12, 50, 53, 388, DateTimeKind.Local).AddTicks(5480),
+                            CreatedOn = new DateTime(2023, 11, 4, 13, 23, 28, 883, DateTimeKind.Local).AddTicks(3720),
                             Description = "Create Android client app for the TaskBoard RESTful API",
-                            OwnerId = "ecbf779f-ad19-47ee-b84a-54f81cca521b",
+                            OwnerId = "c8331c96-8997-46a8-b9c4-e1ed011a60b4",
                             Title = "Android Client App"
                         },
                         new
                         {
                             Id = 2,
                             BoardId = 1,
-                            CreatedOn = new DateTime(2023, 9, 17, 12, 50, 53, 388, DateTimeKind.Local).AddTicks(5510),
+                            CreatedOn = new DateTime(2023, 9, 17, 13, 23, 28, 883, DateTimeKind.Local).AddTicks(3760),
                             Description = "Implement better styling for all public pages",
-                            OwnerId = "ecbf779f-ad19-47ee-b84a-54f81cca521b",
+                            OwnerId = "c8331c96-8997-46a8-b9c4-e1ed011a60b4",
                             Title = "Improve CSS styles"
                         },
                         new
                         {
                             Id = 3,
                             BoardId = 2,
-                            CreatedOn = new DateTime(2024, 3, 4, 12, 50, 53, 388, DateTimeKind.Local).AddTicks(5520),
+                            CreatedOn = new DateTime(2024, 3, 4, 13, 23, 28, 883, DateTimeKind.Local).AddTicks(3760),
                             Description = "Create Windows Forms desktop app client for the TaskBoard RESTful API",
-                            OwnerId = "ecbf779f-ad19-47ee-b84a-54f81cca521b",
+                            OwnerId = "c8331c96-8997-46a8-b9c4-e1ed011a60b4",
                             Title = "Desktop Client App"
                         },
                         new
                         {
                             Id = 4,
                             BoardId = 3,
-                            CreatedOn = new DateTime(2023, 4, 4, 12, 50, 53, 388, DateTimeKind.Local).AddTicks(5520),
+                            CreatedOn = new DateTime(2023, 4, 4, 13, 23, 28, 883, DateTimeKind.Local).AddTicks(3770),
                             Description = "Implement [Create Task] page for adding new tasks",
-                            OwnerId = "ecbf779f-ad19-47ee-b84a-54f81cca521b",
+                            OwnerId = "c8331c96-8997-46a8-b9c4-e1ed011a60b4",
                             Title = "Create Tasks"
                         });
                 });
@@ -412,13 +409,15 @@ namespace TaskBoardApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Board");
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("TaskBoardApp.Data.Models.Board", b =>
