@@ -11,6 +11,11 @@ namespace SoftUniBazar.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            if (User.Identity is { IsAuthenticated: true})
+            {
+                return RedirectToAction("All", "Ad");
+            }
+            
             return View();
         }
 
