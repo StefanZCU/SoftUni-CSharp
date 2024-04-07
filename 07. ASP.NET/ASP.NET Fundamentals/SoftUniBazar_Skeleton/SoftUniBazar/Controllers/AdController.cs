@@ -55,7 +55,7 @@ public class AdController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(AdFormViewModel model)
     {
-        if (!(await GetCategories()).Any(e => e.Id == model.CategoryId))
+        if ((await GetCategories()).All(e => e.Id != model.CategoryId))
         {
             ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
         }
@@ -131,7 +131,7 @@ public class AdController : Controller
             return Unauthorized();
         }
 
-        if (!(await GetCategories()).Any(c => c.Id != model.CategoryId))
+        if ((await GetCategories()).All(c => c.Id == model.CategoryId))
         {
             ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
         }
