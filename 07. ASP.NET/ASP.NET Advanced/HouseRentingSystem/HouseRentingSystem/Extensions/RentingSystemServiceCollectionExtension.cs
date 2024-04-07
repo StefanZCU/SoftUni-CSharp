@@ -15,7 +15,7 @@ public static class RentingSystemServiceCollectionExtension
     {
         var connectionString = config.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<HouseRentingDbContext>(options =>
             options.UseSqlServer(connectionString));
         
         services.AddDatabaseDeveloperPageExceptionFilter();
@@ -30,7 +30,7 @@ public static class RentingSystemServiceCollectionExtension
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<HouseRentingDbContext>();
         
         return services;
     }
