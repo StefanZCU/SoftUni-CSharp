@@ -1,4 +1,5 @@
 ﻿using HouseRentingSystem.Infrastructure.Data.Models;
+using HouseRentingSystem.Infrastructure.Data.SeedDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -19,18 +20,10 @@ public class HouseRentingDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder
-            .Entity<House>()
-            .HasOne(h => h.Category)
-            .WithMany(c => c.Houses)
-            .HasForeignKey(h => h.CategoryId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
-        builder.Entity<House>()
-            .HasOne(h => h.Agent)
-            .WithMany()
-            .HasForeignKey(h => h.AgentId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new AgentConfiguration());
+        builder.ApplyConfiguration(new CategoryConfiguration());
+        builder.ApplyConfiguration(new HouseConfiguration());
         
         base.OnModelCreating(builder);
     }
