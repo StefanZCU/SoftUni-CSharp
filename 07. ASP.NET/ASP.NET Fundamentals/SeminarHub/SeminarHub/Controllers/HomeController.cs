@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SeminarHub.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SeminarHub.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,9 +14,16 @@ namespace SeminarHub.Controllers
         {
             _logger = logger;
         }
-
+        
+        
+        [AllowAnonymous]
         public IActionResult Index()
         {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("All", "Seminar");
+            }
+            
             return View();
         }
 

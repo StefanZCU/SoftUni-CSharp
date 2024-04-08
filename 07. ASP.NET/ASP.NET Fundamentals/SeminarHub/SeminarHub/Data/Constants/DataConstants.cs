@@ -11,7 +11,7 @@ public static class DataConstants
     public const int SeminarDetailsMaxLength = 500;
     public const int SeminarDetailsMinLength = 10;
 
-    public const string DateFormat = "dd//MM/yyyy HH:mm";
+    public const string DateFormat = "dd/MM/yyyy HH:mm";
 
     public const int SeminarDurationMax = 180;
     public const int SeminarDurationMin = 30;
