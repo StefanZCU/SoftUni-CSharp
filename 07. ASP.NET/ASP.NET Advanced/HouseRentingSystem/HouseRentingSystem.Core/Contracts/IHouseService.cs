@@ -5,4 +5,10 @@ namespace HouseRentingSystem.Core.Contracts;
 public interface IHouseService
 {
     Task<IEnumerable<HouseIndexServiceModel>> LastThreeHousesAsync();
+
+    Task<IEnumerable<HouseCategoryServiceModel>> AllCategories();
+
+    Task<bool> CategoryExistsAsync(int categoryId);
+
+    Task<int> CreateAsync(HouseFormModel model, int agentId);
 }

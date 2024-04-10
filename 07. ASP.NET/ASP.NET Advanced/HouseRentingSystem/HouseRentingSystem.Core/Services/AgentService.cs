@@ -14,6 +14,11 @@ public class AgentService : IAgentService
         _repository = repository;
     }
 
+    public async Task<int?> GetAgentIdAsync(string userId)
+    {
+        return (await _repository.AllReadOnly<Agent>().FirstOrDefaultAsync(a => a.UserId == userId))?.Id;
+    }
+
     public async Task<bool> ExistByIdAsync(string userId)
     {
         return await
