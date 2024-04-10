@@ -15,7 +15,7 @@ public class HouseService : IHouseService
         _repository = repository;
     }
     
-    public async Task<IEnumerable<HouseIndexServiceModel>> LastThreeHouses()
+    public async Task<IEnumerable<HouseIndexServiceModel>> LastThreeHousesAsync()
     {
         return await _repository
             .AllReadOnly<House>()
