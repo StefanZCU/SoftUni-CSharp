@@ -4,10 +4,11 @@ using HouseRentingSystem.Core.Models.Home;
 using HouseRentingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using HouseRentingSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HouseRentingSystem.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly IHouseService _houseService;
     private readonly ILogger<HomeController> _logger;
@@ -20,6 +21,7 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
         var houses = await _houseService.LastThreeHouses();
@@ -27,6 +29,7 @@ public class HomeController : Controller
         return View(houses);
     }
 
+    [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
