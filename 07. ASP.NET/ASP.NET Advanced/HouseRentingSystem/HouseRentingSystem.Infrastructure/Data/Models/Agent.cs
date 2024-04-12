@@ -11,7 +11,7 @@ public class Agent
 {
     [Key]
     public int Id { get; set; }
-
+            
     [Required]
     [MaxLength(AgentPhoneNumberMaxLength)]
     public string PhoneNumber { get; set; } = null!;
