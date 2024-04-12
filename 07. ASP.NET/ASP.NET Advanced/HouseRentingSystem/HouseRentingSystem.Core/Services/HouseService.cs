@@ -32,7 +32,7 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HouseCategoryServiceModel>> AllCategories()
+    public async Task<IEnumerable<HouseCategoryServiceModel>> AllCategoriesAsync()
     {
         return await
             _repository
@@ -122,7 +122,7 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HouseServiceModel>> AllHousesByAgentId(int agentId)
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByAgentIdAsync(int agentId)
     {
         return await _repository
             .AllReadOnly<House>()
@@ -131,7 +131,7 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId)
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByUserIdAsync(string userId)
     {
         return await _repository
             .AllReadOnly<House>()
@@ -169,5 +169,108 @@ public class HouseService : IHouseService
                 }
             })
             .FirstAsync();
+    }
+
+    public async Task EditAsync(HouseFormModel model, int houseId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.Title = model.Title;
+            house.Address = model.Address;
+            house.Description = model.Description;
+            house.ImageUrl = model.ImageUrl;
+            house.PricePerMonth = model.PricePerMonth;
+            house.CategoryId = model.CategoryId;
+            
+            await _repository.SaveChangesAsync();
+        }
+    }
+
+    public async Task<bool> HasAgentWithIdAsync(int houseId, string currentUserId)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .AnyAsync(h => h.Id == houseId && h.Agent.UserId == currentUserId);
+    }
+
+    public async Task<HouseFormModel?> GetHouseFormModelByIdAsync(int id)
+    {
+        var house =  await _repository.AllReadOnly<House>()
+            .Where(h => h.Id == id)
+            .Select(h => new HouseFormModel()
+            {
+                Title = h.Title,
+                Address = h.Address,
+                Description = h.Description,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                CategoryId = h.CategoryId
+            })
+            .FirstOrDefaultAsync();
+
+        if (house != null)
+        {
+            house.Categories = await AllCategoriesAsync();
+        }
+        
+        return house;
+    }
+
+    public async Task DeleteAsync(int houseId)
+    {
+        await _repository.DeleteAsync<House>(houseId);
+        await _repository.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsRentedAsync(int id)
+    {
+        bool result = false;
+
+        var house = await _repository.GetByIdAsync<House>(id);
+
+        if (house != null)
+        {
+            result = house.RenterId != null;
+        }
+        
+        return result;
+    }
+
+    public async Task<bool> IsRentedByUserWithIdAsync(int houseId, string userId)
+    {
+        bool result = false;
+
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            result = house.RenterId == userId;
+        }
+        
+        return result;
+    }
+
+    public async Task RentAsync(int houseId, string userId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.RenterId = userId;
+            await _repository.SaveChangesAsync();
+        }
+    }
+
+    public async Task LeaveAsync(int houseId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.RenterId = null;
+            _repository.SaveChangesAsync();
+        }
     }
 }

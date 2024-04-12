@@ -4,6 +4,7 @@ using HouseRentingSystem.Core.Contracts;
 using HouseRentingSystem.Core.Models.House;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static HouseRentingSystem.Core.Constants.MessageConstants;
 
 
@@ -44,17 +45,17 @@ public class HouseController : BaseController
     [HttpGet]
     public async Task<IActionResult> Mine()
     {
-        IEnumerable<HouseServiceModel> myHouses = null;
+        IEnumerable<HouseServiceModel> myHouses;
         var userId = User.Id();
 
         if (await _agentService.ExistByIdAsync(userId))
         {
             var currentAgentId = await _agentService.GetAgentIdAsync(userId) ?? 0;
-            myHouses = await _houseService.AllHousesByAgentId(currentAgentId);
+            myHouses = await _houseService.AllHousesByAgentIdAsync(currentAgentId);
         }
         else
         {
-            myHouses = await _houseService.AllHousesByUserId(userId);
+            myHouses = await _houseService.AllHousesByUserIdAsync(userId);
         }
         
         return View(myHouses);
@@ -79,7 +80,7 @@ public class HouseController : BaseController
     {
         var model = new HouseFormModel()
         {
-            Categories = await _houseService.AllCategories()
+            Categories = await _houseService.AllCategoriesAsync()
         };
         
         return View(model);
@@ -96,12 +97,12 @@ public class HouseController : BaseController
 
         if (!ModelState.IsValid)
         {
-            model.Categories = await _houseService.AllCategories();
+            model.Categories = await _houseService.AllCategoriesAsync();
 
             return View(model);
         }
 
-        var agentId = await _agentService.GetAgentIdAsync(User.Id());
+        int? agentId = await _agentService.GetAgentIdAsync(User.Id());
 
         var newHouseId = await _houseService.CreateAsync(model, agentId ?? 0);
         
@@ -111,38 +112,132 @@ public class HouseController : BaseController
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var model = new HouseFormModel();
-        return View(model);
+        if (await _houseService.ExistsAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.HasAgentWithIdAsync(id, User.Id()) == false)
+        {
+            return Unauthorized();
+        }
+
+        var houseModel = await _houseService.GetHouseFormModelByIdAsync(id);
+        
+        return View(houseModel);
     }
     
     [HttpPost]
     public async Task<IActionResult> Edit(int id, HouseFormModel model)
     {
-        return RedirectToAction(nameof(Details), new { id = 1});
+        if (await _houseService.ExistsAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.HasAgentWithIdAsync(id, User.Id()) == false)
+        {
+            return Unauthorized();
+        }
+
+        if (await _houseService.CategoryExistsAsync(model.CategoryId) == false)
+        {
+            ModelState.AddModelError(nameof(model.CategoryId),"Category does not exist.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.Categories = await _houseService.AllCategoriesAsync();
+
+            return View(model);
+        }
+        
+        await _houseService.EditAsync(model, id);
+        
+        return RedirectToAction(nameof(Details), new { id = id });
     }
     
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var model = new HouseDetailsViewModel();
+        if (await _houseService.ExistsAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.HasAgentWithIdAsync(id, User.Id()) == false)
+        {
+            return Unauthorized();
+        }
+        
+        var house = await _houseService.HouseDetailsByIdAsync(id);
+
+        var model = new HouseDetailsViewModel()
+        {
+            Title = house.Title,
+            ImageUrl = house.ImageUrl,
+            Address = house.Address
+        };
+        
         return View(model);
     }
     
     [HttpPost]
     public async Task<IActionResult> Delete(HouseDetailsViewModel house)
     {
+        if (await _houseService.ExistsAsync(house.Id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.HasAgentWithIdAsync(house.Id, User.Id()) == false)
+        {
+            return Unauthorized();
+        }
+
+        await _houseService.DeleteAsync(house.Id);
+        
         return RedirectToAction(nameof(All));
     }
 
     [HttpPost]
     public async Task<IActionResult> Rent(int id)
     {
-        return RedirectToAction(nameof(Mine));
+        if (await _houseService.ExistsAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _agentService.ExistByIdAsync(User.Id()))
+        {
+            return Unauthorized();
+        }
+
+        if (await _houseService.IsRentedAsync(id))
+        {
+            return BadRequest();
+        }
+
+        await _houseService.RentAsync(id, User.Id());
+        
+        return RedirectToAction(nameof(All));
     }
 
     [HttpPost]
     public async Task<IActionResult> Leave(int id)
     {
+        if (await _houseService.ExistsAsync(id) == false || await _houseService.IsRentedAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.IsRentedByUserWithIdAsync(id, User.Id()) == false) 
+        {
+            return Unauthorized();
+        }
+
+        await _houseService.LeaveAsync(id);
+        
         return RedirectToAction(nameof(Mine));
     }
 }

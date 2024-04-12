@@ -10,7 +10,7 @@
 @if (!ViewData.ModelState.IsValid && ViewData.ModelState["Error"] != null) 
 { 
     <div class="alert alert-danger" role="alert"> 
-        @ViewData.ModelState["Error"].Errors.First().ErrorMessage 
+        @ViewData.ModelState["Error"]?.Errors.First().ErrorMessage 
     </div> 
 } 
  

@@ -24,7 +24,7 @@
             <p>Category: <b>@Model.Category</b></p> 
             <p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p> 
             <div class="form-inline"> 
-                @if (this.User.Identity.IsAuthenticated) 
+                @if (User?.Identity?.IsAuthenticated ?? false) 
                 { 
                     <a class="btn btn-warning" asp-controller="House" asp-action="Edit" 
                        asp-route-id="@Model.Id">Edit</a> 

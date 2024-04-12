@@ -22,4 +22,8 @@
       <ProjectReference Include="..\HouseRentingSystem.Core\HouseRentingSystem.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\" />
+    </ItemGroup>
+
 </Project>
