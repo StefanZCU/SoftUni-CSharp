@@ -1,5 +1,6 @@
 using HouseRentingSystem.Core.Contracts;
 using HouseRentingSystem.Core.Enumerations;
+using HouseRentingSystem.Core.Models.Agent;
 using HouseRentingSystem.Core.Models.House;
 using HouseRentingSystem.Infrastructure.Data.Common;
 using HouseRentingSystem.Infrastructure.Data.Models;
@@ -101,15 +102,7 @@ public class HouseService : IHouseService
         var houses = await housesQuery
             .Skip((currentPage - 1) * housePerPage)
             .Take(housePerPage)
-            .Select(h => new HouseServiceModel()
-            {
-                Id = h.Id,
-                Title = h.Title,
-                Address = h.Address,
-                ImageUrl = h.ImageUrl,
-                PricePerMonth = h.PricePerMonth,
-                IsRented = h.RenterId != null
-            })
+            .ProjectToHouseServiceModel()
             .ToListAsync();
 
         var totalHouses = await housesQuery.CountAsync();
@@ -127,5 +120,54 @@ public class HouseService : IHouseService
             .Select(c => c.Name)
             .Distinct()
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByAgentId(int agentId)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.AgentId == agentId)
+            .ProjectToHouseServiceModel()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.RenterId == userId)
+            .ProjectToHouseServiceModel()
+            .ToListAsync();
+    }
+
+    public async Task<bool> ExistsAsync(int id)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .AnyAsync(h => h.Id == id);
+    }
+
+    public async Task<HouseDetailsServiceModel> HouseDetailsByIdAsync(int id)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.Id == id)
+            .Select(h => new HouseDetailsServiceModel()
+            {
+                Id = h.Id,
+                Title = h.Title,
+                Address = h.Address,
+                Description = h.Description,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                IsRented = h.RenterId != null,
+                Category = h.Category.Name,
+                Agent = new AgentServiceModel()
+                {
+                    PhoneNumber = h.Agent.PhoneNumber,
+                    Email = h.Agent.User.Email
+                }
+            })
+            .FirstAsync();
     }
 }
