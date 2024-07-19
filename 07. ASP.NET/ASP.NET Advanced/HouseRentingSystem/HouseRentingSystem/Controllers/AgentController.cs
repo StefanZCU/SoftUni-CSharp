@@ -19,4 +19,4 @@ public class AgentController : Controller
     {
         return RedirectToAction(nameof(HouseController.All), "House");
     }
-}
+} 
