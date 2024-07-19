@@ -29,4 +29,41 @@ public class HouseService : IHouseService
             })
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<HouseCategoryServiceModel>> AllCategoriesAsync()
+    {
+        return await _repository
+            .AllReadOnly<Category>()
+            .Select(c => new HouseCategoryServiceModel()
+            {
+                Id = c.Id,
+                Name = c.Name
+            })
+            .ToListAsync();
+    }
+
+    public async Task<bool> CategoryExistsAsync(int categoryId)
+    {
+        return await _repository.AllReadOnly<Category>()
+            .AnyAsync(c => c.Id == categoryId);
+    }
+
+    public async Task<int> CreateAsync(HouseFormModel model, int agentId)
+    {
+        var house = new House()
+        {
+            Address = model.Address,
+            AgentId = agentId,
+            CategoryId = model.CategoryId,
+            Description = model.Description,
+            ImageUrl = model.ImageUrl,
+            PricePerMonth = model.PricePerMonth,
+            Title = model.Title
+        };
+
+        await _repository.AddAsync(house);
+        await _repository.SaveChangesAsync();
+        
+        return house.Id;
+    }
 }
