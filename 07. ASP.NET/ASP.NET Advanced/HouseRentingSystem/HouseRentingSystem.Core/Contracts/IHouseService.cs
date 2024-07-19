@@ -1,6 +1,6 @@
 using HouseRentingSystem.Core.Models.House;
 
-namespace HouseRentingSystem.Core.Contracts.House;
+namespace HouseRentingSystem.Core.Contracts;
 
 public interface IHouseService
 {
