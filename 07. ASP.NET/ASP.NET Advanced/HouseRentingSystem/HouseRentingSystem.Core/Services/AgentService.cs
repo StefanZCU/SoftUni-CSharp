@@ -22,16 +22,24 @@ public class AgentService : IAgentService
 
     public async Task<bool> UserWithPhoneNumberExistsAsync(string phoneNumber)
     {
-        throw new NotImplementedException();
+        return await _repository.AllReadOnly<Agent>()
+            .AnyAsync(a => a.PhoneNumber == phoneNumber);
     }
 
     public async Task<bool> UserHasRentsAsync(string userId)
     {
-        throw new NotImplementedException();
+        return await _repository.AllReadOnly<House>()
+            .AnyAsync(h => h.RenterId == userId);
     }
 
     public async Task CreateAsync(string userId, string phoneNumber)
     {
-        throw new NotImplementedException();
+        await _repository.AddAsync(new Agent()
+        {
+            UserId = userId,
+            PhoneNumber = phoneNumber
+        });
+
+        await _repository.SaveChangesAsync();
     }
 }
