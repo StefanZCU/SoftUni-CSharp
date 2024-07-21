@@ -23,10 +23,21 @@ public class HouseController : BaseController
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> All()
+    public async Task<IActionResult> All([FromQuery]AllHousesQueryModel query)
     {
-        var model = new AllHousesQueryModel();
-        return View(model);
+        var model = await _houseService
+            .AllAsync(
+                query.Category, 
+                query.SearchTerm,
+                query.Sorting, 
+                query.CurrentPage, 
+                query.HousesPerPage);
+
+        query.TotalHousesCount = model.TotalHousesCount;
+        query.Houses = model.Houses;
+        query.Categories = await _houseService.AllCategoriesNamesAsync();
+        
+        return View(query);
     }
     
     [HttpGet]
