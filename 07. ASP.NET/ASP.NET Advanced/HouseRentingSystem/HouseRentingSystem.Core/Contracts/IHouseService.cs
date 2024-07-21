@@ -30,5 +30,10 @@ public interface IHouseService
 
     Task<HouseDetailsServiceModel> HouseDetailsByIdAsync(int id);
 
+    Task EditAsync(int houseId, HouseFormModel model);
+
+    Task<bool> HasAgentWIthIdAsync(int houseId, string userId);
+
+    Task<HouseFormModel?> GetHouseFromModelByIdAsync(int id);
 
 }

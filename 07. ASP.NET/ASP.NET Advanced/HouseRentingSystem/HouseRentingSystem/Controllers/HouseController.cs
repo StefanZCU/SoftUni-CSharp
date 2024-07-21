@@ -109,13 +109,50 @@ public class HouseController : BaseController
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        return View(new HouseFormModel());
+        if (await _houseService.ExistsAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.HasAgentWIthIdAsync(id, User.Id()) == false)
+        {
+            return Unauthorized();
+        }
+
+        var model = await _houseService.GetHouseFromModelByIdAsync(id);
+        
+        return View(model);
     }
     
     [HttpPost]
     public async Task<IActionResult> Edit(int id, HouseFormModel model)
     {
-        return RedirectToAction(nameof(Details), new { id = id });
+        
+        if (await _houseService.ExistsAsync(id) == false)
+        {
+            return BadRequest();
+        }
+
+        if (await _houseService.HasAgentWIthIdAsync(id, User.Id()) == false)
+        {
+            return Unauthorized();
+        }
+        
+        if (await _houseService.CategoryExistsAsync(model.CategoryId) == false)
+        {
+            ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+        }
+        
+        if (!ModelState.IsValid)
+        {
+            model.Categories = await _houseService.AllCategoriesAsync();
+            return View(model);
+        }
+        
+        await _houseService.EditAsync(id, model);
+        
+        
+        return RedirectToAction(nameof(Details), new {  id });
     }
 
     [HttpGet]

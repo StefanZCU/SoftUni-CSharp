@@ -164,4 +164,51 @@ public class HouseService : IHouseService
             .FirstAsync();
 
     }
+
+    public async Task EditAsync(int houseId, HouseFormModel model)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.Address = model.Address;
+            house.CategoryId = model.CategoryId;
+            house.Description = model.Description;
+            house.Title = model.Title;
+            house.ImageUrl = model.ImageUrl;
+            house.PricePerMonth = model.PricePerMonth;
+
+            await _repository.SaveChangesAsync();
+        }
+    }
+
+    public async Task<bool> HasAgentWIthIdAsync(int houseId, string userId)
+    {
+        return await _repository.AllReadOnly<House>()
+            .AnyAsync(h => h.Id == houseId && h.Agent.UserId == userId);
+    }
+
+    public async Task<HouseFormModel?> GetHouseFromModelByIdAsync(int id)
+    {
+        var house =  await _repository.AllReadOnly<House>()
+            .Where(h => h.Id == id)
+            .Select(h => new HouseFormModel()
+            {
+                Address = h.Address,
+                Description = h.Description,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                CategoryId = h.CategoryId,
+                Title = h.Title
+            })
+            .FirstOrDefaultAsync();
+
+
+        if (house != null)
+        {
+            house.Categories = await AllCategoriesAsync();
+        }
+        
+        return house;
+    }
 }
