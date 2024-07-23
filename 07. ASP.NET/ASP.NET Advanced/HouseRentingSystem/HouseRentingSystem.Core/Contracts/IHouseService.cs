@@ -36,4 +36,14 @@ public interface IHouseService
 
     Task<HouseFormModel?> GetHouseFromModelByIdAsync(int id);
 
+    Task DeleteAsync(int houseId);
+
+    Task<bool> IsRentedAsync(int houseId);
+
+    Task<bool> IsRentedByUserWithIdAsync(int houseId, string userId);
+
+    Task RentAsync(int houseId, string userId);
+
+    Task LeaveAsync(int houseId);
+
 }

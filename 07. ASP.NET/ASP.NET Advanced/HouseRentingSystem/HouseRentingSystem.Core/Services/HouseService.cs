@@ -211,4 +211,46 @@ public class HouseService : IHouseService
         
         return house;
     }
+
+    public async Task DeleteAsync(int houseId)
+    {
+        await _repository.DeleteAsync<House>(houseId);
+        await _repository.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsRentedAsync(int houseId)
+    {
+        return await _repository.AllReadOnly<House>()
+            .Where(h => h.Id == houseId && !string.IsNullOrEmpty(h.RenterId))
+            .AnyAsync();
+    }
+
+    public async Task<bool> IsRentedByUserWithIdAsync(int houseId, string userId)
+    {
+        return await _repository.AllReadOnly<House>()
+            .Where(h => h.Id == houseId && h.RenterId == userId)
+            .AnyAsync();
+    }
+
+    public async Task RentAsync(int houseId, string userId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.RenterId = userId;
+            await _repository.SaveChangesAsync();
+        }
+    }
+
+    public async Task LeaveAsync(int houseId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.RenterId = null;
+            await _repository.SaveChangesAsync();
+        }
+    }
 }

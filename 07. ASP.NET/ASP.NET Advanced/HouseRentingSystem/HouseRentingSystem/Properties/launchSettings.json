@@ -1,21 +1,22 @@
-﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:62419",
-      "sslPort": 44308
-    }
-  },
+{
   "profiles": {
     "HouseRentingSystem": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7241;http://localhost:5147",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7241;http://localhost:5147"
+    }, 
+    "HouseRentingSystemProduction": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+     },
+      "dotnetRunMessages": true,
+     "applicationUrl": "https://localhost:7241;http://localhost:5147"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -23,6 +24,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:62419",
+      "sslPort": 44308
     }
   }
 }
