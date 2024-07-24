@@ -27,7 +27,8 @@ public class HouseService : IHouseService
             {
                 Id = h.Id,
                 ImageUrl = h.ImageUrl,
-                Title = h.Title
+                Title = h.Title,
+                Address = h.Address
             })
             .ToListAsync();
     }
