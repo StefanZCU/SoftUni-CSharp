@@ -1,7 +1,8 @@
-﻿@using HouseRentingSystem.Core.Services
+﻿@using HouseRentingSystem.Infrastructure.Data.Models
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @inject IAgentService agentService
 
 <ul class="navbar-nav">
