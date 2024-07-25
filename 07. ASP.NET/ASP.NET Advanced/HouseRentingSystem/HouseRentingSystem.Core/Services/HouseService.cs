@@ -159,7 +159,8 @@ public class HouseService : IHouseService
                 Agent = new AgentServiceModel()
                 {
                     PhoneNumber = h.Agent.PhoneNumber,
-                    Email = h.Agent.User.Email
+                    Email = h.Agent.User.Email,
+                    FullName = $"{h.Agent.User.FirstName} {h.Agent.User.LastName}"
                 }
             })
             .FirstAsync();
