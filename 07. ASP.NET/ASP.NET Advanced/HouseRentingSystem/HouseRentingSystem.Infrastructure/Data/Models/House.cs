@@ -53,4 +53,7 @@ public class House
 
     [Comment("House Renter Identifier")]
     public string? RenterId { get; set; }
+
+    [Comment("Is house approved by admin")]
+    public bool IsApproved { get; set; }
 }
