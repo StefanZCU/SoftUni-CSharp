@@ -7,7 +7,11 @@ internal class SeedData
 {
     public ApplicationUser AgentUser { get; set; }
     public ApplicationUser GuestUser { get; set; }
+
+    public ApplicationUser AdminUser { get; set; }
     public Agent Agent { get; set; }
+
+    public Agent AdminAgent { get; set; }
     public Category CottageCategory { get; set; }
     public Category SingleCategory { get; set; }
     public Category DuplexCategory { get; set; }
@@ -54,6 +58,20 @@ internal class SeedData
 
         GuestUser.PasswordHash =
             hasher.HashPassword(AgentUser, "guest123");
+        
+        AdminUser = new ApplicationUser()
+        {
+            Id = "bcb4f072-ecca-43c9-ab26-c060c6f364e4",
+            Email = "admin@mail.com",
+            NormalizedEmail = "ADMIN@MAIL.COM",
+            UserName = "admin@mail.com",
+            NormalizedUserName = "ADMIN@MAIL.COM",
+            FirstName = "Great",
+            LastName = "Admin"
+        };
+
+        AdminUser.PasswordHash = hasher.HashPassword(AdminUser, "admin123");
+
     }
 
     private void SeedAgent()
@@ -64,6 +82,14 @@ internal class SeedData
             PhoneNumber = "+359888888888",
             UserId = AgentUser.Id
         };
+        
+        AdminAgent = new Agent()
+        {
+            Id = 3,
+            PhoneNumber = "+359123456789",
+            UserId = AdminUser.Id
+        };
+
     }
 
     private void SeedCategories()

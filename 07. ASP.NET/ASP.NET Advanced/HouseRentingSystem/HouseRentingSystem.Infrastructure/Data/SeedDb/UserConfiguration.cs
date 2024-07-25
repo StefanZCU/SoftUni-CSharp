@@ -11,6 +11,6 @@ public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         var data = new SeedData();
 
-        builder.HasData(data.AgentUser, data.GuestUser);
+        builder.HasData(data.AgentUser, data.GuestUser, data.AdminUser);
     }
 }
