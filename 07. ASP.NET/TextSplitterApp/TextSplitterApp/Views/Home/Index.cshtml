@@ -1,8 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model TextViewModel
+
+@{
+    ViewData["Title"] = "Text Splitter";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form asp-controller="Home" asp-action="Split" method="post">
+    <div class="col-12">
+        <input asp-for="@Model.Text" class="mr-2" />
+        <br />
+        <span asp-validation-for="@Model.Text" class="small text-danger col-2"></span>
+        <br />
+        <button type="submit" class="btn btn-primary">Split Text</button>
+    </div>
+    
+    <div class="col-2 mt-3">
+        <textarea rows="10">@Model.SplitText</textarea>
+    </div>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}
