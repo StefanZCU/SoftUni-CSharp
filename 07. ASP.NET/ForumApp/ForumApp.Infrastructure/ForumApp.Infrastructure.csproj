@@ -4,12 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <UserSecretsId>72a8b26e-9962-479e-9a8c-f1d53a85a8be</UserSecretsId>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Folder Include="Constants\" />
-      <Folder Include="Data\Models\" />
-    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
