@@ -1,4 +1,6 @@
-﻿@* @{
+﻿@model GameFormViewModel
+
+@{
     ViewBag.Title = "Edit Games Hall";
     var today = DateTime.Now.ToString("yyyy-MM-dd");
 }
@@ -27,7 +29,7 @@
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.ReleasedOn" class="form-label-add-edit">Released On</label>
-                <input asp-for="@Model.ReleasedOn" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.ReleasedOn) ? today : Model.ReleasedOn)" )" />
+                <input asp-for="@Model.ReleasedOn" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.ReleasedOn) ? today : Model.ReleasedOn)"/>
                 <span asp-validation-for="@Model.ReleasedOn" class="text-danger"></span>
             </div>
             <div class="mb-3">
@@ -48,5 +50,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
- *@
