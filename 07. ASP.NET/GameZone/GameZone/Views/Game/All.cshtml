@@ -1,0 +1,62 @@
+﻿@* @{
+    ViewBag.Title = "Hall of Games";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+    @foreach (var e in Model)
+    {
+        <div class="card col-3 h-100" style="width: 20rem; ">
+            @if (!string.IsNullOrEmpty(e.ImageUrl))
+            {
+                <img src="@e.ImageUrl" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;" alt="Game Image">
+            }
+            else
+            {
+                <img src="~/img/PH.jpg" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;" alt="Placeholder Image">
+            }
+            <div class="card-body" style="height: calc(100% - 150px); overflow: auto;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="title-wrapper" style="height: 6em; overflow: hidden;">
+                            <h4 class="card-title mt-1">@e.Title</h4>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="card-title mt-1">@e.Genre</h5>
+                <p class="mb-0"><span class="fw-bold">Released On: </span>@e.ReleasedOn</p>
+            </div>
+
+            <div class="row gx-0">
+                <div class="col-12 px-1">
+                    <a asp-controller="Game" asp-action="AddToMyZone" asp-route-id="@e.Id" class="btn btn-warning btn-sm mb-2 w-100 fw-bold rounded btn-dark-text">Add to MyZone</a>
+                </div>
+            </div>
+
+            <div class="row gx-0">
+                @if (User?.Identity?.Name == e.Publisher)
+                {
+                    <div class="col-6 px-1">
+                        <a asp-controller="Game" asp-action="Edit" asp-route-id="@e.Id" class="btn btn-warning btn-sm mb-2 w-100 fw-bold rounded btn-dark-text">Edit</a>
+                    </div>
+                    <div class="col-6 px-1">
+                        <a asp-controller="Game" asp-action="Details" asp-route-id="@e.Id" class="btn btn-warning btn-sm mb-2 w-100 fw-bold rounded btn-dark-text">Details</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12 px-1">
+                        <a asp-controller="Game" asp-action="Details" asp-route-id="@e.Id" class="btn btn-warning btn-sm mb-2 w-100 fw-bold rounded btn-dark-text">Details</a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ *@

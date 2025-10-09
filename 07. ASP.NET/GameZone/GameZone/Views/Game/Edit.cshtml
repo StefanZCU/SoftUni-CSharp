@@ -1,0 +1,52 @@
+﻿@* @{
+    ViewBag.Title = "Edit Games Hall";
+    var today = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Edit" method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.Title" class="form-label-add-edit">Game Title</label>
+                <input asp-for="@Model.Title" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ImageUrl" class="form-label-add-edit">ImageURL</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="false" placeholder="Enter image URL (optional)" />
+                <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Description" class="form-label-add-edit">Description</label>
+                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ReleasedOn" class="form-label-add-edit">Released On</label>
+                <input asp-for="@Model.ReleasedOn" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.ReleasedOn) ? today : Model.ReleasedOn)" )" />
+                <span asp-validation-for="@Model.ReleasedOn" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.GenreId" class="form-label-add-edit">Select Genre</label>
+                <select asp-for="@Model.GenreId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
+                    <option value="">Select Genre...</option>
+                </select>
+                <span asp-validation-for="@Model.GenreId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-warning btn-dark-text mb-2 w-100 py-3 fw-bold rounded" type="submit" value="Confirm" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+ *@

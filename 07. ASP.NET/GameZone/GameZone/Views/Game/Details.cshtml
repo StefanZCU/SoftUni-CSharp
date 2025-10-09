@@ -1,0 +1,39 @@
+﻿@* @{
+    ViewBag.Title = "Hall of Details";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card mb-3">
+        @if (!string.IsNullOrEmpty(@Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" class="card-img-top img-fluid" style="max-height: 200px; object-fit: contain;" alt="Game Image">
+        }
+        else
+        {
+            <img src="~/img/PH.jpg" class="card-img-top img-fluid" style="max-height: 200px; object-fit: contain;" alt="Game Image">
+        }
+        <div class="card-body">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text">@Model.Description</p>
+            <p class="card-text"><small class="text-muted">@Model.Genre</small></p>
+            <p class="card-text"><small class="text-muted">@Model.ReleasedOn</small></p>
+            <p class="card-text"><small class="text-muted">Publisher: @Model.Publisher</small></p>
+        </div>
+
+        <a asp-controller="Game" asp-action="All" class="btn btn-warning btn-dark-text btn-rounded mb-2 w-100 p-3 fw-bold">Back to Game Zone</a>
+        @if (User?.Identity?.Name == @Model.Publisher)
+        {
+            <a asp-controller="Game" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-dark-text btn-rounded mb-2 w-100 p-3 fw-bold">Edit</a>
+            <a asp-controller="Game" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-rounded mb-2 w-100 p-3 fw-bold">Delete</a>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ *@
