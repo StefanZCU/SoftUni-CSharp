@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using HouseRentingSystem.Core.Models.HomeModels;
 using Microsoft.AspNetCore.Mvc;
 using HouseRentingSystem.Models;
 
@@ -15,7 +16,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var model = new IndexViewModel();
+        return View(model);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
