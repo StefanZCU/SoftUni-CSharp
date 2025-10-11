@@ -1,4 +1,4 @@
-using HouseRentingSystem.Data;
+using HouseRentingSystem.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +16,7 @@ public static class ServiceCollectionExtension
         var connectionString = config.GetConnectionString("DefaultConnection") ??
                                throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<HouseRentingDbContext>(options =>
             options.UseSqlServer(connectionString));
 
         services.AddDatabaseDeveloperPageExceptionFilter();
@@ -32,7 +32,7 @@ public static class ServiceCollectionExtension
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<HouseRentingDbContext>();
 
         return services;
     }
