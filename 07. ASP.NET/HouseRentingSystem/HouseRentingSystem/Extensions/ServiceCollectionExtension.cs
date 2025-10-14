@@ -1,4 +1,6 @@
+using HouseRentingSystem.Core.Contracts.AgentServices;
 using HouseRentingSystem.Core.Contracts.HouseServices;
+using HouseRentingSystem.Core.Services.AgentServices;
 using HouseRentingSystem.Core.Services.HouseServices;
 using HouseRentingSystem.Infrastructure.Data;
 using HouseRentingSystem.Infrastructure.Data.Common;
@@ -12,6 +14,7 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IHouseService, HouseService>();
+        services.AddScoped<IAgentService, AgentService>();
         
         return services;
     }
