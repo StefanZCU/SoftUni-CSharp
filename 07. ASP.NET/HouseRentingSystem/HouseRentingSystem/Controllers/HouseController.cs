@@ -1,3 +1,7 @@
+using System.Security.Claims;
+using HouseRentingSystem.Attributes;
+using HouseRentingSystem.Core.Contracts.AgentServices;
+using HouseRentingSystem.Core.Contracts.HouseServices;
 using HouseRentingSystem.Core.Models.HouseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +10,19 @@ namespace HouseRentingSystem.Controllers;
 
 public class HouseController : BaseController
 {
+    private readonly IHouseService _houseService;
+
+    private readonly IAgentService _agentService;
+
+    public HouseController(
+        IHouseService houseService,
+        IAgentService agentService)
+    {
+        _houseService = houseService;
+        _agentService = agentService;
+    }
+
+
     [AllowAnonymous]
     public async Task<IActionResult> All()
     {
@@ -26,17 +43,38 @@ public class HouseController : BaseController
     }
 
     [HttpGet]
+    [MustBeAgent]
     public async Task<IActionResult> Add()
     {
-        return View();
+        return View(new HouseFormModel()
+        {
+            Categories = await _houseService.AllCategoriesAsync()
+        });
     }
 
     [HttpPost]
+    [MustBeAgent]
     public async Task<IActionResult> Add(HouseFormModel model)
     {
-        return RedirectToAction(nameof(Details), new { id = "1" });
+        if (!await _houseService.CategoryExistsAsync(model.CategoryId))
+        {
+            ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist.");
+        }
+        
+        if (!ModelState.IsValid)
+        {
+            model.Categories = await _houseService.AllCategoriesAsync();
+            
+            return View(model);
+        }
+
+        var agentId = await _agentService.GetAgentIdAsync(User.Id());
+
+        var newHouseId = await _houseService.CreateAsync(model, agentId ?? 0);
+        
+        return RedirectToAction(nameof(Details), new { id = newHouseId });
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -49,7 +87,7 @@ public class HouseController : BaseController
     {
         return RedirectToAction(nameof(Details), new { id = "1" });
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
@@ -68,7 +106,7 @@ public class HouseController : BaseController
     {
         return RedirectToAction(nameof(Mine));
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Leave(int id)
     {
