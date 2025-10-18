@@ -7,7 +7,6 @@ public static class DataConstants
     public const int CategoryNameMaxLength = 50;
     
     
-    
     //House
     public const int HouseTitleMinLength = 10;
     public const int HouseTitleMaxLength = 50;
@@ -19,8 +18,7 @@ public static class DataConstants
     public const int HouseDescriptionMaxLength = 500;
 
     public const string HousePricePerMonthMinValue = "0.00";
-    public const string HousePricePerMonthMaxValue = "2000";
-    
+    public const string HousePricePerMonthMaxValue = "2000.00";
     
     
     //Agent
