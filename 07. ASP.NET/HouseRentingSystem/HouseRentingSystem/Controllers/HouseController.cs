@@ -41,11 +41,24 @@ public class HouseController : BaseController
         return View(query);
     }
 
+    [HttpGet]
     public async Task<IActionResult> Mine()
     {
-        // var model = new AllHousesQueryModel();
-        // return View(model);
-        return View();
+        var userId = User.Id();
+
+        IEnumerable<HouseServiceModel> myHouses;
+
+        if (await _agentService.ExistsByIdAsync(userId))
+        {
+            var agentId = await _agentService.GetAgentIdAsync(userId) ?? 0;
+            myHouses = await _houseService.AllHousesByAgentIdAsync(agentId);
+        }
+        else
+        {
+            myHouses = await _houseService.AllHousesByUserIdAsync(userId);
+        }
+
+        return View(myHouses);
     }
 
     public async Task<IActionResult> Details(int id)

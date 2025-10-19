@@ -104,14 +104,7 @@ public class HouseService : IHouseService
         var houses = await housesToShow
             .Skip((currentPage - 1) * housesPerPage)
             .Take(housesPerPage)
-            .Select(h => new HouseServiceModel()
-            {
-                Address = h.Address,
-                Id = h.Id,
-                ImageUrl = h.ImageUrl,
-                PricePerMonth = h.PricePerMonth,
-                Title = h.Title
-            })
+            .ProjectToHouseServiceModel()
             .ToListAsync();
 
         var totalHouses = await housesToShow.CountAsync();
@@ -129,6 +122,24 @@ public class HouseService : IHouseService
             .AllReadOnly<Category>()
             .Select(c => c.Name)
             .Distinct()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByAgentIdAsync(int agentId)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.AgentId == agentId)
+            .ProjectToHouseServiceModel()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<HouseServiceModel>> AllHousesByUserIdAsync(string userId)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.RenterId == userId)
+            .ProjectToHouseServiceModel()
             .ToListAsync();
     }
 }
