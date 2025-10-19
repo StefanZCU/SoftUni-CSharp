@@ -24,16 +24,28 @@ public class HouseController : BaseController
 
 
     [AllowAnonymous]
-    public async Task<IActionResult> All()
+    public async Task<IActionResult> All([FromQuery] AllHousesQueryModel query)
     {
-        var model = new AllHousesQueryModel();
-        return View(model);
+        var model = await _houseService.AllAsync(
+            query.Category,
+            query.SearchTerm,
+            query.Sorting,
+            query.CurrentPage,
+            AllHousesQueryModel.HousesPerPage);
+
+        query.TotalHousesCount = model.TotalHousesCount;
+        query.Houses = model.Houses;
+
+        query.Categories = await _houseService.AllCategoriesNamesAsync();
+
+        return View(query);
     }
 
     public async Task<IActionResult> Mine()
     {
-        var model = new AllHousesQueryModel();
-        return View(model);
+        // var model = new AllHousesQueryModel();
+        // return View(model);
+        return View();
     }
 
     public async Task<IActionResult> Details(int id)
@@ -60,18 +72,18 @@ public class HouseController : BaseController
         {
             ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist.");
         }
-        
+
         if (!ModelState.IsValid)
         {
             model.Categories = await _houseService.AllCategoriesAsync();
-            
+
             return View(model);
         }
 
         var agentId = await _agentService.GetAgentIdAsync(User.Id());
 
         var newHouseId = await _houseService.CreateAsync(model, agentId ?? 0);
-        
+
         return RedirectToAction(nameof(Details), new { id = newHouseId });
     }
 
