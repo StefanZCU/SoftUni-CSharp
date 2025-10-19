@@ -1,5 +1,6 @@
 using HouseRentingSystem.Core.Contracts.HouseServices;
 using HouseRentingSystem.Core.Enumerators;
+using HouseRentingSystem.Core.Models.AgentModels;
 using HouseRentingSystem.Core.Models.HouseModels;
 using HouseRentingSystem.Infrastructure.Data.Common;
 using HouseRentingSystem.Infrastructure.Data.Models;
@@ -141,5 +142,32 @@ public class HouseService : IHouseService
             .Where(h => h.RenterId == userId)
             .ProjectToHouseServiceModel()
             .ToListAsync();
+    }
+
+    public async Task<bool> ExistsAsync(int id) 
+        => await _repository.AllReadOnly<House>().AnyAsync(h => h.Id == id);
+
+    public async Task<HouseDetailsServiceModel> HouseDetailsByIdAsync(int id)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.Id == id)
+            .Select(h => new HouseDetailsServiceModel()
+            {
+                Id = h.Id,
+                Address = h.Address,
+                Agent = new AgentServiceModel()
+                {
+                    Email = h.Agent.User.Email,
+                    PhoneNumber = h.Agent.PhoneNumber
+                },
+                Category = h.Category.Name,
+                Description = h.Description,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                Title = h.Title,
+                IsRented = h.RenterId != null
+            })
+            .FirstAsync();
     }
 }

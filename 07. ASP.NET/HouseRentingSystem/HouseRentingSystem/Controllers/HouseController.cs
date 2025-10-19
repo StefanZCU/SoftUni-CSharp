@@ -63,7 +63,12 @@ public class HouseController : BaseController
 
     public async Task<IActionResult> Details(int id)
     {
-        var model = new HouseDetailsViewModel();
+        if (!(await _houseService.ExistsAsync(id)))
+        {
+            return BadRequest();
+        }
+
+        var model = await _houseService.HouseDetailsByIdAsync(id);
         return View(model);
     }
 
