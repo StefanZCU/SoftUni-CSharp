@@ -31,8 +31,13 @@ public class HomeController : BaseController
 
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int statusCode)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return statusCode switch
+        {
+            400 => View("Error400"),
+            401 => View("Error401"),
+            _ => View()
+        };
     }
 }

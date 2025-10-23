@@ -29,15 +29,14 @@ public class HouseFormModel
     public string ImageUrl { get; set; } = null!;
 
     [Required]
-    [Range(typeof(decimal), 
-        HousePricePerMonthMinValue, 
+    [Range(typeof(decimal),
+        HousePricePerMonthMinValue,
         HousePricePerMonthMaxValue,
         ErrorMessage = InvalidPricePerMonthError)]
     [Display(Name = "Price per month")]
     public decimal PricePerMonth { get; set; }
 
-    [Display(Name = "Category")]
-    public int CategoryId { get; set; }
+    [Display(Name = "Category")] public int CategoryId { get; set; }
 
     public IEnumerable<HouseCategoryServiceModel> Categories { get; set; } = new List<HouseCategoryServiceModel>();
 }

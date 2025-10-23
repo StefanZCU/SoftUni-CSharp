@@ -1,5 +1,6 @@
 using HouseRentingSystem.Core.Contracts.HouseServices;
 using HouseRentingSystem.Core.Enumerators;
+using HouseRentingSystem.Core.Exceptions;
 using HouseRentingSystem.Core.Models.AgentModels;
 using HouseRentingSystem.Core.Models.HouseModels;
 using HouseRentingSystem.Infrastructure.Data.Common;
@@ -83,7 +84,7 @@ public class HouseService : IHouseService
         {
             var normalizedSearchTerm = searchTerm.ToLower();
             housesToShow = housesToShow
-                .Where(h => 
+                .Where(h =>
                     h.Title.ToLower().Contains(normalizedSearchTerm) ||
                     h.Address.ToLower().Contains(normalizedSearchTerm) ||
                     h.Description.ToLower().Contains(normalizedSearchTerm));
@@ -144,7 +145,7 @@ public class HouseService : IHouseService
             .ToListAsync();
     }
 
-    public async Task<bool> ExistsAsync(int id) 
+    public async Task<bool> ExistsAsync(int id)
         => await _repository.AllReadOnly<House>().AnyAsync(h => h.Id == id);
 
     public async Task<HouseDetailsServiceModel> HouseDetailsByIdAsync(int id)
@@ -169,5 +170,114 @@ public class HouseService : IHouseService
                 IsRented = h.RenterId != null
             })
             .FirstAsync();
+    }
+
+    public async Task EditAsync(int houseId, HouseFormModel model)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.Title = model.Title;
+            house.Address = model.Address;
+            house.Description = model.Description;
+            house.ImageUrl = model.ImageUrl;
+            house.PricePerMonth = model.PricePerMonth;
+            house.CategoryId = model.CategoryId;
+
+            await _repository.SaveChangesAsync();
+        }
+    }
+
+    public async Task<bool> HasAgentWithIdAsync(int houseId, string currentUserId)
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .AnyAsync(h => h.Id == houseId && h.Agent.UserId == currentUserId);
+    }
+
+    public async Task<HouseFormModel?> GetHouseFormModelByIdAsync(int id)
+    {
+        var house = await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.Id == id)
+            .Select(h => new HouseFormModel()
+            {
+                Address = h.Address,
+                CategoryId = h.CategoryId,
+                Description = h.Description,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                Title = h.Title
+            })
+            .FirstOrDefaultAsync();
+
+        if (house != null)
+        {
+            house.Categories = await AllCategoriesAsync();
+        }
+
+        return house;
+    }
+
+    public async Task DeleteAsync(int houseId)
+    {
+        await _repository.DeleteAsync<House>(houseId);
+        await _repository.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsRentedAsync(int houseId)
+    {
+        var result = false;
+
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            result = house.RenterId != null;
+        }
+
+        return result;
+    }
+
+    public async Task<bool> IsRentedByUserWithIdAsync(int houseId, string userId)
+    {
+        var result = false;
+
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            result = house.RenterId == userId;
+        }
+
+        return result;
+    }
+
+    public async Task RentAsync(int houseId, string userId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            house.RenterId = userId;
+            await _repository.SaveChangesAsync();
+        }
+    }
+
+    public async Task LeaveAsync(int houseId, string userId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house != null)
+        {
+            if (house.RenterId != userId)
+            {
+                throw new UnauthorizedActionException("The user is not renting this house.");
+            }
+            
+            house.RenterId = null;
+            await _repository.SaveChangesAsync();
+        }
     }
 }
