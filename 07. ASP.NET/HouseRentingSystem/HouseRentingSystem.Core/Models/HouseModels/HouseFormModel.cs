@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using HouseRentingSystem.Core.Contracts;
 using static HouseRentingSystem.Infrastructure.Constants.DataConstants;
 using static HouseRentingSystem.Core.Constants.ErrorConstants;
 
 namespace HouseRentingSystem.Core.Models.HouseModels;
 
-public class HouseFormModel
+public class HouseFormModel :IHouseModel
 {
     [Required(ErrorMessage = RequiredFieldError)]
     [StringLength(maximumLength: HouseTitleMaxLength,

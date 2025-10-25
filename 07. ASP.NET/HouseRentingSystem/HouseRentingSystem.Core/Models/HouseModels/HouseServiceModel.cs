@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using HouseRentingSystem.Core.Contracts;
 
 namespace HouseRentingSystem.Core.Models.HouseModels;
 
-public class HouseServiceModel
+public class HouseServiceModel : IHouseModel
 {
     public int Id { get; set; }
 
