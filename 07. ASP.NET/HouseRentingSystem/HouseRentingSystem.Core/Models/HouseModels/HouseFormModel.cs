@@ -33,6 +33,7 @@ public class HouseFormModel :IHouseModel
     [Range(typeof(decimal),
         HousePricePerMonthMinValue,
         HousePricePerMonthMaxValue,
+        ConvertValueInInvariantCulture = true,
         ErrorMessage = InvalidPricePerMonthError)]
     [Display(Name = "Price per month")]
     public decimal PricePerMonth { get; set; }

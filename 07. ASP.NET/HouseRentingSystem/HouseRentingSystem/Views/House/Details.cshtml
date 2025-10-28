@@ -27,7 +27,7 @@
             <p>Category: <b>@Model.Category</b></p>
             <p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>
             <div class="form-inline">
-                @if (this.User.Identity.IsAuthenticated)
+                @if (User?.Identity?.IsAuthenticated ?? false)
                 {
                     @if (await HouseService.HasAgentWithIdAsync(Model.Id, User.Id()))
                     {

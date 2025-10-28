@@ -114,7 +114,7 @@ public class HouseController : BaseController
 
         var newHouseId = await _houseService.CreateAsync(model, agentId ?? 0);
 
-        return RedirectToAction(nameof(Details), new { newHouseId, information = model.GetInformation() });
+        return RedirectToAction(nameof(Details), new { id = newHouseId, information = model.GetInformation() });
     }
 
     [HttpGet]
