@@ -18,7 +18,7 @@
             <a asp-controller="House" asp-action="Details" asp-route-id="@Model.Id" 
                asp-route-information="@Model.GetInformation()" class="btn btn-success">Details</a>
             
-            @if (User.Identity.IsAuthenticated)
+            @if (User?.Identity?.IsAuthenticated ?? false)
             {
                 @if (await HouseService.HasAgentWithIdAsync(Model.Id, User.Id()))
                 {
