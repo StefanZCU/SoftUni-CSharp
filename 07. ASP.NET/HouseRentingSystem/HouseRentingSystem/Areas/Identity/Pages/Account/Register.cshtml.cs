@@ -1,12 +1,14 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using HouseRentingSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static HouseRentingSystem.Infrastructure.Constants.DataConstants;
 using static HouseRentingSystem.Core.Constants.ErrorConstants;
+using static HouseRentingSystem.Core.Constants.CustomClaims;
 
 namespace HouseRentingSystem.Areas.Identity.Pages.Account
 {
@@ -86,6 +88,9 @@ namespace HouseRentingSystem.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddClaimAsync(user,
+                        new Claim(UserFullNameClaimType, $"{user.FirstName} {user.LastName}"));
+                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }

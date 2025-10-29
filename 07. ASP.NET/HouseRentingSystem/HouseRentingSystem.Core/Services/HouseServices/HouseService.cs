@@ -160,6 +160,7 @@ public class HouseService : IHouseService
                 Address = h.Address,
                 Agent = new AgentServiceModel()
                 {
+                    FullName = $"{h.Agent.User.FirstName} {h.Agent.User.LastName}",
                     Email = h.Agent.User.Email,
                     PhoneNumber = h.Agent.PhoneNumber
                 },

@@ -5,7 +5,12 @@
 @inject IAgentService AgentService
 
 @{
-    
+    string userName = string.Empty;
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        userName = User.FindFirstValue(HouseRentingSystem.Core.Constants.CustomClaims.UserFullNameClaimType) ?? string.Empty;
+    }
 }
 
 <ul class="navbar-nav">
@@ -18,7 +23,7 @@
             </li>
         }
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @userName</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
