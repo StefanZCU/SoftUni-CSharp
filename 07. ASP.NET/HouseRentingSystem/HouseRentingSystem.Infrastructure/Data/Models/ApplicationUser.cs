@@ -15,4 +15,6 @@ public class ApplicationUser : IdentityUser
     [MaxLength(UserLastNameMaxLength)]
     [PersonalData]
     public required string LastName { get; set; }
+
+    public Agent? Agent { get; set; } 
 }

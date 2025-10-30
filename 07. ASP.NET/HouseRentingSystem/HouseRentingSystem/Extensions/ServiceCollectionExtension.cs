@@ -1,9 +1,13 @@
+using HouseRentingSystem.Core.Contracts;
 using HouseRentingSystem.Core.Contracts.AgentServices;
 using HouseRentingSystem.Core.Contracts.HouseServices;
 using HouseRentingSystem.Core.Contracts.StatisticServices;
+using HouseRentingSystem.Core.Contracts.UserServices;
+using HouseRentingSystem.Core.Services;
 using HouseRentingSystem.Core.Services.AgentServices;
 using HouseRentingSystem.Core.Services.HouseServices;
 using HouseRentingSystem.Core.Services.StatisticService;
+using HouseRentingSystem.Core.Services.UserServices;
 using HouseRentingSystem.Infrastructure.Data;
 using HouseRentingSystem.Infrastructure.Data.Common;
 using HouseRentingSystem.Infrastructure.Data.Models;
@@ -19,6 +23,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IHouseService, HouseService>();
         services.AddScoped<IAgentService, AgentService>();
         services.AddScoped<IStatisticService, StatisticService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IRentService, RentService>();
         
         return services;
     }

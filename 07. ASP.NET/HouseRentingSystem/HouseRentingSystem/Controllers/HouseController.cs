@@ -7,6 +7,7 @@ using HouseRentingSystem.Core.Extensions;
 using HouseRentingSystem.Core.Models.HouseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static HouseRentingSystem.Core.Constants.AdministratorConstants;
 
 namespace HouseRentingSystem.Controllers;
 
@@ -54,6 +55,11 @@ public class HouseController : BaseController
 
         IEnumerable<HouseServiceModel> myHouses;
 
+        if (User.IsInRole(AdminRole))
+        {
+            return RedirectToAction("Mine", "House", new { area = "Admin" });
+        }
+        
         if (await _agentService.ExistsByIdAsync(userId))
         {
             var agentId = await _agentService.GetAgentIdAsync(userId) ?? 0;
