@@ -22,6 +22,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .OrderByDescending(h => h.Id)
             .Take(3)
             .Select(h => new HouseIndexServiceModel()
@@ -73,7 +74,8 @@ public class HouseService : IHouseService
         int currentPage = 1, int housesPerPage = 1)
     {
         var housesToShow = _repository
-            .AllReadOnly<House>();
+            .AllReadOnly<House>()
+            .Where(h => h.IsApproved);
 
         if (!string.IsNullOrWhiteSpace(category))
         {
@@ -132,6 +134,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.AgentId == agentId)
             .ProjectToHouseServiceModel()
             .ToListAsync();
@@ -141,6 +144,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.RenterId == userId)
             .ProjectToHouseServiceModel()
             .ToListAsync();
@@ -153,6 +157,7 @@ public class HouseService : IHouseService
     {
         return await _repository
             .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.Id == id)
             .Select(h => new HouseDetailsServiceModel()
             {
@@ -202,6 +207,7 @@ public class HouseService : IHouseService
     {
         var house = await _repository
             .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.Id == id)
             .Select(h => new HouseFormModel()
             {

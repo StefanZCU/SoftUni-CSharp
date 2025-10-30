@@ -17,10 +17,14 @@ public class StatisticService : IStatisticService
 
     public async Task<StatisticServiceModel> TotalAsync()
     {
-        int totalHouses = await _repository.AllReadOnly<House>().CountAsync();
+        int totalHouses = await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
+            .CountAsync();
         
         int totalRents = await _repository
             .AllReadOnly<House>()
+            .Where(h => h.IsApproved)
             .Where(h => h.RenterId != null)
             .CountAsync();
 

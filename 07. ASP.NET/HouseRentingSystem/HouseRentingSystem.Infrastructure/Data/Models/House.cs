@@ -31,10 +31,6 @@ public class House
     public required string ImageUrl { get; set; }
 
     [Required]
-    // [Range(typeof(decimal),
-    //     HousePricePerMonthMinValue,
-    //     HousePricePerMonthMaxValue,
-    //     ConvertValueInInvariantCulture = true)]
     [Column(TypeName = "decimal(18,2)")]
     [Comment("House Price per Month")]
     public decimal PricePerMonth { get; set; }
@@ -55,4 +51,7 @@ public class House
     
     [Comment("Renter ID")]
     public string? RenterId { get; set; }
+
+    [Comment("Is house approved by Admin")]
+    public bool IsApproved { get; set; }
 }
