@@ -26,5 +26,6 @@ public class HouseRentingDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new AgentConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new HouseConfiguration());
+        builder.ApplyConfiguration(new UserClaimsConfiguration());
     }
 }

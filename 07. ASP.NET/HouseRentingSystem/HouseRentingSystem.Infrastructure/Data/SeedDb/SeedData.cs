@@ -1,16 +1,26 @@
 using HouseRentingSystem.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using static HouseRentingSystem.Infrastructure.Constants.CustomClaims;
 
 namespace HouseRentingSystem.Infrastructure.Data.SeedDb;
 
 public class SeedData
 {
     public ApplicationUser AgentUser { get; set; }
+    
+    public IdentityUserClaim<string> AgentUserClaim { get; set; }
 
+    
     public ApplicationUser GuestUser { get; set; }
 
+    public IdentityUserClaim<string> GuestUserClaim { get; set; }
+    
+    
     public ApplicationUser AdminUser { get; set; }
-
+    
+    public IdentityUserClaim<string> AdminUserClaim { get; set; }
+    
+    
     public Agent Agent { get; set; }
 
     public Agent AdminAgent { get; set; }
@@ -48,8 +58,16 @@ public class SeedData
             NormalizedUserName = "agent@mail.com",
             Email = "agent@mail.com",
             NormalizedEmail = "agent@mail.com",
-            FirstName = "Linda",
-            LastName = "Michaels"
+            FirstName = "Agent",
+            LastName = "Agentov"
+        };
+
+        AgentUserClaim = new IdentityUserClaim<string>()
+        {
+            Id = 1,
+            ClaimType = UserFullNameClaimType,
+            ClaimValue = "Agent Agentov",
+            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
         };
 
         AgentUser.PasswordHash =
@@ -62,8 +80,16 @@ public class SeedData
             NormalizedUserName = "guest@mail.com",
             Email = "guest@mail.com",
             NormalizedEmail = "guest@mail.com",
-            FirstName = "John",
-            LastName = "Doe"
+            FirstName = "Guest",
+            LastName = "Guestov"
+        };
+        
+        GuestUserClaim = new IdentityUserClaim<string>()
+        {
+            Id = 2,
+            ClaimType = UserFullNameClaimType,
+            ClaimValue = "Guest Guestov",
+            UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
         };
 
         GuestUser.PasswordHash =
@@ -76,11 +102,20 @@ public class SeedData
             NormalizedEmail = "ADMIN@MAIL.COM",
             UserName = "admin@mail.com",
             NormalizedUserName = "ADMIN@MAIL.COM",
-            FirstName = "Great",
-            LastName = "Admin"
+            FirstName = "Admin",
+            LastName = "Adminov"
         };
 
-        AdminUser.PasswordHash = hasher.HashPassword(AgentUser, "admin123");
+        AdminUserClaim = new IdentityUserClaim<string>()
+        {
+            Id = 3,
+            ClaimType = UserFullNameClaimType,
+            ClaimValue = "Admin Adminov",
+            UserId = "bcb4f072-ecca-43c9-ab26-c060c6f364e4"
+        };
+        
+        AdminUser.PasswordHash = 
+            hasher.HashPassword(AgentUser, "admin123");
     }
 
 
