@@ -20,7 +20,7 @@
             
             @if (User?.Identity?.IsAuthenticated ?? false)
             {
-                @if (await HouseService.HasAgentWithIdAsync(Model.Id, User.Id()))
+                @if (await HouseService.HasAgentWithIdAsync(Model.Id, User.Id()) || User.IsAdmin())
                 {
                     <a asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"
                        class="btn btn-warning">Edit</a>
@@ -28,7 +28,7 @@
                        class="btn btn-danger">Delete</a>
                 }
                 <p></p>
-                @if (!Model.IsRented && !(await AgentService.ExistsByIdAsync(User.Id())))
+                @if (!Model.IsRented && (!(await AgentService.ExistsByIdAsync(User.Id())) || User.IsAdmin()))
                 {
                     <form class="input-group-sm" asp-controller="House"
                           asp-action="Rent" asp-route-id="@Model.Id" method="post">
