@@ -44,6 +44,11 @@ app.MapControllerRoute(
     defaults: new { Controller = "Houses", Action = "Details" }
 );
 
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+);
+
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
 
