@@ -60,6 +60,12 @@ namespace HouseRentingSystem.Infrastructure.Migrations
                             Id = 1,
                             PhoneNumber = "+359888888888",
                             UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            PhoneNumber = "+359123456789",
+                            UserId = "bcb4f072-ecca-43c9-ab26-c060c6f364e4"
                         });
                 });
 
@@ -142,7 +148,7 @@ namespace HouseRentingSystem.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4acc5ec2-fc24-4762-b181-7393b231a9b1",
+                            ConcurrencyStamp = "85316ff5-f241-43f5-be94-55fdddc2731b",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Linda",
@@ -150,9 +156,9 @@ namespace HouseRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAECpOYOCpcc97js7rJ8veWnZAzAcfEyTUcx3X8LJ9w2scmkgcE9gZnnp7Ae2mQs276Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIEHzSIqH+p4cqrJJuAjgxXdTJpWXGvEp4TsYDOBHTDo+CIhyKxbeIRU6Ohmaho34Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "09b57010-654f-4131-b821-86211e127759",
+                            SecurityStamp = "865a6051-acf3-4ecf-a6a6-30d6aabfc56f",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -160,7 +166,7 @@ namespace HouseRentingSystem.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7658abdb-0e91-4c30-9e8b-41677f2a09a1",
+                            ConcurrencyStamp = "dfd878a9-f23f-4193-bca3-d6311f61c0fa",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "John",
@@ -168,11 +174,29 @@ namespace HouseRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIm8PVGT1CgZcxxM8DkR16XCT6SN0JBTUbY+VNp27V0/BhvRqD5lOZTjps/SEBo8tg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB0CFr0kN9f0CHMP5CeVqD+ruS+uCcY7uw4ir9NGIaogKN+t8LbZCRfclf/Rgpu6cw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "65477f05-f9b6-4de4-8fcb-7c2485401911",
+                            SecurityStamp = "301af611-d005-497e-8106-b120acf68fd1",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
+                        },
+                        new
+                        {
+                            Id = "bcb4f072-ecca-43c9-ab26-c060c6f364e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7fdd10f7-9b00-41dd-b361-2fdd23bdca65",
+                            Email = "admin@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Great",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.COM",
+                            NormalizedUserName = "ADMIN@MAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOt9/hxGftu2gf2SkYmzhTXKALLfsxuUKl0rqPQBzXV4jj45QcoabgdS5UIttRB2zQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c5d1ba1d-9c44-4e97-9911-6daed91e5407",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@mail.com"
                         });
                 });
 

@@ -38,16 +38,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "House Details",
-        pattern: "Houses/Details/{id}/{information}",
-        defaults: new { Controller = "Houses", Action = "Details" }
-        );
-    endpoints.MapDefaultControllerRoute();
-    endpoints.MapRazorPages();
-});
+app.MapControllerRoute(
+    name: "House Details",
+    pattern: "Houses/Details/{id}/{information}",
+    defaults: new { Controller = "Houses", Action = "Details" }
+);
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
+await app.CreateAdminRoleAsync();
 
 
 await app.RunAsync();

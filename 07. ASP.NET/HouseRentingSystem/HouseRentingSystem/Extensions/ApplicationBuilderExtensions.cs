@@ -1,0 +1,30 @@
+using HouseRentingSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using static HouseRentingSystem.Core.Constants.RoleConstants;
+
+namespace Microsoft.AspNetCore.Builder;
+
+public static class ApplicationBuilderExtensions
+{
+    public static async Task CreateAdminRoleAsync(this IApplicationBuilder app)
+    {
+        using var scopedServices = app.ApplicationServices.CreateScope();
+        var services = scopedServices.ServiceProvider;
+
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        if (!await roleManager.RoleExistsAsync(AdminRole))
+        {
+            var role = new IdentityRole { Name = AdminRole };
+            await roleManager.CreateAsync(role);
+
+            var admin = await userManager.FindByNameAsync("admin@mail.com");
+
+            if (admin != null)
+            {
+                await userManager.AddToRoleAsync(admin, role.Name);
+            }
+        }
+    }
+}
