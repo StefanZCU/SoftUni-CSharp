@@ -45,4 +45,8 @@ public interface IHouseService
     Task RentAsync(int houseId, string userId);
     
     Task LeaveAsync(int houseId, string userId);
+    
+    Task<IEnumerable<HouseServiceModel>> GetUnapprovedHousesAsync();
+
+    Task ApproveHouseAsync(int houseId);
 }

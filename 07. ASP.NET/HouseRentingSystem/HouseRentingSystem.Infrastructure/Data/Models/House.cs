@@ -51,6 +51,9 @@ public class House
     
     [Comment("Renter ID")]
     public string? RenterId { get; set; }
+    
+    [ForeignKey(nameof(RenterId))]
+    public ApplicationUser? Renter { get; set; }
 
     [Comment("Is house approved by Admin")]
     public bool IsApproved { get; set; }

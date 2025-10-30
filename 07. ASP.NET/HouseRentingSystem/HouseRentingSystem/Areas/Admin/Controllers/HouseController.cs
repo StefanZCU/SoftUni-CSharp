@@ -32,4 +32,20 @@ public class HouseController : AdminBaseController
         
         return View(myHouses);
     }
+    
+    
+
+    [HttpGet]
+    public async Task<IActionResult> Approve()
+    {
+        var model = await _houseService.GetUnapprovedHousesAsync();
+        return View(model);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Approve(int houseId)
+    {
+        await _houseService.ApproveHouseAsync(houseId);
+        return RedirectToAction(nameof(Approve));
+    }
 }

@@ -288,4 +288,24 @@ public class HouseService : IHouseService
             await _repository.SaveChangesAsync();
         }
     }
+
+    public async Task<IEnumerable<HouseServiceModel>> GetUnapprovedHousesAsync()
+    {
+        return await _repository
+            .AllReadOnly<House>()
+            .Where(h => h.IsApproved == false)
+            .ProjectToHouseServiceModel()
+            .ToListAsync();
+    }
+
+    public async Task ApproveHouseAsync(int houseId)
+    {
+        var house = await _repository.GetByIdAsync<House>(houseId);
+
+        if (house is { IsApproved: false })
+        {
+            house.IsApproved = true;
+            await _repository.SaveChangesAsync();
+        }
+    }
 }

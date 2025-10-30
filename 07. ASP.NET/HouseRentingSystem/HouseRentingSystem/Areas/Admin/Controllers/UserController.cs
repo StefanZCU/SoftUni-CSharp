@@ -1,8 +1,7 @@
-using HouseRentingSystem.Areas.Admin.Controllers;
 using HouseRentingSystem.Core.Contracts.UserServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HouseRentingSystem.Controllers;
+namespace HouseRentingSystem.Areas.Admin.Controllers;
 
 public class UserController : AdminBaseController
 {

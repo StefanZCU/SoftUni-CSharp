@@ -1,0 +1,22 @@
+@model IEnumerable<HouseServiceModel>
+
+@{
+    ViewBag.Title = "Approve Houses";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr/>
+
+<h4>Houses to Approve</h4>
+
+@if (!Model.Any())
+{
+    <h2 class="text-center">You have no houses to approve!</h2>
+}
+
+<div class="row">
+    @foreach (var house in Model)
+    {
+        @await Html.PartialAsync("_ApproveHousePartial", house)
+    }
+</div>
