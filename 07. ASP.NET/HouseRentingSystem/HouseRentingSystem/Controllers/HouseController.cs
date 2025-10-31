@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using HouseRentingSystem.Attributes;
+using HouseRentingSystem.Core.Constants;
 using HouseRentingSystem.Core.Contracts.AgentServices;
 using HouseRentingSystem.Core.Contracts.HouseServices;
 using HouseRentingSystem.Core.Exceptions;
@@ -8,6 +9,7 @@ using HouseRentingSystem.Core.Models.HouseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HouseRentingSystem.Core.Constants.AdministratorConstants;
+using static HouseRentingSystem.Core.Constants.ErrorConstants;
 
 namespace HouseRentingSystem.Controllers;
 
@@ -59,7 +61,7 @@ public class HouseController : BaseController
         {
             return RedirectToAction("Mine", "House", new { area = "Admin" });
         }
-        
+
         if (await _agentService.ExistsByIdAsync(userId))
         {
             var agentId = await _agentService.GetAgentIdAsync(userId) ?? 0;
@@ -86,7 +88,7 @@ public class HouseController : BaseController
         {
             return BadRequest();
         }
-        
+
         return View(model);
     }
 
@@ -177,12 +179,12 @@ public class HouseController : BaseController
         {
             return BadRequest();
         }
-        
+
         if (!(await _houseService.HasAgentWithIdAsync(id, User.Id())) && !User.IsAdmin())
         {
             return Unauthorized();
         }
-        
+
         var house = await _houseService.HouseDetailsByIdAsync(id);
 
         var model = new HouseDetailsViewModel()
@@ -192,7 +194,7 @@ public class HouseController : BaseController
             ImageUrl = house.ImageUrl,
             Id = id
         };
-        
+
         return View(model);
     }
 
@@ -203,14 +205,14 @@ public class HouseController : BaseController
         {
             return BadRequest();
         }
-        
+
         if (!(await _houseService.HasAgentWithIdAsync(model.Id, User.Id())) && !User.IsAdmin())
         {
             return Unauthorized();
         }
-        
+
         await _houseService.DeleteAsync(model.Id);
-        
+
         return RedirectToAction(nameof(All));
     }
 
@@ -221,7 +223,7 @@ public class HouseController : BaseController
         {
             return BadRequest();
         }
-        
+
         if (await _agentService.ExistsByIdAsync(User.Id()) && !User.IsAdmin())
         {
             return Unauthorized();
@@ -231,9 +233,11 @@ public class HouseController : BaseController
         {
             return BadRequest();
         }
-        
+
         await _houseService.RentAsync(id, User.Id());
-        
+
+        TempData[UserMessageSuccess] = "You have rented the house successfully.";
+
         return RedirectToAction(nameof(Mine));
     }
 
@@ -248,6 +252,7 @@ public class HouseController : BaseController
         try
         {
             await _houseService.LeaveAsync(id, User.Id());
+            TempData[UserMessageSuccess] = "You have left the house successfully.";
         }
         catch (UnauthorizedActionException uae)
         {
